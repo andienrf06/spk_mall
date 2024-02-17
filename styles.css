@@ -61,11 +61,11 @@ header .navb-items{
 header .item{
 
     text-align: center;
-    margin-inline: 15%;
-    font-size: 20px;
+    margin-inline: 0;
+    font-size: 10px;
     letter-spacing: 3px;
     color: #102447;
-    padding: 5px 0;
+    padding: 0;
     transition: all .1s ease;
     border-bottom: 0px solid #64d6f4;
     border-top: 0px solid #64d6f4;
@@ -100,6 +100,19 @@ header .item-button a:hover{
 header .mobile-toggler{
 
     font-size: 30px;
+}
+
+header .item:not(:last-child) {
+    margin-right: 20px; /* Atur margin kanan setiap item kecuali yang terakhir */
+}
+
+.header .navb-items .item {
+    margin-right: 10px !important; /* Sesuaikan jarak sesuai kebutuhan Anda */
+}
+
+.header .navb-items .item a {
+    font-family: 'Urbanist', sans-serif;
+    font-size: 16px;
 }
 
 /* modal */
@@ -365,19 +378,19 @@ h3 {
 
 .dropdown-toggle {
     padding-right: 10px; 
-    padding-left: 10px; 
-}
-
-.dropdown-toggle {
+    padding-left: 10px;
     font-size: 16px; 
+    font-family: 'Urbanist', sans-serif;
+    margin-top: 10px;
 }
 
 .navb-items {
     display: flex;
     align-items: center; /* Menyelaraskan elemen ke tengah */
 }
-.dropdown-toggle {
-    margin-top: 10px; /* Atur margin antara dropdown-toggle dan elemen lain */
+
+.dropdown-item {
+    font-size: 16px; /* Atur ukuran font sesuai kebutuhan */
 }
 
 

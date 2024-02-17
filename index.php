@@ -21,7 +21,7 @@
         <div class="container-fluid">
 
             <div class="navb-logo">
-                <img src="/img/logo.png" alt="Logo">
+                <img src="img\logo.png" alt="Logo">
             </div>
 
             <div class="navb-items d-none d-xl-flex">
@@ -34,20 +34,49 @@
                     <a href="search.php">Pencarian</a>
                 </div>
 
-                <div class="item dropdown"> 
-    <a class="dropdown-toggle" href="nilaibobot.php" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Rekomendasi
-    </a>
-    <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-        <a class="dropdown-item" href="nilaibobotalternatif.php">Nilai Bobot Alternatif</a>
-        <a class="dropdown-item" href="nilaibobotkriteria.php">Nilai Bobot Kriteria</a>
-        <a class="dropdown-item" href="hasil_rekomendasi.php">Hasil Rekomendasi</a>
-    </div>
-</div>
+                <div class="item dropdown">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Nilai Bobot Alternatif
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
+                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                        <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
+                        <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
+                    </div>
+                </div>
 
+                <div class="item dropdown">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Nilai Bobot Kriteria
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
+                        <a class="dropdown-item" href="nilaibobotbalicollection.php">Berdasarkan Bali Collection</a>
+                        <a class="dropdown-item" href="nilaibobotsamasta.php">Berdasarkan Samasta Lifestyle Village</a>
+                        <a class="dropdown-item" href="nilaibobotsidewalk.php">Berdasarkan Sidewalk Jimbaran</a>
+                        <a class="dropdown-item" href="nilaibobotpark23.php">Berdasarkan Park 23</a>
+                        <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall Bali Galeria</a>
+                        <a class="dropdown-item" href="nilaibobotlippokuta.php">Berdasarkan Lippo Mall Kuta</a>
+                        <a class="dropdown-item" href="nilaibobotlipposunset.php">Berdasarkan Lippo Plaza Sunset</a>
+                        <a class="dropdown-item" href="nilaibobottsm.php">Berdasarkan Trans Studio Mall Bali</a>
+                        <a class="dropdown-item" href="nilaibobotlevel.php">Berdasarkan Level21 Mall</a>
+                        <a class="dropdown-item" href="nilaibobotplazarenon.php">Berdasarkan Lippo Plaza Renon</a>
+                        <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
+                        <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
+                        <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
+                        <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall</a>
+                        <a class="dropdown-item" href="nilaibobotliving.php">Berdasarkan Living World Denpasar</a>
+                        <a class="dropdown-item" href="nilaibobotramayana.php">Berdasarkan Ramayana Bali Mall</a>
+                    </div>
+                </div>
 
-                <div class="item-button">
-                    <a href="/logout" type="button">Keluar</a>
+                <div class="item dropdown">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Rekomendasi
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
+                        <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Weighted Supermatrix</a>
+                        <a class="dropdown-item" href="hasilakhir.php">Hasil Rekomendasi</a>
+                    </div>
                 </div>
             </div>
 
@@ -59,8 +88,7 @@
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="navbModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="navbModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
 
@@ -70,7 +98,7 @@
                         </div>
 
                         <div class="modal-body">
-                            
+
                             <div class="modal-line">
                                 <i class="fa-solid fa-house"></i><a href="index.php">Beranda</a>
                             </div>
@@ -78,28 +106,55 @@
                             <div class="modal-line">
                                 <i class="fa-solid fa-bell-concierge"></i><a href="search.php">Pencarian</a>
                             </div>
-                            
-                            <div class="item dropdown"> 
-    <a class="dropdown-toggle" href="nilaibobot.php" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Rekomendasi
-    </a>
-    <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-        <a class="dropdown-item" href="nilaibobotalternatif.php">Nilai Bobot Alternatif</a>
-        <a class="dropdown-item" href="nilaibobotkriteria.php">Nilai Bobot Kriteria</a>
-        <a class="dropdown-item" href="hasil_rekomendasi.php">Hasil Rekomendasi</a>
-    </div>
-</div>
 
+                            <div class="item dropdown">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Nilai Bobot Alternatif
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
+                                    <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                                    <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
+                                    <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
+                                </div>
+                            </div>
 
-                            <!-- <div class="modal-line">
-                                <i class="fa-solid fa-circle-info"></i><a href="/about">About</a>
-                            </div> -->
+                            <div class="item dropdown">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Nilai Bobot Kriteria
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
+                                    <a class="dropdown-item" href="nilaibobotbalicollection.php">Berdasarkan Bali Collection</a>
+                                    <a class="dropdown-item" href="nilaibobotsamasta.php">Berdasarkan Samasta Lifestyle Village</a>
+                                    <a class="dropdown-item" href="nilaibobotsidewalk.php">Berdasarkan Sidewalk Jimbaran</a>
+                                    <a class="dropdown-item" href="nilaibobotpark23.php">Berdasarkan Park 23</a>
+                                    <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall Bali Galeria</a>
+                                    <a class="dropdown-item" href="nilaibobotlippokuta.php">Berdasarkan Lippo Mall Kuta</a>
+                                    <a class="dropdown-item" href="nilaibobotlipposunset.php">Berdasarkan Lippo Plaza Sunset</a>
+                                    <a class="dropdown-item" href="nilaibobottsm.php">Berdasarkan Trans Studio Mall Bali</a>
+                                    <a class="dropdown-item" href="nilaibobotlevel.php">Berdasarkan Level21 Mall</a>
+                                    <a class="dropdown-item" href="nilaibobotplazarenon.php">Berdasarkan Lippo Plaza Renon</a>
+                                    <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
+                                    <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
+                                    <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
+                                    <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall</a>
+                                    <a class="dropdown-item" href="nilaibobotliving.php">Berdasarkan Living World Denpasar</a>
+                                    <a class="dropdown-item" href="nilaibobotramayana.php">Berdasarkan Ramayana Bali Mall</a>
+                                </div>
+                            </div>
 
-                            <a href="/logout" class="navb-button" type="button">Logout</a>
+                            <div class="item dropdown">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Rekomendasi
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
+                                    <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Weighted Supermatrix</a>
+                                    <a class="dropdown-item" href="hasilakhir.php">Hasil Rekomendasi</a>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mobile-modal-footer">
-                            
+
                             <a target="_blank" href="#"><i class="fa-brands fa-instagram"></i></a>
                             <a target="_blank" href="#"><i class="fa-brands fa-linkedin-in"></i></a>
                             <a target="_blank" href="#"><i class="fa-brands fa-youtube"></i></a>
@@ -113,47 +168,47 @@
     </header>
 
     <section id="hero" class="d-flex align-items-center custom-hero-section">
-    <div class="row justify-content-between gy-5 mt-5">
-    <section id="hero" class="d-flex align-items-center custom-hero-section">
-    <div class="container">
-        <div class="row justify-content-between gy-8 mt-8">
-            <div class="col-lg-8 mx-auto">
-                <div class="portfolio-description">
-                    <h1 class="welcome-text">Welcome, </h1>
-                    <h2>Sistem Pendukung Keputusan Pusat Perbelanjaan Modern</h2>
-                    <p>
-                        Sistem ini membantu pengusaha bisnis menentukan gerai yang akan dipilih, diantara beberapa 
-                        pusat perbelanjaan modern di Provinsi Bali dengan membandingkan setiap alternatif pada setiap kriteria 
-                        dan sebaliknya menggunakan metode Analytic Network Process (ANP).
-                    </p>
-                    <p>
-                        Proses yang harus dilakukan untuk mendapatkan hasil keputusan, adalah sebagai berikut:
-                    </p>
-                    <p>
-                            1. Memilih menu ANP
-                    </p>
-                    <p>
-                            2. Memilih Sub Menu Seleksi Metode ANP
-                    </p>
-                    <p>
-                            3. Memilih Perbandingan Alternatif dan menentukan bobot/skor
-                    </p>
-                    <p>
-                            4. Memilih Perbandingan Kriteria dan menentukan bobot/skor
-                    </p>
-                    <p>
-                            5. Memilih Hasil Seleksi
-                    </p>
+        <div class="row justify-content-between gy-5 mt-5">
+            <section id="hero" class="d-flex align-items-center custom-hero-section">
+                <div class="container">
+                    <div class="row justify-content-between gy-8 mt-8">
+                        <div class="col-lg-8 mx-auto">
+                            <div class="portfolio-description">
+                                <h1 class="welcome-text">Welcome, </h1>
+                                <h2>Sistem Pendukung Keputusan Pusat Perbelanjaan Modern</h2>
+                                <p>
+                                    Sistem ini membantu pengusaha bisnis menentukan gerai yang akan dipilih, diantara beberapa
+                                    pusat perbelanjaan modern di Provinsi Bali dengan membandingkan setiap alternatif pada setiap kriteria
+                                    dan sebaliknya menggunakan metode Analytic Network Process (ANP).
+                                </p>
+                                <p>
+                                    Proses yang harus dilakukan untuk mendapatkan hasil keputusan, adalah sebagai berikut:
+                                </p>
+                                <p>
+                                    1. Memilih menu ANP
+                                </p>
+                                <p>
+                                    2. Memilih Sub Menu Seleksi Metode ANP
+                                </p>
+                                <p>
+                                    3. Memilih Perbandingan Alternatif dan menentukan bobot/skor
+                                </p>
+                                <p>
+                                    4. Memilih Perbandingan Kriteria dan menentukan bobot/skor
+                                </p>
+                                <p>
+                                    5. Memilih Hasil Seleksi
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
+            </section>
 
 
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js
     "></script>
 </body>
 
