@@ -353,6 +353,8 @@ if (!isset($_SESSION['comparison_results_mbg'])) {
 
             echo "</table>";
 
+            $_SESSION['eigenvector_mbg'] = $totalPerColumnMbg;
+
             // Hitung Lambda Max
             $lambdaMaxMbg = 0;
 

@@ -353,6 +353,9 @@ if (!isset($_SESSION['comparison_results_village'])) {
 
             echo "</table>";
 
+            $_SESSION['eigenvector_seminyakvillage'] = $totalPerColumnVillage;
+
+
             // Hitung Lambda Max
             $lambdaMaxVillage = 0;
 

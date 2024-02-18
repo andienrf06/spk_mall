@@ -353,6 +353,8 @@ if (!isset($_SESSION['comparison_results_tsm'])) {
 
             echo "</table>";
 
+            $_SESSION['eigenvector_tsm'] = $totalPerColumnTsm;
+
             // Hitung Lambda Max
             $lambdaMaxTsm = 0;
 

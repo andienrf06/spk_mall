@@ -353,6 +353,8 @@ if (!isset($_SESSION['comparison_results_living'])) {
 
             echo "</table>";
 
+            $_SESSION['eigenvector_living'] = $totalPerColumnLiving;
+
             // Hitung Lambda Max
             $lambdaMaxLiving = 0;
 

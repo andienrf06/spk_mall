@@ -353,6 +353,8 @@ if (!isset($_SESSION['comparison_results_lippokuta'])) {
 
             echo "</table>";
 
+            $_SESSION['eigenvector_lippokuta'] = $totalPerColumnLippoKuta;
+
             // Hitung Lambda Max
             $lambdaMaxLippoKuta = 0;
 

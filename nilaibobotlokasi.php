@@ -6,6 +6,7 @@ if (!isset($_SESSION['comparison_results'])) {
     $_SESSION['comparison_results'] = [];
 }
 
+$mallsToShow = $_SESSION['selected_malls'] ?? [];
 ?>
 
 <!DOCTYPE html>
@@ -122,24 +123,26 @@ if (!isset($_SESSION['comparison_results'])) {
                             "Bali Collection",
                             "Samasta Lifestyle Village",
                             "Sidewalk Jimbaran",
-                            // "Park 23",
-                            // "Mall Bali Galeria",
-                            // "Lippo Mall Kuta",
-                            // "Lippo Plaza Sunset",
-                            // "Trans Studio Mall Bali",
-                            // "Level21 Mall",
-                            // "Lippo Plaza Renon",
-                            // "Seminyak Village",
-                            // "Seminyak Square",
-                            // "Beachwalk Shopping Centre",
-                            // "Discovery Shopping Mall",
-                            // "Living World Denpasar",
-                            // "Ramayana Bali Mall",
+                            "Park 23",
+                            "Mall Bali Galeria",
+                            "Lippo Mall Kuta",
+                            "Lippo Plaza Sunset",
+                            "Trans Studio Mall Bali",
+                            "Level21 Mall",
+                            "Lippo Plaza Renon",
+                            "Seminyak Village",
+                            "Seminyak Square",
+                            "Beachwalk Shopping Centre",
+                            "Discovery Shopping Mall",
+                            "Living World Denpasar",
+                            "Ramayana Bali Mall",
                         ];
 
                         foreach ($malls as $mall) {
-                            echo "<option value=\"$mall\">$mall</option>";
+                            $selected = in_array($mall, $mallsToShow) ? 'selected' : ''; // Menandai mal yang sudah dipilih sebelumnya
+                            echo "<option value=\"$mall\" $selected>$mall</option>";
                         }
+
                         ?>
                     </select>
                 </div>

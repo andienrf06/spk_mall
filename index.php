@@ -26,12 +26,16 @@
 
             <div class="navb-items d-none d-xl-flex">
 
-                <div class="item">
+                <div class="navb-items d-none d-xl-flex">
                     <a href="index.php">Beranda</a>
                 </div>
 
-                <div class="item">
+                <div class="navb-items d-none d-xl-flex">
                     <a href="search.php">Pencarian</a>
+                </div>
+
+                <div class="navb-items d-none d-xl-flex">
+                    <a href="pilihmall.php">Pilih Mall</a>
                 </div>
 
                 <div class="item dropdown">
@@ -100,11 +104,15 @@
                         <div class="modal-body">
 
                             <div class="modal-line">
-                                <i class="fa-solid fa-house"></i><a href="index.php">Beranda</a>
+                                <i class="fa-solid fa-bell-concierge"></i><a href="index.php">Beranda</a>
                             </div>
 
                             <div class="modal-line">
                                 <i class="fa-solid fa-bell-concierge"></i><a href="search.php">Pencarian</a>
+                            </div>
+
+                            <div class="navb-items d-none d-xl-flex">
+                                <a href="pilihmall.php">Pilih Mall</a>
                             </div>
 
                             <div class="item dropdown">

@@ -104,6 +104,466 @@ session_start();
         <div class="container">
             <div class="row">
                 <div class="col">
+                    <h2 class="mb-4 mt-4">Unweighted Supermatrix</h2>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>A1</th>
+                                <th>A2</th>
+                                <th>A3</th>
+                                <th>A4</th>
+                                <th>A5</th>
+                                <th>A6</th>
+                                <th>A7</th>
+                                <th>A8</th>
+                                <th>A8</th>
+                                <th>A9</th>
+                                <th>A10</th>
+                                <th>A11</th>
+                                <th>A12</th>
+                                <th>A13</th>
+                                <th>A14</th>
+                                <th>A15</th>
+                                <th>A16</th>
+                                <th>K1</th>
+                                <th>K2</th>
+                                <th>K3</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>A1</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_balicollection']['Location']) ? number_format($_SESSION['eigenvector_balicollection']['Location'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_balicollection']['Price']) ? number_format($_SESSION['eigenvector_balicollection']['Price'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_balicollection']['Competitor']) ? number_format($_SESSION['eigenvector_balicollection']['Competitor'], 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A2</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_samasta']['Location']) ? number_format($_SESSION['eigenvector_samasta']['Location'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_samasta']['Price']) ? number_format($_SESSION['eigenvector_samasta']['Price'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_samasta']['Competitor']) ? number_format($_SESSION['eigenvector_samasta']['Competitor'], 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A3</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_sidewalk']['Location']) ? number_format($_SESSION['eigenvector_sidewalk']['Location'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_sidewalk']['Price']) ? number_format($_SESSION['eigenvector_sidewalk']['Price'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_sidewalk']['Competitor']) ? number_format($_SESSION['eigenvector_sidewalk']['Competitor'], 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A4</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_park23']['Location']) ? number_format($_SESSION['eigenvector_park23']['Location'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_park23']['Price']) ? number_format($_SESSION['eigenvector_park23']['Price'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_park23']['Competitor']) ? number_format($_SESSION['eigenvector_park23']['Competitor'], 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A5</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_mbg']['Location']) ? number_format($_SESSION['eigenvector_mbg']['Location'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_mbg']['Price']) ? number_format($_SESSION['eigenvector_mbg']['Price'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_mbg']['Competitor']) ? number_format($_SESSION['eigenvector_mbg']['Competitor'], 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A6</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_lippokuta']['Location']) ? number_format($_SESSION['eigenvector_lippokuta']['Location'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_lippokuta']['Price']) ? number_format($_SESSION['eigenvector_lippokuta']['Price'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_lippokuta']['Competitor']) ? number_format($_SESSION['eigenvector_lippokuta']['Competitor'], 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A7</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_lipposunset']['Location']) ? number_format($_SESSION['eigenvector_lipposunset']['Location'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_lipposunset']['Price']) ? number_format($_SESSION['eigenvector_lipposunset']['Price'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_lipposunset']['Competitor']) ? number_format($_SESSION['eigenvector_lipposunset']['Competitor'], 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A8</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_tsm']['Location']) ? number_format($_SESSION['eigenvector_tsm']['Location'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_tsm']['Price']) ? number_format($_SESSION['eigenvector_tsm']['Price'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_tsm']['Competitor']) ? number_format($_SESSION['eigenvector_tsm']['Competitor'], 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A9</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_level']['Location']) ? number_format($_SESSION['eigenvector_level']['Location'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_level']['Price']) ? number_format($_SESSION['eigenvector_level']['Price'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_level']['Competitor']) ? number_format($_SESSION['eigenvector_level']['Competitor'], 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A10</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_lipporenon']['Location']) ? number_format($_SESSION['eigenvector_lipporenon']['Location'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_lipporenon']['Price']) ? number_format($_SESSION['eigenvector_lipporenon']['Price'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_lipporenon']['Competitor']) ? number_format($_SESSION['eigenvector_lipporenon']['Competitor'], 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A11</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_seminyakvillage']['Location']) ? number_format($_SESSION['eigenvector_seminyakvillage']['Location'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_seminyakvillage']['Price']) ? number_format($_SESSION['eigenvector_seminyakvillage']['Price'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_seminyakvillage']['Competitor']) ? number_format($_SESSION['eigenvector_seminyakvillage']['Competitor'], 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A12</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_seminyaksquare']['Location']) ? number_format($_SESSION['eigenvector_seminyaksquare']['Location'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_seminyaksquare']['Price']) ? number_format($_SESSION['eigenvector_seminyaksquare']['Price'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_seminyaksquare']['Competitor']) ? number_format($_SESSION['eigenvector_seminyaksquare']['Competitor'], 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A13</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_beachwalk']['Location']) ? number_format($_SESSION['eigenvector_beachwalk']['Location'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_beachwalk']['Price']) ? number_format($_SESSION['eigenvector_beachwalk']['Price'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_beachwalk']['Competitor']) ? number_format($_SESSION['eigenvector_beachwalk']['Competitor'], 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A14</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_discovery']['Location']) ? number_format($_SESSION['eigenvector_discovery']['Location'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_discovery']['Price']) ? number_format($_SESSION['eigenvector_discovery']['Price'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_discovery']['Competitor']) ? number_format($_SESSION['eigenvector_discovery']['Competitor'], 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A15</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_living']['Location']) ? number_format($_SESSION['eigenvector_living']['Location'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_living']['Price']) ? number_format($_SESSION['eigenvector_living']['Price'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_living']['Competitor']) ? number_format($_SESSION['eigenvector_living']['Competitor'], 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A16</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_ramayana']['Location']) ? number_format($_SESSION['eigenvector_ramayana']['Location'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_ramayana']['Price']) ? number_format($_SESSION['eigenvector_ramayana']['Price'], 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_ramayana']['Competitor']) ? number_format($_SESSION['eigenvector_ramayana']['Competitor'], 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>K1</td>
+                                <td><?php echo number_format($_SESSION['eigenvector_lokasi']['Bali Collection'], 5, '.', ''); ?></td>
+                                <td><?php echo number_format($_SESSION['eigenvector_lokasi']['Samasta Lifestyle Village'], 5, '.', ''); ?></td>
+                                <td><?php echo number_format($_SESSION['eigenvector_lokasi']['Sidewalk Jimbaran'], 5, '.', ''); ?></td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                            </tr>
+                            <tr>
+                                <td>K2</td>
+                                <td><?php echo number_format($_SESSION['eigenvector_harga']['Bali Collection'], 5, '.', ''); ?></td>
+                                <td><?php echo number_format($_SESSION['eigenvector_harga']['Samasta Lifestyle Village'], 5, '.', ''); ?></td>
+                                <td><?php echo number_format($_SESSION['eigenvector_harga']['Sidewalk Jimbaran'], 5, '.', ''); ?></td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                            </tr>
+                            <tr>
+                                <td>K3</td>
+                                <td><?php echo number_format($_SESSION['eigenvector_pesaing']['Bali Collection'], 5, '.', ''); ?></td>
+                                <td><?php echo number_format($_SESSION['eigenvector_pesaing']['Samasta Lifestyle Village'], 5, '.', ''); ?></td>
+                                <td><?php echo number_format($_SESSION['eigenvector_pesaing']['Sidewalk Jimbaran'], 5, '.', ''); ?></td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
                     <h2 class="mb-4 mt-4">Weighted Supermatrix</h2>
                 </div>
             </div>
@@ -117,6 +577,20 @@ session_start();
                                 <th>A1</th>
                                 <th>A2</th>
                                 <th>A3</th>
+                                <th>A4</th>
+                                <th>A5</th>
+                                <th>A6</th>
+                                <th>A7</th>
+                                <th>A8</th>
+                                <th>A8</th>
+                                <th>A9</th>
+                                <th>A10</th>
+                                <th>A11</th>
+                                <th>A12</th>
+                                <th>A13</th>
+                                <th>A14</th>
+                                <th>A15</th>
+                                <th>A16</th>
                                 <th>K1</th>
                                 <th>K2</th>
                                 <th>K3</th>
@@ -125,39 +599,377 @@ session_start();
                         <tbody>
                             <tr>
                                 <td>A1</td>
-                                <td>1</td>
                                 <td>0</td>
                                 <td>0</td>
-                                <td><?php echo number_format($_SESSION['eigenvector_balicollection']['Location'] / 2, 5, '.', ''); ?></td>
-                                <td><?php echo number_format($_SESSION['eigenvector_balicollection']['Price'] / 2, 5, '.', ''); ?></td>
-                                <td><?php echo number_format($_SESSION['eigenvector_balicollection']['Competitor'] / 2, 5, '.', ''); ?></td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_balicollection']['Location']) ? number_format($_SESSION['eigenvector_balicollection']['Location'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_balicollection']['Price']) ? number_format($_SESSION['eigenvector_balicollection']['Price'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_balicollection']['Competitor']) ? number_format($_SESSION['eigenvector_balicollection']['Competitor'] / 2, 5, '.', '') : '0'; ?></td>
                             </tr>
                             <tr>
                                 <td>A2</td>
                                 <td>0</td>
-                                <td>1</td>
                                 <td>0</td>
-                                <td><?php echo number_format($_SESSION['eigenvector_samasta']['Location'] / 2, 5, '.', ''); ?></td>
-                                <td><?php echo number_format($_SESSION['eigenvector_samasta']['Price'] / 2, 5, '.', ''); ?></td>
-                                <td><?php echo number_format($_SESSION['eigenvector_samasta']['Competitor'] / 2, 5, '.', ''); ?></td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_samasta']['Location']) ? number_format($_SESSION['eigenvector_samasta']['Location'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_samasta']['Price']) ? number_format($_SESSION['eigenvector_samasta']['Price'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_samasta']['Competitor']) ? number_format($_SESSION['eigenvector_samasta']['Competitor'] / 2, 5, '.', '') : '0'; ?></td>
                             </tr>
                             <tr>
                                 <td>A3</td>
                                 <td>0</td>
                                 <td>0</td>
-                                <td>1</td>
-                                <td><?php echo number_format($_SESSION['eigenvector_sidewalk']['Location'] / 2, 5, '.', ''); ?></td>
-                                <td><?php echo number_format($_SESSION['eigenvector_sidewalk']['Price'] / 2, 5, '.', ''); ?></td>
-                                <td><?php echo number_format($_SESSION['eigenvector_sidewalk']['Competitor'] / 2, 5, '.', ''); ?></td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_sidewalk']['Location']) ? number_format($_SESSION['eigenvector_sidewalk']['Location'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_sidewalk']['Price']) ? number_format($_SESSION['eigenvector_sidewalk']['Price'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_sidewalk']['Competitor']) ? number_format($_SESSION['eigenvector_sidewalk']['Competitor'] / 2, 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A4</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_park23']['Location']) ? number_format($_SESSION['eigenvector_park23']['Location'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_park23']['Price']) ? number_format($_SESSION['eigenvector_park23']['Price'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_park23']['Competitor']) ? number_format($_SESSION['eigenvector_park23']['Competitor'] / 2, 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A5</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_mbg']['Location']) ? number_format($_SESSION['eigenvector_mbg']['Location'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_mbg']['Price']) ? number_format($_SESSION['eigenvector_mbg']['Price'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_mbg']['Competitor']) ? number_format($_SESSION['eigenvector_mbg']['Competitor'] / 2, 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A6</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_lippokuta']['Location']) ? number_format($_SESSION['eigenvector_lippokuta']['Location'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_lippokuta']['Price']) ? number_format($_SESSION['eigenvector_lippokuta']['Price'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_lippokuta']['Competitor']) ? number_format($_SESSION['eigenvector_lippokuta']['Competitor'] / 2, 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A7</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_lipposunset']['Location']) ? number_format($_SESSION['eigenvector_lipposunset']['Location'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_lipposunset']['Price']) ? number_format($_SESSION['eigenvector_lipposunset']['Price'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_lipposunset']['Competitor']) ? number_format($_SESSION['eigenvector_lipposunset']['Competitor'] / 2, 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A8</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_tsm']['Location']) ? number_format($_SESSION['eigenvector_tsm']['Location'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_tsm']['Price']) ? number_format($_SESSION['eigenvector_tsm']['Price'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_tsm']['Competitor']) ? number_format($_SESSION['eigenvector_tsm']['Competitor'] / 2, 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A9</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_level']['Location']) ? number_format($_SESSION['eigenvector_level']['Location'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_level']['Price']) ? number_format($_SESSION['eigenvector_level']['Price'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_level']['Competitor']) ? number_format($_SESSION['eigenvector_level']['Competitor'] / 2, 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A10</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_lipporenon']['Location']) ? number_format($_SESSION['eigenvector_lipporenon']['Location'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_lipporenon']['Price']) ? number_format($_SESSION['eigenvector_lipporenon']['Price'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_lipporenon']['Competitor']) ? number_format($_SESSION['eigenvector_lipporenon']['Competitor'] / 2, 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A11</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_seminyakvillage']['Location']) ? number_format($_SESSION['eigenvector_seminyakvillage']['Location'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_seminyakvillage']['Price']) ? number_format($_SESSION['eigenvector_seminyakvillage']['Price'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_seminyakvillage']['Competitor']) ? number_format($_SESSION['eigenvector_seminyakvillage']['Competitor'] / 2, 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A12</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_seminyaksquare']['Location']) ? number_format($_SESSION['eigenvector_seminyaksquare']['Location'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_seminyaksquare']['Price']) ? number_format($_SESSION['eigenvector_seminyaksquare']['Price'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_seminyaksquare']['Competitor']) ? number_format($_SESSION['eigenvector_seminyaksquare']['Competitor'] / 2, 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A13</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_beachwalk']['Location']) ? number_format($_SESSION['eigenvector_beachwalk']['Location'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_beachwalk']['Price']) ? number_format($_SESSION['eigenvector_beachwalk']['Price'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_beachwalk']['Competitor']) ? number_format($_SESSION['eigenvector_beachwalk']['Competitor'] / 2, 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A14</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_discovery']['Location']) ? number_format($_SESSION['eigenvector_discovery']['Location'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_discovery']['Price']) ? number_format($_SESSION['eigenvector_discovery']['Price'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_discovery']['Competitor']) ? number_format($_SESSION['eigenvector_discovery']['Competitor'] / 2, 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A15</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_living']['Location']) ? number_format($_SESSION['eigenvector_living']['Location'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_living']['Price']) ? number_format($_SESSION['eigenvector_living']['Price'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_living']['Competitor']) ? number_format($_SESSION['eigenvector_living']['Competitor'] / 2, 5, '.', '') : '0'; ?></td>
+                            </tr>
+                            <tr>
+                                <td>A16</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <td><?php echo isset($_SESSION['eigenvector_ramayana']['Location']) ? number_format($_SESSION['eigenvector_ramayana']['Location'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_ramayana']['Price']) ? number_format($_SESSION['eigenvector_ramayana']['Price'] / 2, 5, '.', '') : '0'; ?></td>
+                                <td><?php echo isset($_SESSION['eigenvector_ramayana']['Competitor']) ? number_format($_SESSION['eigenvector_ramayana']['Competitor'] / 2, 5, '.', '') : '0'; ?></td>
                             </tr>
                             <tr>
                                 <td>K1</td>
                                 <td><?php echo number_format($_SESSION['eigenvector_lokasi']['Bali Collection'] / 2, 5, '.', ''); ?></td>
                                 <td><?php echo number_format($_SESSION['eigenvector_lokasi']['Samasta Lifestyle Village'] / 2, 5, '.', ''); ?></td>
                                 <td><?php echo number_format($_SESSION['eigenvector_lokasi']['Sidewalk Jimbaran'] / 2, 5, '.', ''); ?></td>
-                                <td>1</td>
                                 <td>0</td>
                                 <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
                             </tr>
                             <tr>
                                 <td>K2</td>
@@ -165,8 +977,21 @@ session_start();
                                 <td><?php echo number_format($_SESSION['eigenvector_harga']['Samasta Lifestyle Village'] / 2, 5, '.', ''); ?></td>
                                 <td><?php echo number_format($_SESSION['eigenvector_harga']['Sidewalk Jimbaran'] / 2, 5, '.', ''); ?></td>
                                 <td>0</td>
-                                <td>1</td>
                                 <td>0</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
                             </tr>
                             <tr>
                                 <td>K3</td>
@@ -175,7 +1000,20 @@ session_start();
                                 <td><?php echo number_format($_SESSION['eigenvector_pesaing']['Sidewalk Jimbaran'] / 2, 5, '.', ''); ?></td>
                                 <td>0</td>
                                 <td>0</td>
-                                <td>1</td>
+                                <td>0</td>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
+                                <th>0</th>
                             </tr>
                         </tbody>
                     </table>

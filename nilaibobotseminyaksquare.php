@@ -353,6 +353,8 @@ if (!isset($_SESSION['comparison_results_square'])) {
 
             echo "</table>";
 
+            $_SESSION['eigenvector_seminyaksquare'] = $totalPerColumnSquare;
+
             // Hitung Lambda Max
             $lambdaMaxSquare = 0;
 

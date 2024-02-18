@@ -353,6 +353,8 @@ if (!isset($_SESSION['comparison_results_ramayana'])) {
 
             echo "</table>";
 
+            $_SESSION['eigenvector_ramayana'] = $totalPerColumnRamayana;
+
             // Hitung Lambda Max
             $lambdaMaxRamayana = 0;
 

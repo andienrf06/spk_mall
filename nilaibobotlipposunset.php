@@ -353,6 +353,8 @@ if (!isset($_SESSION['comparison_results_lipposunset'])) {
 
             echo "</table>";
 
+            $_SESSION['eigenvector_lipposunset'] = $totalPerColumnLippoSunset;
+
             // Hitung Lambda Max
             $lambdaMaxLippoSunset = 0;
 

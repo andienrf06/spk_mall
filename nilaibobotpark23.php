@@ -353,6 +353,8 @@ if (!isset($_SESSION['comparison_results_park'])) {
 
             echo "</table>";
 
+            $_SESSION['eigenvector_park23'] = $totalPerColumnPark;
+
             // Hitung Lambda Max
             $lambdaMaxPark = 0;
 

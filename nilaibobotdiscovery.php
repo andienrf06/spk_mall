@@ -353,6 +353,8 @@ if (!isset($_SESSION['comparison_results_discovery'])) {
 
             echo "</table>";
 
+            $_SESSION['eigenvector_discovery'] = $totalPerColumnDiscovery;
+
             // Hitung Lambda Max
             $lambdaMaxDiscovery = 0;
 

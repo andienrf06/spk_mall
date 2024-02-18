@@ -353,6 +353,9 @@ if (!isset($_SESSION['comparison_results_bw'])) {
 
             echo "</table>";
 
+            $_SESSION['eigenvector_beachwalk'] = $totalPerColumnBw;
+
+
             // Hitung Lambda Max
             $lambdaMaxBw = 0;
 

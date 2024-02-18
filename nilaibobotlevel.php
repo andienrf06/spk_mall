@@ -353,6 +353,8 @@ if (!isset($_SESSION['comparison_results_level'])) {
 
             echo "</table>";
 
+            $_SESSION['eigenvector_level'] = $totalPerColumnLevel;
+
             // Hitung Lambda Max
             $lambdaMaxLevel = 0;
 

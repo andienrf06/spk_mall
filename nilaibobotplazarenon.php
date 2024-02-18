@@ -353,6 +353,8 @@ if (!isset($_SESSION['comparison_results_lipporenon'])) {
 
             echo "</table>";
 
+            $_SESSION['eigenvector_lipporenon'] = $totalPerColumnLippoRenon;
+
             // Hitung Lambda Max
             $lambdaMaxLippoRenon = 0;
 
