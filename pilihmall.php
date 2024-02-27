@@ -1,3 +1,32 @@
+<?php
+session_start();
+
+// List of malls
+$malls = [
+    "Bali Collection",
+    "Samasta Lifestyle Village",
+    "Sidewalk Jimbaran",
+    "Park 23",
+    "Mall Bali Galeria",
+    "Lippo Mall Kuta",
+    "Lippo Plaza Sunset",
+    "Trans Studio Mall Bali",
+    "Level21 Mall",
+    "Lippo Plaza Renon",
+    "Seminyak Village",
+    "Seminyak Square",
+    "Beachwalk Shopping Centre",
+    "Discovery Shopping Mall",
+    "Living World Denpasar",
+    "Ramayana Bali Mall"
+];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mall_selection'])) {
+    $_SESSION['selected_malls'] = $_POST['mall_selection'];
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,14 +37,11 @@
     <title>SPK Pusat Perbelanjaan Modern</title>
 
     <link rel="stylesheet" href="/fontawesome/css/all.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css
-    ">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-
-
     <header>
 
         <div class="container-fluid">
@@ -50,10 +76,10 @@
                 </div>
 
                 <div class="item dropdown">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Nilai Bobot Kriteria
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
+                    <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi2">
                         <a class="dropdown-item" href="nilaibobotbalicollection.php">Berdasarkan Bali Collection</a>
                         <a class="dropdown-item" href="nilaibobotsamasta.php">Berdasarkan Samasta Lifestyle Village</a>
                         <a class="dropdown-item" href="nilaibobotsidewalk.php">Berdasarkan Sidewalk Jimbaran</a>
@@ -74,10 +100,10 @@
                 </div>
 
                 <div class="item dropdown">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Rekomendasi
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
+                    <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi3">
                         <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Weighted Supermatrix</a>
                         <a class="dropdown-item" href="hasilakhir.php">Hasil Rekomendasi</a>
                     </div>
@@ -127,10 +153,10 @@
                             </div>
 
                             <div class="item dropdown">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Nilai Bobot Kriteria
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
+                                <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi2">
                                     <a class="dropdown-item" href="nilaibobotbalicollection.php">Berdasarkan Bali Collection</a>
                                     <a class="dropdown-item" href="nilaibobotsamasta.php">Berdasarkan Samasta Lifestyle Village</a>
                                     <a class="dropdown-item" href="nilaibobotsidewalk.php">Berdasarkan Sidewalk Jimbaran</a>
@@ -151,10 +177,10 @@
                             </div>
 
                             <div class="item dropdown">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Rekomendasi
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
+                                <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi3">
                                     <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Weighted Supermatrix</a>
                                     <a class="dropdown-item" href="hasilakhir.php">Hasil Rekomendasi</a>
                                 </div>
@@ -174,49 +200,48 @@
         </div>
     </header>
 
-    <section id="hero" class="d-flex align-items-center custom-hero-section">
-        <div class="row justify-content-between gy-5 mt-5">
-            <section id="hero" class="d-flex align-items-center custom-hero-section">
-                <div class="container">
-                    <div class="row justify-content-between gy-8 mt-8">
-                        <div class="col-lg-8 mx-auto">
-                            <div class="portfolio-description">
-                                <h1 class="welcome-text">Welcome, </h1>
-                                <h2>Sistem Pendukung Keputusan Pusat Perbelanjaan Modern</h2>
-                                <p>
-                                    Sistem ini membantu pengusaha bisnis menentukan gerai yang akan dipilih, diantara beberapa
-                                    pusat perbelanjaan modern di Provinsi Bali dengan membandingkan setiap alternatif pada setiap kriteria
-                                    dan sebaliknya menggunakan metode Analytic Network Process (ANP).
-                                </p>
-                                <p>
-                                    Proses yang harus dilakukan untuk mendapatkan hasil keputusan, adalah sebagai berikut:
-                                </p>
-                                <p>
-                                    1. Memilih menu ANP
-                                </p>
-                                <p>
-                                    2. Memilih Sub Menu Seleksi Metode ANP
-                                </p>
-                                <p>
-                                    3. Memilih Perbandingan Alternatif dan menentukan bobot/skor
-                                </p>
-                                <p>
-                                    4. Memilih Perbandingan Kriteria dan menentukan bobot/skor
-                                </p>
-                                <p>
-                                    5. Memilih Hasil Seleksi
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+    <h2>Select Malls for Comparison</h2>
+    <form method="post">
+        <table>
+            <tr>
+                <th>Select</th>
+                <th>Mall Name</th>
+            </tr>
+            <?php foreach ($malls as $mall) : ?>
+                <tr>
+                    <td><input type="checkbox" name="mall_selection[]" value="<?php echo $mall; ?>"></td>
+                    <td><?php echo $mall; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+        <button type="submit">Submit</button>
+    </form>
 
+    <div id="popup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #fff; padding: 20px; border: 1px solid #000; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);">
+        <p>Mall berhasil dipilih!</p>
+    </div>
 
+    <script>
+        function showPopup() {
+            var popup = document.getElementById("popup");
+            popup.style.display = "block";
+            setTimeout(function() {
+                popup.style.display = "none";
+            }, 2000); // Popup akan hilang setelah 2 detik (2000 milidetik)
+        }
+    </script>
 
+    <script>
+        // Panggil fungsi showPopup() saat pengguna mengklik tombol Submit
+        document.addEventListener("DOMContentLoaded", function() {
+            var form = document.querySelector("form");
+            form.addEventListener("submit", function(event) {
+                event.preventDefault(); // Mencegah pengiriman formulir secara default
+                showPopup();
+            });
+        });
+    </script>
 
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js
-    "></script>
 </body>
 
 </html>

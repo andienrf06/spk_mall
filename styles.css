@@ -61,11 +61,11 @@ header .navb-items{
 header .item{
 
     text-align: center;
-    margin-inline: 15%;
-    font-size: 20px;
+    margin-inline: 0;
+    font-size: 10px;
     letter-spacing: 3px;
     color: #102447;
-    padding: 5px 0;
+    padding: 0;
     transition: all .1s ease;
     border-bottom: 0px solid #64d6f4;
     border-top: 0px solid #64d6f4;
@@ -102,7 +102,28 @@ header .mobile-toggler{
     font-size: 30px;
 }
 
+.header .navb-items .item a {
+    font-family: 'Urbanist', sans-serif;
+    font-size: 16px;
+}
+
 /* modal */
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%; /* Sesuaikan dengan lebar yang Anda inginkan */
+    height: 100%; /* Sesuaikan dengan tinggi yang Anda inginkan */
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4); /* Warna latar belakang */
+    border-radius: 10px; /* Untuk membuat sudut kotak */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+    padding: 20px; /* Jarak antara isi pop-up dan tepi */
+    z-index: absolute; /* Pastikan pop-up berada di atas konten lain */
+    display: none; /* Sembunyikan pop-up secara default */
+}
 
 .modal-dialog{
 
@@ -119,11 +140,28 @@ header .mobile-toggler{
 }
 
 .modal-content{
-
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
     border-radius: 0;
     height: 100vh;
     overflow-y: scroll;
-    background-color: #102447;
+    background-color: #fefefe;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .modal-header{
@@ -364,20 +402,35 @@ h3 {
 }
 
 .dropdown-toggle {
-    padding-right: 10px; 
-    padding-left: 10px; 
-}
-
-.dropdown-toggle {
+    /* padding-left: 20px;
+    padding-right: 20px; */
     font-size: 16px; 
+    font-family: 'Urbanist', sans-serif;
+    margin-top: 10px;
 }
 
 .navb-items {
     display: flex;
     align-items: center; /* Menyelaraskan elemen ke tengah */
 }
-.dropdown-toggle {
-    margin-top: 10px; /* Atur margin antara dropdown-toggle dan elemen lain */
+
+.dropdown-item {
+    font-size: 16px; /* Atur ukuran font sesuai kebutuhan */
+}
+
+#popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #000;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000; /* Pastikan popup ada di atas elemen lain */
+    text-align: center; /* Menengahkan teks */
+    font-size: 18px;
 }
 
 
