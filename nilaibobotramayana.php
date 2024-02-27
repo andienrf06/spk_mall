@@ -6,6 +6,7 @@ if (!isset($_SESSION['comparison_results_ramayana'])) {
     $_SESSION['comparison_results_ramayana'] = [];
 }
 
+$mallsToShow = $_SESSION['selected_malls'] ?? [];
 ?>
 
 <!DOCTYPE html>
@@ -29,13 +30,18 @@ if (!isset($_SESSION['comparison_results_ramayana'])) {
                 <img src="img\logo.png" alt="Logo">
             </div>
 
-            <div class="navb-items d-none d-xl-flex">
-                <div class="item">
+            <div class="navb-items d-none d-xl-flex gap-3">
+
+                <div class="navb-items d-none d-xl-flex">
                     <a href="index.php">Beranda</a>
                 </div>
 
-                <div class="item">
+                <div class="navb-items d-none d-xl-flex">
                     <a href="search.php">Pencarian</a>
+                </div>
+
+                <div class="navb-items d-none d-xl-flex">
+                    <a href="pilihmall.php">Pilih Mall</a>
                 </div>
 
                 <div class="item dropdown">
@@ -103,14 +109,14 @@ if (!isset($_SESSION['comparison_results_ramayana'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-4 mt-4">Nilai Bobot Kriteria</h2>
+                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Kriteria Terhadap Alternatif Ramayana Bali Mall</h2>
             </div>
         </div>
 
         <form method="post">
             <div class="row mb-3">
                 <div class="col">
-                    <label for="alternatif">Alternative:</label>
+                    <label for="alternatif">Alternatif:</label>
                     <input type="text" name="alternatif_ramayana" class="form-control" value="A16 - Ramayana Bali Mall" readonly>
                 </div>
             </div>
@@ -119,14 +125,16 @@ if (!isset($_SESSION['comparison_results_ramayana'])) {
                     <select name="kriteria_ramayana" class="form-select">
                         <?php
                         $tenants_ramayana = [
-                            "Location",
-                            "Price",
-                            "Competitor",
+                            "Lokasi",
+                            "Harga",
+                            "Pesaing",
                         ];
 
                         foreach ($tenants_ramayana as $tenant_ramayana) {
-                            echo "<option value=\"$tenant_ramayana\">$tenant_ramayana</option>";
+                            $selected = in_array($tenant_ramayana, $mallsToShow) ? 'selected' : ''; // Menandai mal yang sudah dipilih sebelumnya
+                            echo "<option value=\"$tenant_ramayana\" $selected>$tenant_ramayana</option>";
                         }
+
                         ?>
                     </select>
                 </div>
@@ -164,52 +172,62 @@ if (!isset($_SESSION['comparison_results_ramayana'])) {
 
         <?php
         if (isset($_POST['submit'])) {
-            // Get input values
-            $alternatif_ramayana = $_POST['alternatif_ramayana'];
-            $kriteria_ramayana = $_POST['kriteria_ramayana'];
-            $comparison_value_ramayana = $_POST['comparison_ramayana'];
-            $kriteria_ramayana2 = $_POST['kriteria_ramayana2'];
+            // Check if alternatif_ramayana is set
+            if (isset($_POST['alternatif_ramayana'])) {
+                // Get input values
+                $alternatif_ramayana = $_POST['alternatif_ramayana'];
+                $kriteria_ramayana = $_POST['kriteria_ramayana'];
+                $comparison_value_ramayana = $_POST['comparison_ramayana'];
+                $kriteria_ramayana2 = $_POST['kriteria_ramayana2'];
 
-            // Retrieve comparison results from session
-            $comparison_results_ramayana = $_SESSION['comparison_results_ramayana'];
+                // Retrieve comparison_ramayana results from session
+                $comparison_results_ramayana = $_SESSION['comparison_results_ramayana'];
 
-            // Check if the comparison result for this combination of alternative1 and alternative2 already exists
-            $exists = false;
-            foreach ($comparison_results_ramayana as $key_ramayana => $result_ramayana) {
-                if ($result_ramayana['kriteria_ramayana'] == $kriteria_ramayana && $result_ramayana['kriteria_ramayana2'] == $kriteria_ramayana2) {
-                    $exists = true;
-                    // Update the comparison value
-                    $comparison_results_ramayana[$key_ramayana][$alternatif_ramayana] = $comparison_value_ramayana;
-                    break;
+                // Check if the comparison_ramayana result_ramayana for this combination of kriteria_ramayana and kriteria_ramayana2 already exists
+                // Jika kriteria_ramayana dan kriteria_ramayana2 sama, set nilai perbandingannya menjadi 1
+                if ($kriteria_ramayana === $kriteria_ramayana2) {
+                    $comparison_value_ramayana = 1;
                 }
+
+                // Check if the comparison_ramayana result_ramayana for this combination of kriteria_ramayana and kriteria_ramayana2 already exists
+                $exists = false;
+                foreach ($comparison_results_ramayana as $key_ramayana => $result_ramayana) {
+                    if ($result_ramayana['kriteria_ramayana'] == $kriteria_ramayana && $result_ramayana['kriteria_ramayana2'] == $kriteria_ramayana2) {
+                        $exists = true;
+                        // Update the comparison_ramayana value
+                        $comparison_results_ramayana[$key_ramayana][$alternatif_ramayana] = $comparison_value_ramayana;
+                        break; // Break the loop after updating the comparison_ramayana value
+                    }
+                }
+
+                // If the comparison_ramayana result_ramayana doesn't exist, add it to the comparison_ramayana results array
+                if (!$exists) {
+                    $comparison_results_ramayana[] = array(
+                        'kriteria_ramayana' => $kriteria_ramayana,
+                        'kriteria_ramayana2' => $kriteria_ramayana2,
+                        $alternatif_ramayana => $comparison_value_ramayana
+                    );
+                }
+
+
+                // Update the comparison_ramayana results in the session
+                $_SESSION['comparison_results_ramayana'] = $comparison_results_ramayana;
+            } else {
+                // Action if alternatif_ramayana is not defined
+                echo "Alternatif tidak terdefinisi.";
             }
 
-            // If the comparison result doesn't exist, add it to the comparison results array
-            if (!$exists) {
-                $comparison_results_ramayana[] = array(
-                    'kriteria_ramayana' => $kriteria_ramayana,
-                    'kriteria_ramayana2' => $kriteria_ramayana2,
-                    $alternatif_ramayana => $comparison_value_ramayana
-                );
-            }
-
-
-            // Update the comparison results in the session
-            $_SESSION['comparison_results_ramayana'] = $comparison_results_ramayana;
-
-
-            echo "<h3>Comparison Results</h3>";
+            echo "<h3>Comparison_ramayana Results</h3>";
             echo "<table border='1'>";
-            echo "<tr><th>Comparison</th>";
+            echo "<tr><th>Comparison_ramayana</th>";
             foreach ($tenants_ramayana as $tenant_ramayana) {
                 echo "<th>$tenant_ramayana</th>";
             }
-            echo "<th>Total</th></tr>";
 
-            // Initialize an array to store the total values for each mall
+            // Initialize an array to store the total values for each tenant
             $totalValuesRamayana = array_fill_keys($tenants_ramayana, 0);
 
-            // Loop through each mall for comparison results
+            // Loop through each tenant for comparison_ramayana results
             foreach ($tenants_ramayana as $tenant_ramayana1) {
                 echo "<tr>";
                 echo "<td>$tenant_ramayana1</td>";
@@ -217,7 +235,7 @@ if (!isset($_SESSION['comparison_results_ramayana'])) {
 
                 foreach ($tenants_ramayana as $tenant_ramayana2) {
                     $comparisonValueRamayana = null;
-                    $isInverseRamayana = false; // Flag to check if the comparison is inverse
+                    $isInverseRamayana = false; // Flag to check if the comparison_ramayana is inverse
 
                     foreach ($comparison_results_ramayana as $result_ramayana) {
                         if (($result_ramayana['kriteria_ramayana'] == $tenant_ramayana1 && $result_ramayana['kriteria_ramayana2'] == $tenant_ramayana2)) {
@@ -232,208 +250,192 @@ if (!isset($_SESSION['comparison_results_ramayana'])) {
 
                     if ($comparisonValueRamayana !== null) {
                         if ($isInverseRamayana) {
-                            echo "<td>" . number_format($comparisonValueRamayana, 5, '.', '') . "</td>"; // Display inverse comparison value
+                            echo "<td>" . number_format($comparisonValueRamayana, 5, '.', '') . "</td>"; // Display inverse comparison_ramayana value
                         } else {
-                            echo "<td>" . number_format($comparisonValueRamayana, 5, '.', '') . "</td>"; // Display comparison value
+                            echo "<td>" . number_format($comparisonValueRamayana, 5, '.', '') . "</td>"; // Display comparison_ramayana value
                         }
-                        $totalRowRamayana += $comparisonValueRamayana;
-                        $totalValuesRamayana[$tenant_ramayana1] += $comparisonValueRamayana;
+                        $totalValuesRamayana[$tenant_ramayana2] += $comparisonValueRamayana; // Fix here, use tenant_ramayana2 as key_ramayana$key_ramayana for totalValuesRamayana
+                    } else {
+                        echo "<td>-</td>";
+                    }
+                }
+            }
+
+            // Show the total row after looping through all tenants_ramayana
+            echo "<tr><td>Total</td>";
+            $totalTotalRamayana = 0;
+            foreach ($tenants_ramayana as $tenant_ramayana) {
+                $totalTotalRamayana += $totalValuesRamayana[$tenant_ramayana];
+                echo "<td>" . number_format($totalValuesRamayana[$tenant_ramayana], 5, '.', '') . "</td>";
+            }
+            echo "</tr>";
+
+            echo "</table>";
+
+            echo "<h3>Normalized Comparison Results</h3>";
+            echo "<table border='1'>";
+            echo "<tr><th>Comparison</th>";
+            foreach ($tenants_ramayana as $tenant_ramayana) {
+                echo "<th>$tenant_ramayana</th>";
+            }
+            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+
+            // Array to store column totals 
+            $columnTotalsRamayana = array_fill_keys($tenants_ramayana, 0);
+
+            // Counting the number of tenants$tenants_ramayana
+            $numMallsRamayana = count($tenants_ramayana);
+
+            // Initialize an array to store normalized row totals
+            $normalizedRowTotalsRamayana = [];
+
+            // Loop through each ten$tenant_ramayana for comparison results
+            foreach ($tenants_ramayana as $tenant_ramayana1) {
+                echo "<tr>";
+                echo "<td>$tenant_ramayana1</td>";
+                $rowTotalRamayana = 0; // Menyimpan total per baris
+
+                foreach ($tenants_ramayana as $tenant_ramayana2) {
+                    $comparisonValueRamayana = null;
+
+                    foreach ($comparison_results_ramayana as $result_ramayana) {
+                        if (($result_ramayana['kriteria_ramayana'] == $tenant_ramayana1 && $result_ramayana['kriteria_ramayana2'] == $tenant_ramayana2)) {
+                            $comparisonValueRamayana = $result_ramayana[$alternatif_ramayana];
+                            break;
+                        } elseif (($result_ramayana['kriteria_ramayana'] == $tenant_ramayana2 && $result_ramayana['kriteria_ramayana2'] == $tenant_ramayana1)) {
+                            $comparisonValueRamayana = 1 / $result_ramayana[$alternatif_ramayana]; // Take the inverse
+                            break;
+                        }
+                    }
+
+                    if ($comparisonValueRamayana !== null) {
+                        // Calculate the normalized value
+                        $normalizedValueRamayana = $comparisonValueRamayana / $totalValuesRamayana[$tenant_ramayana2];
+                        echo "<td>" . number_format($normalizedValueRamayana, 5, '.', '') . "</td>";
+
+                        // Add to column totals
+                        $columnTotalsRamayana[$tenant_ramayana2] += $normalizedValueRamayana;
+
+                        // Add to row total
+                        $rowTotalRamayana += $normalizedValueRamayana;
                     } else {
                         echo "<td>-</td>";
                     }
                 }
 
-                echo "<td>" . number_format($totalRowRamayana, 5, '.', '') . "</td>"; // Display the total for this row
-                echo "</tr>";
+                // Calculate normalized row total
+                $normalizedRowTotalRamayana = $rowTotalRamayana / $numMallsRamayana;
+                $normalizedRowTotalsRamayana[$tenant_ramayana1] = $normalizedRowTotalRamayana; // Store normalized row total
+                echo "<td>" . number_format($normalizedRowTotalRamayana, 5, '.', '') . "</td>";
             }
 
+            // Show the total row after looping through all tenants$tenants_ramayana
+            echo "<tr><td>Total</td>";
+            foreach ($tenants_ramayana as $tenant_ramayana) {
+                echo "<td>" . number_format($columnTotalsRamayana[$tenant_ramayana], 5, '.', '') . "</td>";
+            }
 
+            // Calculate eigen value and display
+            $eigenValueRamayana = array_sum($columnTotalsRamayana) / $numMallsRamayana;
+            echo "<td>" . number_format($eigenValueRamayana, 5, '.', '') . "</td>";
+
+            echo "</tr>";
             echo "</table>";
 
-            // Display the divided comparison results
-            echo "<h3>Divided Comparison Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Criteria</th>";
-            foreach ($tenants_ramayana as $tenant_ramayana) {
-                echo "<th>$tenant_ramayana</th>";
-            }
-            echo "<th>Total</th>"; // Add Total column header
-            echo "</tr>";
+            // Display normalized row totals
+            // echo "<h3>Normalized Row Totals</h3>";
+            // echo "<ul>";
+            // foreach ($normalizedRowTotalsRamayana as $tenant_ramayana => $rowTotalRamayana) {
+            //     echo "<li><strong>$tenant_ramayana:</strong> " . number_format($rowTotalRamayana, 5, '.', '') . "</li>";
+            // }
+            // echo "</ul>";
 
-            // Display the divided comparison results
-            foreach ($tenants_ramayana as $tenant_ramayana) {
-                echo "<tr>";
-                echo "<td>$tenant_ramayana</td>";
 
-                // Get the total for this row
-                $rowTotalRamayana = $totalValuesRamayana[$tenant_ramayana];
+            // Simpan nilai normalized row totals dalam sesi
+            $_SESSION['normalized_row_totals_ramayana'] = $normalizedRowTotalsRamayana;
 
-                // Initialize the sum of divided values for this row
-                $dividedValuesSumRamayana = 0;
-
-                foreach ($tenants_ramayana as $tenant_ramayana2) {
-                    // Get the current value in the table
-                    $currentValueRamayana = 0;
-
-                    // Search for the corresponding value in the comparison results
-                    foreach ($comparison_results_ramayana as $result_ramayana) {
-                        if (($result_ramayana['kriteria_ramayana'] == $tenant_ramayana && $result_ramayana['kriteria_ramayana2'] == $tenant_ramayana2)) {
-                            $currentValueRamayana = $result_ramayana[$alternatif_ramayana];
-                            break;
-                        } elseif (($result_ramayana['kriteria_ramayana'] == $tenant_ramayana2 && $result_ramayana['kriteria_ramayana2'] == $tenant_ramayana)) {
-                            // If inverse comparison found, set the current value as its inverse
-                            $currentValueRamayana = 1 / $result_ramayana[$alternatif_ramayana];
-                            break;
-                        }
-                    }
-
-                    // Calculate the value divided by the row total
-                    $dividedValueRamayana = 0;
-                    if ($rowTotalRamayana != 0) {
-                        // Perform division only if row total is non-zero
-                        $dividedValueRamayana = $currentValueRamayana / $rowTotalRamayana;
-                    }
-
-                    // Update the sum of divided values for this row
-                    $dividedValuesSumRamayana += $dividedValueRamayana;
-
-                    // Display the divided value
-                    echo "<td>" . number_format($dividedValueRamayana, 5, '.', '') . "</td>";
-                }
-
-                // Display the sum of divided values for this row
-                echo "<td>" . $dividedValuesSumRamayana . "</td>";
-                echo "</tr>";
-            }
-
-            // Menghitung jumlah elemen mall
-            $numTenantsRamayana1 = count($tenants_ramayana);
-
-            // Array untuk menyimpan total nilai per kolom
-            $totalPerColumnRamayana = array_fill_keys($tenants_ramayana, 0);
-
-            // Menghitung total nilai per kolom
-            foreach ($tenants_ramayana as $tenant_ramayana) {
-                foreach ($tenants_ramayana as $tenant_ramayana2) {
-                    // Menambahkan nilai pada kolom ke total kolom yang sesuai
-                    $rowTotalRamayana = $totalValuesRamayana[$tenant_ramayana];
-                    foreach ($comparison_results_ramayana as $result_ramayana) {
-                        if (($result_ramayana['kriteria_ramayana'] == $tenant_ramayana && $result_ramayana['kriteria_ramayana2'] == $tenant_ramayana2)) {
-                            $currentValueRamayana = $result_ramayana[$alternatif_ramayana] / $rowTotalRamayana; // Dibagi dengan total baris
-                            $totalPerColumnRamayana[$tenant_ramayana2] += $currentValueRamayana;
-                            break;
-                        } elseif (($result_ramayana['kriteria_ramayana'] == $tenant_ramayana2 && $result_ramayana['kriteria_ramayana2'] == $tenant_ramayana)) {
-                            $currentValueRamayana = 1 / $result_ramayana[$alternatif_ramayana] / $rowTotalRamayana; // Dibagi dengan total baris
-                            $totalPerColumnRamayana[$tenant_ramayana2] += $currentValueRamayana;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // Membagi total nilai per kolom dengan jumlah elemen mall
-            foreach ($totalPerColumnRamayana as $tenant_ramayana => $totalRamayana) {
-                $totalPerColumnRamayana[$tenant_ramayana] /= $numTenantsRamayana1;
-            }
-
-            // Menghitung total dari hasil
-            $totalResultRamayana = 0;
-            foreach ($totalPerColumnRamayana as $totalRamayana) {
-                $totalResultRamayana += $totalRamayana;
-            }
-
-            // Menampilkan total nilai per kolom
-            echo "<tr><th>Eigen Vector</th>";
-            foreach ($tenants_ramayana as $tenant_ramayana) {
-                // Display the eigenvector value
-                echo "<td>" . number_format($totalPerColumnRamayana[$tenant_ramayana], 5, '.', '') . "</td>";;
-            }
-            echo "<td>$totalResultRamayana</td>"; // Menampilkan total dari hasil
-            echo "</tr>";
-
-            echo "</table>";
-
-            $_SESSION['eigenvector_ramayana'] = $totalPerColumnRamayana;
-
-            // Hitung Lambda Max
+            // Calculate Lambda Max
             $lambdaMaxRamayana = 0;
-
-            // Pengulangan untuk setiap alternatif
             foreach ($tenants_ramayana as $tenant_ramayana) {
-                // Inisialisasi nilai hasil total untuk alternatif ini
-                $totalValueForTenantRamayana = $totalValuesRamayana[$tenant_ramayana];
-
-                // Ambil nilai eigenvector untuk alternatif ini
-                $eigenvectorForTenantRamayana = $totalPerColumnRamayana[$tenant_ramayana];
-
-                // Perkalian nilai total dengan nilai eigenvector dan tambahkan ke Lambda Max
-                $lambdaMaxRamayana += $totalValueForTenantRamayana * $eigenvectorForTenantRamayana;
+                $lambdaMaxRamayana += $totalValuesRamayana[$tenant_ramayana2] * $normalizedRowTotalRamayana;
             }
 
-            echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxRamayana, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxRamayana, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall
-            $randomConsistencyIndexRamayana = 0;
-            switch ($numTenantsRamayana1) {
+            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+            $randomConsistencyIndexRamayana  = 0;
+            switch ($numMallsRamayana) {
                 case 1:
-                    $randomConsistencyIndexRamayana = 0;
+                    $randomConsistencyIndexRamayana  = 0;
                     break;
                 case 2:
-                    $randomConsistencyIndexRamayana = 0;
+                    $randomConsistencyIndexRamayana  = 0;
                     break;
                 case 3:
-                    $randomConsistencyIndexRamayana = 0.58;
+                    $randomConsistencyIndexRamayana  = 0.58;
                     break;
                 case 4:
-                    $randomConsistencyIndexRamayana = 0.90;
+                    $randomConsistencyIndexRamayana  = 0.90;
                     break;
                 case 5:
-                    $randomConsistencyIndexRamayana = 1.12;
+                    $randomConsistencyIndexRamayana  = 1.12;
                     break;
                 case 6:
-                    $randomConsistencyIndexRamayana = 1.24;
+                    $randomConsistencyIndexRamayana  = 1.24;
                     break;
                 case 7:
-                    $randomConsistencyIndexRamayana = 1.32;
+                    $randomConsistencyIndexRamayana  = 1.32;
                     break;
                 case 8:
-                    $randomConsistencyIndexRamayana = 1.41;
+                    $randomConsistencyIndexRamayana  = 1.41;
                     break;
                 case 9:
-                    $randomConsistencyIndexRamayana = 1.45;
+                    $randomConsistencyIndexRamayana  = 1.45;
                     break;
                 case 10:
-                    $randomConsistencyIndexRamayana = 1.49;
+                    $randomConsistencyIndexRamayana  = 1.49;
+                    break;
+                case 11:
+                    $randomConsistencyIndexRamayana  = 1.51;
+                    break;
+                case 12:
+                    $randomConsistencyIndexRamayana  = 1.48;
+                    break;
+                case 13:
+                    $randomConsistencyIndexRamayana  = 1.56;
+                    break;
+                case 14:
+                    $randomConsistencyIndexRamayana  = 1.57;
+                    break;
+                case 15:
+                    $randomConsistencyIndexRamayana  = 1.59;
                     break;
                 default:
                     // Handle for more than 10 elements if needed
                     break;
             }
 
-            // Hitung Consistency Index (CI)
-            $consistencyIndexRamayana = ($lambdaMaxRamayana - $numTenantsRamayana1) / ($numTenantsRamayana1 - 1);
+            // Calculate Consistency Index (CI)
+            $CIRamayana = ($lambdaMaxRamayana - $numMallsRamayana) / ($numMallsRamayana - 1);
 
-            // Hitung nilai konsistensi ratio (CR)
-            $consistencyRatioRamayana = $consistencyIndexRamayana / $randomConsistencyIndexRamayana;
+
+            // Calculate Consistency Ratio (CR)
+            $CRRamayana = $CIRamayana / $randomConsistencyIndexRamayana; // You need to define RI according to your matrix size
 
             // Tampilkan hasil konsistensi
-            echo "<p>Nilai Consistency Index (CI): " . number_format($consistencyIndexRamayana, 5, '.', '') . "</p>";
-            echo "<p>Nilai Random Consistency Index (RI) untuk $numTenantsRamayana1 elemen: " . $randomConsistencyIndexRamayana . "</p>";
-            echo "<p>Nilai Consistency Ratio (CR): " . number_format($consistencyRatioRamayana, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Consistency Index (CI): " . number_format($CIRamayana, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsRamayana elemen: " . $randomConsistencyIndexRamayana . "</p>";
+            // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRRamayana, 5, '.', '') . "</p>";
 
-            // Tambahkan kondisi untuk menentukan konsistensi
-            if ($consistencyRatioRamayana < 0.1) {
-                echo "<p>Nilai Konsisten</p>";
+            // Check if consistency is acceptable
+            if ($CRRamayana < 0.1) {
+                echo "<p>Consistency Ratio (CR) is acceptable </p>";
             } else {
-                echo "<p>Nilai Tidak Konsisten.</p>";
+                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
             }
         }
         ?>
-
-    </div>
-    </section>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

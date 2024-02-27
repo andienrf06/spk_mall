@@ -6,6 +6,7 @@ if (!isset($_SESSION['comparison_results_level'])) {
     $_SESSION['comparison_results_level'] = [];
 }
 
+$mallsToShow = $_SESSION['selected_malls'] ?? [];
 ?>
 
 <!DOCTYPE html>
@@ -29,13 +30,18 @@ if (!isset($_SESSION['comparison_results_level'])) {
                 <img src="img\logo.png" alt="Logo">
             </div>
 
-            <div class="navb-items d-none d-xl-flex">
-                <div class="item">
+            <div class="navb-items d-none d-xl-flex gap-3">
+
+                <div class="navb-items d-none d-xl-flex">
                     <a href="index.php">Beranda</a>
                 </div>
 
-                <div class="item">
+                <div class="navb-items d-none d-xl-flex">
                     <a href="search.php">Pencarian</a>
+                </div>
+
+                <div class="navb-items d-none d-xl-flex">
+                    <a href="pilihmall.php">Pilih Mall</a>
                 </div>
 
                 <div class="item dropdown">
@@ -103,14 +109,14 @@ if (!isset($_SESSION['comparison_results_level'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-4 mt-4">Nilai Bobot Kriteria</h2>
+                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Kriteria Terhadap Alternatif Level21 Mall</h2>
             </div>
         </div>
 
         <form method="post">
             <div class="row mb-3">
                 <div class="col">
-                    <label for="alternatif">Alternative:</label>
+                    <label for="alternatif">Alternatif:</label>
                     <input type="text" name="alternatif_level" class="form-control" value="A09 - Level21 Mall" readonly>
                 </div>
             </div>
@@ -119,14 +125,16 @@ if (!isset($_SESSION['comparison_results_level'])) {
                     <select name="kriteria_level" class="form-select">
                         <?php
                         $tenants_level = [
-                            "Location",
-                            "Price",
-                            "Competitor",
+                            "Lokasi",
+                            "Harga",
+                            "Pesaing",
                         ];
 
                         foreach ($tenants_level as $tenant_level) {
-                            echo "<option value=\"$tenant_level\">$tenant_level</option>";
+                            $selected = in_array($tenant_level, $mallsToShow) ? 'selected' : ''; // Menandai mal yang sudah dipilih sebelumnya
+                            echo "<option value=\"$tenant_level\" $selected>$tenant_level</option>";
                         }
+
                         ?>
                     </select>
                 </div>
@@ -164,52 +172,62 @@ if (!isset($_SESSION['comparison_results_level'])) {
 
         <?php
         if (isset($_POST['submit'])) {
-            // Get input values
-            $alternatif_level = $_POST['alternatif_level'];
-            $kriteria_level = $_POST['kriteria_level'];
-            $comparison_value_level = $_POST['comparison_level'];
-            $kriteria_level2 = $_POST['kriteria_level2'];
+            // Check if alternatif_level is set
+            if (isset($_POST['alternatif_level'])) {
+                // Get input values
+                $alternatif_level = $_POST['alternatif_level'];
+                $kriteria_level = $_POST['kriteria_level'];
+                $comparison_value_level = $_POST['comparison_level'];
+                $kriteria_level2 = $_POST['kriteria_level2'];
 
-            // Retrieve comparison results from session
-            $comparison_results_level = $_SESSION['comparison_results_level'];
+                // Retrieve comparison_level results from session
+                $comparison_results_level = $_SESSION['comparison_results_level'];
 
-            // Check if the comparison result for this combination of alternative1 and alternative2 already exists
-            $exists = false;
-            foreach ($comparison_results_level as $key_level => $result_level) {
-                if ($result_level['kriteria_level'] == $kriteria_level && $result_level['kriteria_level2'] == $kriteria_level2) {
-                    $exists = true;
-                    // Update the comparison value
-                    $comparison_results_level[$key_level][$alternatif_level] = $comparison_value_level;
-                    break;
+                // Check if the comparison_level result_level for this combination of kriteria_level and kriteria_level2 already exists
+                // Jika kriteria_level dan kriteria_level2 sama, set nilai perbandingannya menjadi 1
+                if ($kriteria_level === $kriteria_level2) {
+                    $comparison_value_level = 1;
                 }
+
+                // Check if the comparison_level result_level for this combination of kriteria_level and kriteria_level2 already exists
+                $exists = false;
+                foreach ($comparison_results_level as $key_level => $result_level) {
+                    if ($result_level['kriteria_level'] == $kriteria_level && $result_level['kriteria_level2'] == $kriteria_level2) {
+                        $exists = true;
+                        // Update the comparison_level value
+                        $comparison_results_level[$key_level][$alternatif_level] = $comparison_value_level;
+                        break; // Break the loop after updating the comparison_level value
+                    }
+                }
+
+                // If the comparison_level result_level doesn't exist, add it to the comparison_level results array
+                if (!$exists) {
+                    $comparison_results_level[] = array(
+                        'kriteria_level' => $kriteria_level,
+                        'kriteria_level2' => $kriteria_level2,
+                        $alternatif_level => $comparison_value_level
+                    );
+                }
+
+
+                // Update the comparison_level results in the session
+                $_SESSION['comparison_results_level'] = $comparison_results_level;
+            } else {
+                // Action if alternatif_level is not defined
+                echo "Alternatif tidak terdefinisi.";
             }
 
-            // If the comparison result doesn't exist, add it to the comparison results array
-            if (!$exists) {
-                $comparison_results_level[] = array(
-                    'kriteria_level' => $kriteria_level,
-                    'kriteria_level2' => $kriteria_level2,
-                    $alternatif_level => $comparison_value_level
-                );
-            }
-
-
-            // Update the comparison results in the session
-            $_SESSION['comparison_results_level'] = $comparison_results_level;
-
-
-            echo "<h3>Comparison Results</h3>";
+            echo "<h3>Comparison_level Results</h3>";
             echo "<table border='1'>";
-            echo "<tr><th>Comparison</th>";
+            echo "<tr><th>Comparison_level</th>";
             foreach ($tenants_level as $tenant_level) {
                 echo "<th>$tenant_level</th>";
             }
-            echo "<th>Total</th></tr>";
 
-            // Initialize an array to store the total values for each mall
+            // Initialize an array to store the total values for each tenant
             $totalValuesLevel = array_fill_keys($tenants_level, 0);
 
-            // Loop through each mall for comparison results
+            // Loop through each tenant for comparison_level results
             foreach ($tenants_level as $tenant_level1) {
                 echo "<tr>";
                 echo "<td>$tenant_level1</td>";
@@ -217,7 +235,7 @@ if (!isset($_SESSION['comparison_results_level'])) {
 
                 foreach ($tenants_level as $tenant_level2) {
                     $comparisonValueLevel = null;
-                    $isInverseLevel = false; // Flag to check if the comparison is inverse
+                    $isInverseLevel = false; // Flag to check if the comparison_level is inverse
 
                     foreach ($comparison_results_level as $result_level) {
                         if (($result_level['kriteria_level'] == $tenant_level1 && $result_level['kriteria_level2'] == $tenant_level2)) {
@@ -232,208 +250,192 @@ if (!isset($_SESSION['comparison_results_level'])) {
 
                     if ($comparisonValueLevel !== null) {
                         if ($isInverseLevel) {
-                            echo "<td>" . number_format($comparisonValueLevel, 5, '.', '') . "</td>"; // Display inverse comparison value
+                            echo "<td>" . number_format($comparisonValueLevel, 5, '.', '') . "</td>"; // Display inverse comparison_level value
                         } else {
-                            echo "<td>" . number_format($comparisonValueLevel, 5, '.', '') . "</td>"; // Display comparison value
+                            echo "<td>" . number_format($comparisonValueLevel, 5, '.', '') . "</td>"; // Display comparison_level value
                         }
-                        $totalRowLevel += $comparisonValueLevel;
-                        $totalValuesLevel[$tenant_level1] += $comparisonValueLevel;
+                        $totalValuesLevel[$tenant_level2] += $comparisonValueLevel; // Fix here, use tenant_level2 as key_level for totalValuesLevel
+                    } else {
+                        echo "<td>-</td>";
+                    }
+                }
+            }
+
+            // Show the total row after looping through all tenants_level
+            echo "<tr><td>Total</td>";
+            $totalTotalLevel = 0;
+            foreach ($tenants_level as $tenant_level) {
+                $totalTotalLevel += $totalValuesLevel[$tenant_level];
+                echo "<td>" . number_format($totalValuesLevel[$tenant_level], 5, '.', '') . "</td>";
+            }
+            echo "</tr>";
+
+            echo "</table>";
+
+            echo "<h3>Normalized Comparison Results</h3>";
+            echo "<table border='1'>";
+            echo "<tr><th>Comparison</th>";
+            foreach ($tenants_level as $tenant_level) {
+                echo "<th>$tenant_level</th>";
+            }
+            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+
+            // Array to store column totals
+            $columnTotalsLevel = array_fill_keys($tenants_level, 0);
+
+            // Counting the number of tenants$tenants_level
+            $numMallsLevel = count($tenants_level);
+
+            // Initialize an array to store normalized row totals
+            $normalizedRowTotalsLevel = [];
+
+            // Loop through each ten$tenant_level for comparison results
+            foreach ($tenants_level as $tenant_level1) {
+                echo "<tr>";
+                echo "<td>$tenant_level1</td>";
+                $rowTotalLevel = 0; // Menyimpan total per baris
+
+                foreach ($tenants_level as $tenant_level2) {
+                    $comparisonValueLevel = null;
+
+                    foreach ($comparison_results_level as $result_level) {
+                        if (($result_level['kriteria_level'] == $tenant_level1 && $result_level['kriteria_level2'] == $tenant_level2)) {
+                            $comparisonValueLevel = $result_level[$alternatif_level];
+                            break;
+                        } elseif (($result_level['kriteria_level'] == $tenant_level2 && $result_level['kriteria_level2'] == $tenant_level1)) {
+                            $comparisonValueLevel = 1 / $result_level[$alternatif_level]; // Take the inverse
+                            break;
+                        }
+                    }
+
+                    if ($comparisonValueLevel !== null) {
+                        // Calculate the normalized value
+                        $normalizedValueLevel = $comparisonValueLevel / $totalValuesLevel[$tenant_level2];
+                        echo "<td>" . number_format($normalizedValueLevel, 5, '.', '') . "</td>";
+
+                        // Add to column totals
+                        $columnTotalsLevel[$tenant_level2] += $normalizedValueLevel;
+
+                        // Add to row total
+                        $rowTotalLevel += $normalizedValueLevel;
                     } else {
                         echo "<td>-</td>";
                     }
                 }
 
-                echo "<td>" . number_format($totalRowLevel, 5, '.', '') . "</td>"; // Display the total for this row
-                echo "</tr>";
+                // Calculate normalized row total
+                $normalizedRowTotalLevel = $rowTotalLevel / $numMallsLevel;
+                $normalizedRowTotalsLevel[$tenant_level1] = $normalizedRowTotalLevel; // Store normalized row total
+                echo "<td>" . number_format($normalizedRowTotalLevel, 5, '.', '') . "</td>";
             }
 
+            // Show the total row after looping through all tenants$tenants_level
+            echo "<tr><td>Total</td>";
+            foreach ($tenants_level as $tenant_level) {
+                echo "<td>" . number_format($columnTotalsLevel[$tenant_level], 5, '.', '') . "</td>";
+            }
 
+            // Calculate eigen value and display
+            $eigenValueLevel = array_sum($columnTotalsLevel) / $numMallsLevel;
+            echo "<td>" . number_format($eigenValueLevel, 5, '.', '') . "</td>";
+
+            echo "</tr>";
             echo "</table>";
 
-            // Display the divided comparison results
-            echo "<h3>Divided Comparison Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Criteria</th>";
-            foreach ($tenants_level as $tenant_level) {
-                echo "<th>$tenant_level</th>";
-            }
-            echo "<th>Total</th>"; // Add Total column header
-            echo "</tr>";
+            // Display normalized row totals
+            // echo "<h3>Normalized Row Totals</h3>";
+            // echo "<ul>";
+            // foreach ($normalizedRowTotalsLevel as $tenant_level => $rowTotalLevel) {
+            //     echo "<li><strong>$tenant_level:</strong> " . number_format($rowTotalLevel, 5, '.', '') . "</li>";
+            // }
+            // echo "</ul>";
 
-            // Display the divided comparison results
-            foreach ($tenants_level as $tenant_level) {
-                echo "<tr>";
-                echo "<td>$tenant_level</td>";
 
-                // Get the total for this row
-                $rowTotalLevel = $totalValuesLevel[$tenant_level];
+            // Simpan nilai normalized row totals dalam sesi
+            $_SESSION['normalized_row_totals_level'] = $normalizedRowTotalsLevel;
 
-                // Initialize the sum of divided values for this row
-                $dividedValuesSumLevel = 0;
-
-                foreach ($tenants_level as $tenant_level2) {
-                    // Get the current value in the table
-                    $currentValueLevel = 0;
-
-                    // Search for the corresponding value in the comparison results
-                    foreach ($comparison_results_level as $result_level) {
-                        if (($result_level['kriteria_level'] == $tenant_level && $result_level['kriteria_level2'] == $tenant_level2)) {
-                            $currentValueLevel = $result_level[$alternatif_level];
-                            break;
-                        } elseif (($result_level['kriteria_level'] == $tenant_level2 && $result_level['kriteria_level2'] == $tenant_level)) {
-                            // If inverse comparison found, set the current value as its inverse
-                            $currentValueLevel = 1 / $result_level[$alternatif_level];
-                            break;
-                        }
-                    }
-
-                    // Calculate the value divided by the row total
-                    $dividedValueLevel = 0;
-                    if ($rowTotalLevel != 0) {
-                        // Perform division only if row total is non-zero
-                        $dividedValueLevel = $currentValueLevel / $rowTotalLevel;
-                    }
-
-                    // Update the sum of divided values for this row
-                    $dividedValuesSumLevel += $dividedValueLevel;
-
-                    // Display the divided value
-                    echo "<td>" . number_format($dividedValueLevel, 5, '.', '') . "</td>";
-                }
-
-                // Display the sum of divided values for this row
-                echo "<td>" . $dividedValuesSumLevel . "</td>";
-                echo "</tr>";
-            }
-
-            // Menghitung jumlah elemen mall
-            $numTenantsLevel1 = count($tenants_level);
-
-            // Array untuk menyimpan total nilai per kolom
-            $totalPerColumnLevel = array_fill_keys($tenants_level, 0);
-
-            // Menghitung total nilai per kolom
-            foreach ($tenants_level as $tenant_level) {
-                foreach ($tenants_level as $tenant_level2) {
-                    // Menambahkan nilai pada kolom ke total kolom yang sesuai
-                    $rowTotalLevel = $totalValuesLevel[$tenant_level];
-                    foreach ($comparison_results_level as $result_level) {
-                        if (($result_level['kriteria_level'] == $tenant_level && $result_level['kriteria_level2'] == $tenant_level2)) {
-                            $currentValueLevel = $result_level[$alternatif_level] / $rowTotalLevel; // Dibagi dengan total baris
-                            $totalPerColumnLevel[$tenant_level2] += $currentValueLevel;
-                            break;
-                        } elseif (($result_level['kriteria_level'] == $tenant_level2 && $result_level['kriteria_level2'] == $tenant_level)) {
-                            $currentValueLevel = 1 / $result_level[$alternatif_level] / $rowTotalLevel; // Dibagi dengan total baris
-                            $totalPerColumnLevel[$tenant_level2] += $currentValueLevel;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // Membagi total nilai per kolom dengan jumlah elemen mall
-            foreach ($totalPerColumnLevel as $tenant_level => $totalLevel) {
-                $totalPerColumnLevel[$tenant_level] /= $numTenantsLevel1;
-            }
-
-            // Menghitung total dari hasil
-            $totalResultLevel = 0;
-            foreach ($totalPerColumnLevel as $totalLevel) {
-                $totalResultLevel += $totalLevel;
-            }
-
-            // Menampilkan total nilai per kolom
-            echo "<tr><th>Eigen Vector</th>";
-            foreach ($tenants_level as $tenant_level) {
-                // Display the eigenvector value
-                echo "<td>" . number_format($totalPerColumnLevel[$tenant_level], 5, '.', '') . "</td>";;
-            }
-            echo "<td>$totalResultLevel</td>"; // Menampilkan total dari hasil
-            echo "</tr>";
-
-            echo "</table>";
-
-            $_SESSION['eigenvector_level'] = $totalPerColumnLevel;
-
-            // Hitung Lambda Max
+            // Calculate Lambda Max
             $lambdaMaxLevel = 0;
-
-            // Pengulangan untuk setiap alternatif
             foreach ($tenants_level as $tenant_level) {
-                // Inisialisasi nilai hasil total untuk alternatif ini
-                $totalValueForTenantLevel = $totalValuesLevel[$tenant_level];
-
-                // Ambil nilai eigenvector untuk alternatif ini
-                $eigenvectorForTenantLevel = $totalPerColumnLevel[$tenant_level];
-
-                // Perkalian nilai total dengan nilai eigenvector dan tambahkan ke Lambda Max
-                $lambdaMaxLevel += $totalValueForTenantLevel * $eigenvectorForTenantLevel;
+                $lambdaMaxLevel += $totalValuesLevel[$tenant_level2] * $normalizedRowTotalLevel;
             }
 
-            echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxLevel, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxLevel, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall
-            $randomConsistencyIndexLevel = 0;
-            switch ($numTenantsLevel1) {
+            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+            $randomConsistencyIndexLevel  = 0;
+            switch ($numMallsLevel) {
                 case 1:
-                    $randomConsistencyIndexLevel = 0;
+                    $randomConsistencyIndexLevel  = 0;
                     break;
                 case 2:
-                    $randomConsistencyIndexLevel = 0;
+                    $randomConsistencyIndexLevel  = 0;
                     break;
                 case 3:
-                    $randomConsistencyIndexLevel = 0.58;
+                    $randomConsistencyIndexLevel  = 0.58;
                     break;
                 case 4:
-                    $randomConsistencyIndexLevel = 0.90;
+                    $randomConsistencyIndexLevel  = 0.90;
                     break;
                 case 5:
-                    $randomConsistencyIndexLevel = 1.12;
+                    $randomConsistencyIndexLevel  = 1.12;
                     break;
                 case 6:
-                    $randomConsistencyIndexLevel = 1.24;
+                    $randomConsistencyIndexLevel  = 1.24;
                     break;
                 case 7:
-                    $randomConsistencyIndexLevel = 1.32;
+                    $randomConsistencyIndexLevel  = 1.32;
                     break;
                 case 8:
-                    $randomConsistencyIndexLevel = 1.41;
+                    $randomConsistencyIndexLevel  = 1.41;
                     break;
                 case 9:
-                    $randomConsistencyIndexLevel = 1.45;
+                    $randomConsistencyIndexLevel  = 1.45;
                     break;
                 case 10:
-                    $randomConsistencyIndexLevel = 1.49;
+                    $randomConsistencyIndexLevel  = 1.49;
+                    break;
+                case 11:
+                    $randomConsistencyIndexLevel  = 1.51;
+                    break;
+                case 12:
+                    $randomConsistencyIndexLevel  = 1.48;
+                    break;
+                case 13:
+                    $randomConsistencyIndexLevel  = 1.56;
+                    break;
+                case 14:
+                    $randomConsistencyIndexLevel  = 1.57;
+                    break;
+                case 15:
+                    $randomConsistencyIndexLevel  = 1.59;
                     break;
                 default:
                     // Handle for more than 10 elements if needed
                     break;
             }
 
-            // Hitung Consistency Index (CI)
-            $consistencyIndexLevel = ($lambdaMaxLevel - $numTenantsLevel1) / ($numTenantsLevel1 - 1);
+            // Calculate Consistency Index (CI)
+            $CILevel = ($lambdaMaxLevel - $numMallsLevel) / ($numMallsLevel - 1);
 
-            // Hitung nilai konsistensi ratio (CR)
-            $consistencyRatioLevel = $consistencyIndexLevel / $randomConsistencyIndexLevel;
+
+            // Calculate Consistency Ratio (CR)
+            $CRLevel = $CILevel / $randomConsistencyIndexLevel; // You need to define RI according to your matrix size
 
             // Tampilkan hasil konsistensi
-            echo "<p>Nilai Consistency Index (CI): " . number_format($consistencyIndexLevel, 5, '.', '') . "</p>";
-            echo "<p>Nilai Random Consistency Index (RI) untuk $numTenantsLevel1 elemen: " . $randomConsistencyIndexLevel . "</p>";
-            echo "<p>Nilai Consistency Ratio (CR): " . number_format($consistencyRatioLevel, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Consistency Index (CI): " . number_format($CILevel, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsLevel elemen: " . $randomConsistencyIndexLevel . "</p>";
+            // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRLevel, 5, '.', '') . "</p>";
 
-            // Tambahkan kondisi untuk menentukan konsistensi
-            if ($consistencyRatioLevel < 0.1) {
-                echo "<p>Nilai Konsisten</p>";
+            // Check if consistency is acceptable
+            if ($CRLevel < 0.1) {
+                echo "<p>Consistency Ratio (CR) is acceptable </p>";
             } else {
-                echo "<p>Nilai Tidak Konsisten.</p>";
+                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
             }
         }
         ?>
-
-    </div>
-    </section>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

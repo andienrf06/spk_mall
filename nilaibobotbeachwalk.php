@@ -6,6 +6,7 @@ if (!isset($_SESSION['comparison_results_bw'])) {
     $_SESSION['comparison_results_bw'] = [];
 }
 
+$mallsToShow = $_SESSION['selected_malls'] ?? [];
 ?>
 
 <!DOCTYPE html>
@@ -29,13 +30,18 @@ if (!isset($_SESSION['comparison_results_bw'])) {
                 <img src="img\logo.png" alt="Logo">
             </div>
 
-            <div class="navb-items d-none d-xl-flex">
-                <div class="item">
+            <div class="navb-items d-none d-xl-flex gap-3">
+
+                <div class="navb-items d-none d-xl-flex">
                     <a href="index.php">Beranda</a>
                 </div>
 
-                <div class="item">
+                <div class="navb-items d-none d-xl-flex">
                     <a href="search.php">Pencarian</a>
+                </div>
+
+                <div class="navb-items d-none d-xl-flex">
+                    <a href="pilihmall.php">Pilih Mall</a>
                 </div>
 
                 <div class="item dropdown">
@@ -103,14 +109,14 @@ if (!isset($_SESSION['comparison_results_bw'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-4 mt-4">Nilai Bobot Kriteria</h2>
+                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Kriteria Terhadap Alternatif Beachwalk Shopping Centre</h2>
             </div>
         </div>
 
         <form method="post">
             <div class="row mb-3">
                 <div class="col">
-                    <label for="alternatif">Alternative:</label>
+                    <label for="alternatif">Alternatif:</label>
                     <input type="text" name="alternatif_bw" class="form-control" value="A13 - Beachwalk Shopping Centre" readonly>
                 </div>
             </div>
@@ -119,14 +125,16 @@ if (!isset($_SESSION['comparison_results_bw'])) {
                     <select name="kriteria_bw" class="form-select">
                         <?php
                         $tenants_bw = [
-                            "Location",
-                            "Price",
-                            "Competitor",
+                            "Lokasi",
+                            "Harga",
+                            "Pesaing",
                         ];
 
                         foreach ($tenants_bw as $tenant_bw) {
-                            echo "<option value=\"$tenant_bw\">$tenant_bw</option>";
+                            $selected = in_array($tenant_bw, $mallsToShow) ? 'selected' : ''; // Menandai mal yang sudah dipilih sebelumnya
+                            echo "<option value=\"$tenant_bw\" $selected>$tenant_bw</option>";
                         }
+
                         ?>
                     </select>
                 </div>
@@ -164,52 +172,62 @@ if (!isset($_SESSION['comparison_results_bw'])) {
 
         <?php
         if (isset($_POST['submit'])) {
-            // Get input values
-            $alternatif_bw = $_POST['alternatif_bw'];
-            $kriteria_bw = $_POST['kriteria_bw'];
-            $comparison_value_bw = $_POST['comparison_bw'];
-            $kriteria_bw2 = $_POST['kriteria_bw2'];
+            // Check if alternatif_bw is set
+            if (isset($_POST['alternatif_bw'])) {
+                // Get input values
+                $alternatif_bw = $_POST['alternatif_bw'];
+                $kriteria_bw = $_POST['kriteria_bw'];
+                $comparison_value_bw = $_POST['comparison_bw'];
+                $kriteria_bw2 = $_POST['kriteria_bw2'];
 
-            // Retrieve comparison results from session
-            $comparison_results_bw = $_SESSION['comparison_results_bw'];
+                // Retrieve comparison_bw results from session
+                $comparison_results_bw = $_SESSION['comparison_results_bw'];
 
-            // Check if the comparison result for this combination of alternative1 and alternative2 already exists
-            $exists = false;
-            foreach ($comparison_results_bw as $key_bw => $result_bw) {
-                if ($result_bw['kriteria_bw'] == $kriteria_bw && $result_bw['kriteria_bw2'] == $kriteria_bw2) {
-                    $exists = true;
-                    // Update the comparison value
-                    $comparison_results_bw[$key_bw][$alternatif_bw] = $comparison_value_bw;
-                    break;
+                // Check if the comparison_bw result_bw for this combination of kriteria_bw and kriteria_bw2 already exists
+                // Jika kriteria_bw dan kriteria_bw2 sama, set nilai perbandingannya menjadi 1
+                if ($kriteria_bw === $kriteria_bw2) {
+                    $comparison_value_bw = 1;
                 }
+
+                // Check if the comparison_bw result_bw for this combination of kriteria_bw and kriteria_bw2 already exists
+                $exists = false;
+                foreach ($comparison_results_bw as $key_bw => $result_bw) {
+                    if ($result_bw['kriteria_bw'] == $kriteria_bw && $result_bw['kriteria_bw2'] == $kriteria_bw2) {
+                        $exists = true;
+                        // Update the comparison_bw value
+                        $comparison_results_bw[$key_bw][$alternatif_bw] = $comparison_value_bw;
+                        break; // Break the loop after updating the comparison_bw value
+                    }
+                }
+
+                // If the comparison_bw result_bw doesn't exist, add it to the comparison_bw results array
+                if (!$exists) {
+                    $comparison_results_bw[] = array(
+                        'kriteria_bw' => $kriteria_bw,
+                        'kriteria_bw2' => $kriteria_bw2,
+                        $alternatif_bw => $comparison_value_bw
+                    );
+                }
+
+
+                // Update the comparison_bw results in the session
+                $_SESSION['comparison_results_bw'] = $comparison_results_bw;
+            } else {
+                // Action if alternatif_bw is not defined
+                echo "Alternatif tidak terdefinisi.";
             }
 
-            // If the comparison result doesn't exist, add it to the comparison results array
-            if (!$exists) {
-                $comparison_results_bw[] = array(
-                    'kriteria_bw' => $kriteria_bw,
-                    'kriteria_bw2' => $kriteria_bw2,
-                    $alternatif_bw => $comparison_value_bw
-                );
-            }
-
-
-            // Update the comparison results in the session
-            $_SESSION['comparison_results_bw'] = $comparison_results_bw;
-
-
-            echo "<h3>Comparison Results</h3>";
+            echo "<h3>Comparison_bw Results</h3>";
             echo "<table border='1'>";
-            echo "<tr><th>Comparison</th>";
+            echo "<tr><th>Comparison_bw</th>";
             foreach ($tenants_bw as $tenant_bw) {
                 echo "<th>$tenant_bw</th>";
             }
-            echo "<th>Total</th></tr>";
 
-            // Initialize an array to store the total values for each mall
+            // Initialize an array to store the total values for each tenant
             $totalValuesBw = array_fill_keys($tenants_bw, 0);
 
-            // Loop through each mall for comparison results
+            // Loop through each tenant for comparison_bw results
             foreach ($tenants_bw as $tenant_bw1) {
                 echo "<tr>";
                 echo "<td>$tenant_bw1</td>";
@@ -217,7 +235,7 @@ if (!isset($_SESSION['comparison_results_bw'])) {
 
                 foreach ($tenants_bw as $tenant_bw2) {
                     $comparisonValueBw = null;
-                    $isInverseBw = false; // Flag to check if the comparison is inverse
+                    $isInverseBw = false; // Flag to check if the comparison_bw is inverse
 
                     foreach ($comparison_results_bw as $result_bw) {
                         if (($result_bw['kriteria_bw'] == $tenant_bw1 && $result_bw['kriteria_bw2'] == $tenant_bw2)) {
@@ -232,209 +250,192 @@ if (!isset($_SESSION['comparison_results_bw'])) {
 
                     if ($comparisonValueBw !== null) {
                         if ($isInverseBw) {
-                            echo "<td>" . number_format($comparisonValueBw, 5, '.', '') . "</td>"; // Display inverse comparison value
+                            echo "<td>" . number_format($comparisonValueBw, 5, '.', '') . "</td>"; // Display inverse comparison_bw value
                         } else {
-                            echo "<td>" . number_format($comparisonValueBw, 5, '.', '') . "</td>"; // Display comparison value
+                            echo "<td>" . number_format($comparisonValueBw, 5, '.', '') . "</td>"; // Display comparison_bw value
                         }
-                        $totalRowBw += $comparisonValueBw;
-                        $totalValuesBw[$tenant_bw1] += $comparisonValueBw;
+                        $totalValuesBw[$tenant_bw2] += $comparisonValueBw; // Fix here, use tenant_bw2 as key_bw for totalValuesBw
+                    } else {
+                        echo "<td>-</td>";
+                    }
+                }
+            }
+
+            // Show the total row after looping through all tenants_bw
+            echo "<tr><td>Total</td>";
+            $totalTotalBw = 0;
+            foreach ($tenants_bw as $tenant_bw) {
+                $totalTotalBw += $totalValuesBw[$tenant_bw];
+                echo "<td>" . number_format($totalValuesBw[$tenant_bw], 5, '.', '') . "</td>";
+            }
+            echo "</tr>";
+
+            echo "</table>";
+
+            echo "<h3>Normalized Comparison Results</h3>";
+            echo "<table border='1'>";
+            echo "<tr><th>Comparison</th>";
+            foreach ($tenants_bw as $tenant_bw) {
+                echo "<th>$tenant_bw</th>";
+            }
+            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+
+            // Array to store column totals
+            $columnTotalsBw = array_fill_keys($tenants_bw, 0);
+
+            // Counting the number of tenants$tenants_bw
+            $numMallsBw = count($tenants_bw);
+
+            // Initialize an array to store normalized row totals
+            $normalizedRowTotalsBw = [];
+
+            // Loop through each ten$tenant_bw for comparison results
+            foreach ($tenants_bw as $tenant_bw1) {
+                echo "<tr>";
+                echo "<td>$tenant_bw1</td>";
+                $rowTotalBw = 0; // Menyimpan total per baris
+
+                foreach ($tenants_bw as $tenant_bw2) {
+                    $comparisonValueBw = null;
+
+                    foreach ($comparison_results_bw as $result_bw) {
+                        if (($result_bw['kriteria_bw'] == $tenant_bw1 && $result_bw['kriteria_bw2'] == $tenant_bw2)) {
+                            $comparisonValueBw = $result_bw[$alternatif_bw];
+                            break;
+                        } elseif (($result_bw['kriteria_bw'] == $tenant_bw2 && $result_bw['kriteria_bw2'] == $tenant_bw1)) {
+                            $comparisonValueBw = 1 / $result_bw[$alternatif_bw]; // Take the inverse
+                            break;
+                        }
+                    }
+
+                    if ($comparisonValueBw !== null) {
+                        // Calculate the normalized value
+                        $normalizedValueBw = $comparisonValueBw / $totalValuesBw[$tenant_bw2];
+                        echo "<td>" . number_format($normalizedValueBw, 5, '.', '') . "</td>";
+
+                        // Add to column totals
+                        $columnTotalsBw[$tenant_bw2] += $normalizedValueBw;
+
+                        // Add to row total
+                        $rowTotalBw += $normalizedValueBw;
                     } else {
                         echo "<td>-</td>";
                     }
                 }
 
-                echo "<td>" . number_format($totalRowBw, 5, '.', '') . "</td>"; // Display the total for this row
-                echo "</tr>";
+                // Calculate normalized row total
+                $normalizedRowTotalBw = $rowTotalBw / $numMallsBw;
+                $normalizedRowTotalsBw[$tenant_bw1] = $normalizedRowTotalBw; // Store normalized row total
+                echo "<td>" . number_format($normalizedRowTotalBw, 5, '.', '') . "</td>";
             }
 
+            // Show the total row after looping through all tenants$tenants_bw
+            echo "<tr><td>Total</td>";
+            foreach ($tenants_bw as $tenant_bw) {
+                echo "<td>" . number_format($columnTotalsBw[$tenant_bw], 5, '.', '') . "</td>";
+            }
 
+            // Calculate eigen value and display
+            $eigenValueBw = array_sum($columnTotalsBw) / $numMallsBw;
+            echo "<td>" . number_format($eigenValueBw, 5, '.', '') . "</td>";
+
+            echo "</tr>";
             echo "</table>";
 
-            // Display the divided comparison results
-            echo "<h3>Divided Comparison Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Criteria</th>";
-            foreach ($tenants_bw as $tenant_bw) {
-                echo "<th>$tenant_bw</th>";
-            }
-            echo "<th>Total</th>"; // Add Total column header
-            echo "</tr>";
-
-            // Display the divided comparison results
-            foreach ($tenants_bw as $tenant_bw) {
-                echo "<tr>";
-                echo "<td>$tenant_bw</td>";
-
-                // Get the total for this row
-                $rowTotalBw = $totalValuesBw[$tenant_bw];
-
-                // Initialize the sum of divided values for this row
-                $dividedValuesSumBw = 0;
-
-                foreach ($tenants_bw as $tenant_bw2) {
-                    // Get the current value in the table
-                    $currentValueBw = 0;
-
-                    // Search for the corresponding value in the comparison results
-                    foreach ($comparison_results_bw as $result_bw) {
-                        if (($result_bw['kriteria_bw'] == $tenant_bw && $result_bw['kriteria_bw2'] == $tenant_bw2)) {
-                            $currentValueBw = $result_bw[$alternatif_bw];
-                            break;
-                        } elseif (($result_bw['kriteria_bw'] == $tenant_bw2 && $result_bw['kriteria_bw2'] == $tenant_bw)) {
-                            // If inverse comparison found, set the current value as its inverse
-                            $currentValueBw = 1 / $result_bw[$alternatif_bw];
-                            break;
-                        }
-                    }
-
-                    // Calculate the value divided by the row total
-                    $dividedValueBw = 0;
-                    if ($rowTotalBw != 0) {
-                        // Perform division only if row total is non-zero
-                        $dividedValueBw = $currentValueBw / $rowTotalBw;
-                    }
-
-                    // Update the sum of divided values for this row
-                    $dividedValuesSumBw += $dividedValueBw;
-
-                    // Display the divided value
-                    echo "<td>" . number_format($dividedValueBw, 5, '.', '') . "</td>";
-                }
-
-                // Display the sum of divided values for this row
-                echo "<td>" . $dividedValuesSumBw . "</td>";
-                echo "</tr>";
-            }
-
-            // Menghitung jumlah elemen mall
-            $numTenantsBw1 = count($tenants_bw);
-
-            // Array untuk menyimpan total nilai per kolom
-            $totalPerColumnBw = array_fill_keys($tenants_bw, 0);
-
-            // Menghitung total nilai per kolom
-            foreach ($tenants_bw as $tenant_bw) {
-                foreach ($tenants_bw as $tenant_bw2) {
-                    // Menambahkan nilai pada kolom ke total kolom yang sesuai
-                    $rowTotalBw = $totalValuesBw[$tenant_bw];
-                    foreach ($comparison_results_bw as $result_bw) {
-                        if (($result_bw['kriteria_bw'] == $tenant_bw && $result_bw['kriteria_bw2'] == $tenant_bw2)) {
-                            $currentValueBw = $result_bw[$alternatif_bw] / $rowTotalBw; // Dibagi dengan total baris
-                            $totalPerColumnBw[$tenant_bw2] += $currentValueBw;
-                            break;
-                        } elseif (($result_bw['kriteria_bw'] == $tenant_bw2 && $result_bw['kriteria_bw2'] == $tenant_bw)) {
-                            $currentValueBw = 1 / $result_bw[$alternatif_bw] / $rowTotalBw; // Dibagi dengan total baris
-                            $totalPerColumnBw[$tenant_bw2] += $currentValueBw;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // Membagi total nilai per kolom dengan jumlah elemen mall
-            foreach ($totalPerColumnBw as $tenant_bw => $totalBw) {
-                $totalPerColumnBw[$tenant_bw] /= $numTenantsBw1;
-            }
-
-            // Menghitung total dari hasil
-            $totalResultBw = 0;
-            foreach ($totalPerColumnBw as $totalBw) {
-                $totalResultBw += $totalBw;
-            }
-
-            // Menampilkan total nilai per kolom
-            echo "<tr><th>Eigen Vector</th>";
-            foreach ($tenants_bw as $tenant_bw) {
-                // Display the eigenvector value
-                echo "<td>" . number_format($totalPerColumnBw[$tenant_bw], 5, '.', '') . "</td>";;
-            }
-            echo "<td>$totalResultBw</td>"; // Menampilkan total dari hasil
-            echo "</tr>";
-
-            echo "</table>";
-
-            $_SESSION['eigenvector_beachwalk'] = $totalPerColumnBw;
+            // Display normalized row totals
+            // echo "<h3>Normalized Row Totals</h3>";
+            // echo "<ul>";
+            // foreach ($normalizedRowTotalsBw as $tenant_bw => $rowTotalBw) {
+            //     echo "<li><strong>$tenant_bw:</strong> " . number_format($rowTotalBw, 5, '.', '') . "</li>";
+            // }
+            // echo "</ul>";
 
 
-            // Hitung Lambda Max
+            // Simpan nilai normalized row totals dalam sesi
+            $_SESSION['normalized_row_totals_bw'] = $normalizedRowTotalsBw;
+
+            // Calculate Lambda Max
             $lambdaMaxBw = 0;
-
-            // Pengulangan untuk setiap alternatif
             foreach ($tenants_bw as $tenant_bw) {
-                // Inisialisasi nilai hasil total untuk alternatif ini
-                $totalValueForTenantBw = $totalValuesBw[$tenant_bw];
-
-                // Ambil nilai eigenvector untuk alternatif ini
-                $eigenvectorForTenantBw = $totalPerColumnBw[$tenant_bw];
-
-                // Perkalian nilai total dengan nilai eigenvector dan tambahkan ke Lambda Max
-                $lambdaMaxBw += $totalValueForTenantBw * $eigenvectorForTenantBw;
+                $lambdaMaxBw += $totalValuesBw[$tenant_bw2] * $normalizedRowTotalBw;
             }
 
-            echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxBw, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxBw, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall
-            $randomConsistencyIndexBw = 0;
-            switch ($numTenantsBw1) {
+            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+            $randomConsistencyIndexBw  = 0;
+            switch ($numMallsBw) {
                 case 1:
-                    $randomConsistencyIndexBw = 0;
+                    $randomConsistencyIndexBw  = 0;
                     break;
                 case 2:
-                    $randomConsistencyIndexBw = 0;
+                    $randomConsistencyIndexBw  = 0;
                     break;
                 case 3:
-                    $randomConsistencyIndexBw = 0.58;
+                    $randomConsistencyIndexBw  = 0.58;
                     break;
                 case 4:
-                    $randomConsistencyIndexBw = 0.90;
+                    $randomConsistencyIndexBw  = 0.90;
                     break;
                 case 5:
-                    $randomConsistencyIndexBw = 1.12;
+                    $randomConsistencyIndexBw  = 1.12;
                     break;
                 case 6:
-                    $randomConsistencyIndexBw = 1.24;
+                    $randomConsistencyIndexBw  = 1.24;
                     break;
                 case 7:
-                    $randomConsistencyIndexBw = 1.32;
+                    $randomConsistencyIndexBw  = 1.32;
                     break;
                 case 8:
-                    $randomConsistencyIndexBw = 1.41;
+                    $randomConsistencyIndexBw  = 1.41;
                     break;
                 case 9:
-                    $randomConsistencyIndexBw = 1.45;
+                    $randomConsistencyIndexBw  = 1.45;
                     break;
                 case 10:
-                    $randomConsistencyIndexBw = 1.49;
+                    $randomConsistencyIndexBw  = 1.49;
+                    break;
+                case 11:
+                    $randomConsistencyIndexBw  = 1.51;
+                    break;
+                case 12:
+                    $randomConsistencyIndexBw  = 1.48;
+                    break;
+                case 13:
+                    $randomConsistencyIndexBw  = 1.56;
+                    break;
+                case 14:
+                    $randomConsistencyIndexBw  = 1.57;
+                    break;
+                case 15:
+                    $randomConsistencyIndexBw  = 1.59;
                     break;
                 default:
                     // Handle for more than 10 elements if needed
                     break;
             }
 
-            // Hitung Consistency Index (CI)
-            $consistencyIndexBw = ($lambdaMaxBw - $numTenantsBw1) / ($numTenantsBw1 - 1);
+            // Calculate Consistency Index (CI)
+            $CIBw = ($lambdaMaxBw - $numMallsBw) / ($numMallsBw - 1);
 
-            // Hitung nilai konsistensi ratio (CR)
-            $consistencyRatioBw = $consistencyIndexBw / $randomConsistencyIndexBw;
+
+            // Calculate Consistency Ratio (CR)
+            $CRBw = $CIBw / $randomConsistencyIndexBw; // You need to define RI according to your matrix size
 
             // Tampilkan hasil konsistensi
-            echo "<p>Nilai Consistency Index (CI): " . number_format($consistencyIndexBw, 5, '.', '') . "</p>";
-            echo "<p>Nilai Random Consistency Index (RI) untuk $numTenantsBw1 elemen: " . $randomConsistencyIndexBw . "</p>";
-            echo "<p>Nilai Consistency Ratio (CR): " . number_format($consistencyRatioBw, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Consistency Index (CI): " . number_format($CIBw, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsBw elemen: " . $randomConsistencyIndexBw . "</p>";
+            // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRBw, 5, '.', '') . "</p>";
 
-            // Tambahkan kondisi untuk menentukan konsistensi
-            if ($consistencyRatioBw < 0.1) {
-                echo "<p>Nilai Konsisten</p>";
+            // Check if consistency is acceptable
+            if ($CRBw < 0.1) {
+                echo "<p>Consistency Ratio (CR) is acceptable </p>";
             } else {
-                echo "<p>Nilai Tidak Konsisten.</p>";
+                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
             }
         }
         ?>
-
-    </div>
-    </section>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

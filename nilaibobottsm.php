@@ -6,6 +6,7 @@ if (!isset($_SESSION['comparison_results_tsm'])) {
     $_SESSION['comparison_results_tsm'] = [];
 }
 
+$mallsToShow = $_SESSION['selected_malls'] ?? [];
 ?>
 
 <!DOCTYPE html>
@@ -29,13 +30,18 @@ if (!isset($_SESSION['comparison_results_tsm'])) {
                 <img src="img\logo.png" alt="Logo">
             </div>
 
-            <div class="navb-items d-none d-xl-flex">
-                <div class="item">
+            <div class="navb-items d-none d-xl-flex gap-3">
+
+                <div class="navb-items d-none d-xl-flex">
                     <a href="index.php">Beranda</a>
                 </div>
 
-                <div class="item">
+                <div class="navb-items d-none d-xl-flex">
                     <a href="search.php">Pencarian</a>
+                </div>
+
+                <div class="navb-items d-none d-xl-flex">
+                    <a href="pilihmall.php">Pilih Mall</a>
                 </div>
 
                 <div class="item dropdown">
@@ -103,14 +109,14 @@ if (!isset($_SESSION['comparison_results_tsm'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-4 mt-4">Nilai Bobot Kriteria</h2>
+                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Kriteria Terhadap Alternatif Trans Studio Mall Bali</h2>
             </div>
         </div>
 
         <form method="post">
             <div class="row mb-3">
                 <div class="col">
-                    <label for="alternatif">Alternative:</label>
+                    <label for="alternatif">Alternatif:</label>
                     <input type="text" name="alternatif_tsm" class="form-control" value="A08 - Trans Studio Mall Bali" readonly>
                 </div>
             </div>
@@ -119,14 +125,16 @@ if (!isset($_SESSION['comparison_results_tsm'])) {
                     <select name="kriteria_tsm" class="form-select">
                         <?php
                         $tenants_tsm = [
-                            "Location",
-                            "Price",
-                            "Competitor",
+                            "Lokasi",
+                            "Harga",
+                            "Pesaing",
                         ];
 
                         foreach ($tenants_tsm as $tenant_tsm) {
-                            echo "<option value=\"$tenant_tsm\">$tenant_tsm</option>";
+                            $selected = in_array($tenant_tsm, $mallsToShow) ? 'selected' : ''; // Menandai mal yang sudah dipilih sebelumnya
+                            echo "<option value=\"$tenant_tsm\" $selected>$tenant_tsm</option>";
                         }
+
                         ?>
                     </select>
                 </div>
@@ -164,52 +172,62 @@ if (!isset($_SESSION['comparison_results_tsm'])) {
 
         <?php
         if (isset($_POST['submit'])) {
-            // Get input values
-            $alternatif_tsm = $_POST['alternatif_tsm'];
-            $kriteria_tsm = $_POST['kriteria_tsm'];
-            $comparison_value_tsm = $_POST['comparison_tsm'];
-            $kriteria_tsm2 = $_POST['kriteria_tsm2'];
+            // Check if alternatif_tsm is set
+            if (isset($_POST['alternatif_tsm'])) {
+                // Get input values
+                $alternatif_tsm = $_POST['alternatif_tsm'];
+                $kriteria_tsm = $_POST['kriteria_tsm'];
+                $comparison_value_tsm = $_POST['comparison_tsm'];
+                $kriteria_tsm2 = $_POST['kriteria_tsm2'];
 
-            // Retrieve comparison results from session
-            $comparison_results_tsm = $_SESSION['comparison_results_tsm'];
+                // Retrieve comparison_tsm results from session
+                $comparison_results_tsm = $_SESSION['comparison_results_tsm'];
 
-            // Check if the comparison result for this combination of alternative1 and alternative2 already exists
-            $exists = false;
-            foreach ($comparison_results_tsm as $key_tsm => $result_tsm) {
-                if ($result_tsm['kriteria_tsm'] == $kriteria_tsm && $result_tsm['kriteria_tsm2'] == $kriteria_tsm2) {
-                    $exists = true;
-                    // Update the comparison value
-                    $comparison_results_tsm[$key_tsm][$alternatif_tsm] = $comparison_value_tsm;
-                    break;
+                // Check if the comparison_tsm result_tsm for this combination of kriteria_tsm and kriteria_tsm2 already exists
+                // Jika kriteria_tsm dan kriteria_tsm2 sama, set nilai perbandingannya menjadi 1
+                if ($kriteria_tsm === $kriteria_tsm2) {
+                    $comparison_value_tsm = 1;
                 }
+
+                // Check if the comparison_tsm result_tsm for this combination of kriteria_tsm and kriteria_tsm2 already exists
+                $exists = false;
+                foreach ($comparison_results_tsm as $key_tsm => $result_tsm) {
+                    if ($result_tsm['kriteria_tsm'] == $kriteria_tsm && $result_tsm['kriteria_tsm2'] == $kriteria_tsm2) {
+                        $exists = true;
+                        // Update the comparison_tsm value
+                        $comparison_results_tsm[$key_tsm][$alternatif_tsm] = $comparison_value_tsm;
+                        break; // Break the loop after updating the comparison_tsm value
+                    }
+                }
+
+                // If the comparison_tsm result_tsm doesn't exist, add it to the comparison_tsm results array
+                if (!$exists) {
+                    $comparison_results_tsm[] = array(
+                        'kriteria_tsm' => $kriteria_tsm,
+                        'kriteria_tsm2' => $kriteria_tsm2,
+                        $alternatif_tsm => $comparison_value_tsm
+                    );
+                }
+
+
+                // Update the comparison_tsm results in the session
+                $_SESSION['comparison_results_tsm'] = $comparison_results_tsm;
+            } else {
+                // Action if alternatif_tsm is not defined
+                echo "Alternatif tidak terdefinisi.";
             }
 
-            // If the comparison result doesn't exist, add it to the comparison results array
-            if (!$exists) {
-                $comparison_results_tsm[] = array(
-                    'kriteria_tsm' => $kriteria_tsm,
-                    'kriteria_tsm2' => $kriteria_tsm2,
-                    $alternatif_tsm => $comparison_value_tsm
-                );
-            }
-
-
-            // Update the comparison results in the session
-            $_SESSION['comparison_results_tsm'] = $comparison_results_tsm;
-
-
-            echo "<h3>Comparison Results</h3>";
+            echo "<h3>Comparison_tsm Results</h3>";
             echo "<table border='1'>";
-            echo "<tr><th>Comparison</th>";
+            echo "<tr><th>Comparison_tsm</th>";
             foreach ($tenants_tsm as $tenant_tsm) {
                 echo "<th>$tenant_tsm</th>";
             }
-            echo "<th>Total</th></tr>";
 
-            // Initialize an array to store the total values for each mall
+            // Initialize an array to store the total values for each tenant
             $totalValuesTsm = array_fill_keys($tenants_tsm, 0);
 
-            // Loop through each mall for comparison results
+            // Loop through each tenant for comparison_tsm results
             foreach ($tenants_tsm as $tenant_tsm1) {
                 echo "<tr>";
                 echo "<td>$tenant_tsm1</td>";
@@ -217,7 +235,7 @@ if (!isset($_SESSION['comparison_results_tsm'])) {
 
                 foreach ($tenants_tsm as $tenant_tsm2) {
                     $comparisonValueTsm = null;
-                    $isInverseTsm = false; // Flag to check if the comparison is inverse
+                    $isInverseTsm = false; // Flag to check if the comparison_tsm is inverse
 
                     foreach ($comparison_results_tsm as $result_tsm) {
                         if (($result_tsm['kriteria_tsm'] == $tenant_tsm1 && $result_tsm['kriteria_tsm2'] == $tenant_tsm2)) {
@@ -232,208 +250,192 @@ if (!isset($_SESSION['comparison_results_tsm'])) {
 
                     if ($comparisonValueTsm !== null) {
                         if ($isInverseTsm) {
-                            echo "<td>" . number_format($comparisonValueTsm, 5, '.', '') . "</td>"; // Display inverse comparison value
+                            echo "<td>" . number_format($comparisonValueTsm, 5, '.', '') . "</td>"; // Display inverse comparison_tsm value
                         } else {
-                            echo "<td>" . number_format($comparisonValueTsm, 5, '.', '') . "</td>"; // Display comparison value
+                            echo "<td>" . number_format($comparisonValueTsm, 5, '.', '') . "</td>"; // Display comparison_tsm value
                         }
-                        $totalRowTsm += $comparisonValueTsm;
-                        $totalValuesTsm[$tenant_tsm1] += $comparisonValueTsm;
+                        $totalValuesTsm[$tenant_tsm2] += $comparisonValueTsm; // Fix here, use tenant_tsm2 as key_tsm for totalValuesTsm
+                    } else {
+                        echo "<td>-</td>";
+                    }
+                }
+            }
+
+            // Show the total row after looping through all tenants_tsm
+            echo "<tr><td>Total</td>";
+            $totalTotalTsm = 0;
+            foreach ($tenants_tsm as $tenant_tsm) {
+                $totalTotalTsm += $totalValuesTsm[$tenant_tsm];
+                echo "<td>" . number_format($totalValuesTsm[$tenant_tsm], 5, '.', '') . "</td>";
+            }
+            echo "</tr>";
+
+            echo "</table>";
+
+            echo "<h3>Normalized Comparison Results</h3>";
+            echo "<table border='1'>";
+            echo "<tr><th>Comparison</th>";
+            foreach ($tenants_tsm as $tenant_tsm) {
+                echo "<th>$tenant_tsm</th>";
+            }
+            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+
+            // Array to store column totals
+            $columnTotalsTsm = array_fill_keys($tenants_tsm, 0);
+
+            // Counting the number of tenants$tenants_tsm
+            $numMallsTsm = count($tenants_tsm);
+
+            // Initialize an array to store normalized row totals
+            $normalizedRowTotalsTsm = [];
+
+            // Loop through each ten$tenant_tsm for comparison results
+            foreach ($tenants_tsm as $tenant_tsm1) {
+                echo "<tr>";
+                echo "<td>$tenant_tsm1</td>";
+                $rowTotalTsm = 0; // Menyimpan total per baris
+
+                foreach ($tenants_tsm as $tenant_tsm2) {
+                    $comparisonValueTsm = null;
+
+                    foreach ($comparison_results_tsm as $result_tsm) {
+                        if (($result_tsm['kriteria_tsm'] == $tenant_tsm1 && $result_tsm['kriteria_tsm2'] == $tenant_tsm2)) {
+                            $comparisonValueTsm = $result_tsm[$alternatif_tsm];
+                            break;
+                        } elseif (($result_tsm['kriteria_tsm'] == $tenant_tsm2 && $result_tsm['kriteria_tsm2'] == $tenant_tsm1)) {
+                            $comparisonValueTsm = 1 / $result_tsm[$alternatif_tsm]; // Take the inverse
+                            break;
+                        }
+                    }
+
+                    if ($comparisonValueTsm !== null) {
+                        // Calculate the normalized value
+                        $normalizedValueTsm = $comparisonValueTsm / $totalValuesTsm[$tenant_tsm2];
+                        echo "<td>" . number_format($normalizedValueTsm, 5, '.', '') . "</td>";
+
+                        // Add to column totals
+                        $columnTotalsTsm[$tenant_tsm2] += $normalizedValueTsm;
+
+                        // Add to row total
+                        $rowTotalTsm += $normalizedValueTsm;
                     } else {
                         echo "<td>-</td>";
                     }
                 }
 
-                echo "<td>" . number_format($totalRowTsm, 5, '.', '') . "</td>"; // Display the total for this row
-                echo "</tr>";
+                // Calculate normalized row total
+                $normalizedRowTotalTsm = $rowTotalTsm / $numMallsTsm;
+                $normalizedRowTotalsTsm[$tenant_tsm1] = $normalizedRowTotalTsm; // Store normalized row total
+                echo "<td>" . number_format($normalizedRowTotalTsm, 5, '.', '') . "</td>";
             }
 
+            // Show the total row after looping through all tenants$tenants_tsm
+            echo "<tr><td>Total</td>";
+            foreach ($tenants_tsm as $tenant_tsm) {
+                echo "<td>" . number_format($columnTotalsTsm[$tenant_tsm], 5, '.', '') . "</td>";
+            }
 
+            // Calculate eigen value and display
+            $eigenValueTsm = array_sum($columnTotalsTsm) / $numMallsTsm;
+            echo "<td>" . number_format($eigenValueTsm, 5, '.', '') . "</td>";
+
+            echo "</tr>";
             echo "</table>";
 
-            // Display the divided comparison results
-            echo "<h3>Divided Comparison Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Criteria</th>";
-            foreach ($tenants_tsm as $tenant_tsm) {
-                echo "<th>$tenant_tsm</th>";
-            }
-            echo "<th>Total</th>"; // Add Total column header
-            echo "</tr>";
+            // Display normalized row totals
+            // echo "<h3>Normalized Row Totals</h3>";
+            // echo "<ul>";
+            // foreach ($normalizedRowTotalsTsm as $tenant_tsm => $rowTotalTsm) {
+            //     echo "<li><strong>$tenant_tsm:</strong> " . number_format($rowTotalTsm, 5, '.', '') . "</li>";
+            // }
+            // echo "</ul>";
 
-            // Display the divided comparison results
-            foreach ($tenants_tsm as $tenant_tsm) {
-                echo "<tr>";
-                echo "<td>$tenant_tsm</td>";
 
-                // Get the total for this row
-                $rowTotalTsm = $totalValuesTsm[$tenant_tsm];
+            // Simpan nilai normalized row totals dalam sesi
+            $_SESSION['normalized_row_totals_tsm'] = $normalizedRowTotalsTsm;
 
-                // Initialize the sum of divided values for this row
-                $dividedValuesSumTsm = 0;
-
-                foreach ($tenants_tsm as $tenant_tsm2) {
-                    // Get the current value in the table
-                    $currentValueTsm = 0;
-
-                    // Search for the corresponding value in the comparison results
-                    foreach ($comparison_results_tsm as $result_tsm) {
-                        if (($result_tsm['kriteria_tsm'] == $tenant_tsm && $result_tsm['kriteria_tsm2'] == $tenant_tsm2)) {
-                            $currentValueTsm = $result_tsm[$alternatif_tsm];
-                            break;
-                        } elseif (($result_tsm['kriteria_tsm'] == $tenant_tsm2 && $result_tsm['kriteria_tsm2'] == $tenant_tsm)) {
-                            // If inverse comparison found, set the current value as its inverse
-                            $currentValueTsm = 1 / $result_tsm[$alternatif_tsm];
-                            break;
-                        }
-                    }
-
-                    // Calculate the value divided by the row total
-                    $dividedValueTsm = 0;
-                    if ($rowTotalTsm != 0) {
-                        // Perform division only if row total is non-zero
-                        $dividedValueTsm = $currentValueTsm / $rowTotalTsm;
-                    }
-
-                    // Update the sum of divided values for this row
-                    $dividedValuesSumTsm += $dividedValueTsm;
-
-                    // Display the divided value
-                    echo "<td>" . number_format($dividedValueTsm, 5, '.', '') . "</td>";
-                }
-
-                // Display the sum of divided values for this row
-                echo "<td>" . $dividedValuesSumTsm . "</td>";
-                echo "</tr>";
-            }
-
-            // Menghitung jumlah elemen mall
-            $numTenantsTsm1 = count($tenants_tsm);
-
-            // Array untuk menyimpan total nilai per kolom
-            $totalPerColumnTsm = array_fill_keys($tenants_tsm, 0);
-
-            // Menghitung total nilai per kolom
-            foreach ($tenants_tsm as $tenant_tsm) {
-                foreach ($tenants_tsm as $tenant_tsm2) {
-                    // Menambahkan nilai pada kolom ke total kolom yang sesuai
-                    $rowTotalTsm = $totalValuesTsm[$tenant_tsm];
-                    foreach ($comparison_results_tsm as $result_tsm) {
-                        if (($result_tsm['kriteria_tsm'] == $tenant_tsm && $result_tsm['kriteria_tsm2'] == $tenant_tsm2)) {
-                            $currentValueTsm = $result_tsm[$alternatif_tsm] / $rowTotalTsm; // Dibagi dengan total baris
-                            $totalPerColumnTsm[$tenant_tsm2] += $currentValueTsm;
-                            break;
-                        } elseif (($result_tsm['kriteria_tsm'] == $tenant_tsm2 && $result_tsm['kriteria_tsm2'] == $tenant_tsm)) {
-                            $currentValueTsm = 1 / $result_tsm[$alternatif_tsm] / $rowTotalTsm; // Dibagi dengan total baris
-                            $totalPerColumnTsm[$tenant_tsm2] += $currentValueTsm;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // Membagi total nilai per kolom dengan jumlah elemen mall
-            foreach ($totalPerColumnTsm as $tenant_tsm => $totalTsm) {
-                $totalPerColumnTsm[$tenant_tsm] /= $numTenantsTsm1;
-            }
-
-            // Menghitung total dari hasil
-            $totalResultTsm = 0;
-            foreach ($totalPerColumnTsm as $totalTsm) {
-                $totalResultTsm += $totalTsm;
-            }
-
-            // Menampilkan total nilai per kolom
-            echo "<tr><th>Eigen Vector</th>";
-            foreach ($tenants_tsm as $tenant_tsm) {
-                // Display the eigenvector value
-                echo "<td>" . number_format($totalPerColumnTsm[$tenant_tsm], 5, '.', '') . "</td>";;
-            }
-            echo "<td>$totalResultTsm</td>"; // Menampilkan total dari hasil
-            echo "</tr>";
-
-            echo "</table>";
-
-            $_SESSION['eigenvector_tsm'] = $totalPerColumnTsm;
-
-            // Hitung Lambda Max
+            // Calculate Lambda Max
             $lambdaMaxTsm = 0;
-
-            // Pengulangan untuk setiap alternatif
             foreach ($tenants_tsm as $tenant_tsm) {
-                // Inisialisasi nilai hasil total untuk alternatif ini
-                $totalValueForTenantTsm = $totalValuesTsm[$tenant_tsm];
-
-                // Ambil nilai eigenvector untuk alternatif ini
-                $eigenvectorForTenantTsm = $totalPerColumnTsm[$tenant_tsm];
-
-                // Perkalian nilai total dengan nilai eigenvector dan tambahkan ke Lambda Max
-                $lambdaMaxTsm += $totalValueForTenantTsm * $eigenvectorForTenantTsm;
+                $lambdaMaxTsm += $totalValuesTsm[$tenant_tsm2] * $normalizedRowTotalTsm;
             }
 
             echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxTsm, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall
-            $randomConsistencyIndexTsm = 0;
-            switch ($numTenantsTsm1) {
+            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+            $randomConsistencyIndexTsm  = 0;
+            switch ($numMallsTsm) {
                 case 1:
-                    $randomConsistencyIndexTsm = 0;
+                    $randomConsistencyIndexTsm  = 0;
                     break;
                 case 2:
-                    $randomConsistencyIndexTsm = 0;
+                    $randomConsistencyIndexTsm  = 0;
                     break;
                 case 3:
-                    $randomConsistencyIndexTsm = 0.58;
+                    $randomConsistencyIndexTsm  = 0.58;
                     break;
                 case 4:
-                    $randomConsistencyIndexTsm = 0.90;
+                    $randomConsistencyIndexTsm  = 0.90;
                     break;
                 case 5:
-                    $randomConsistencyIndexTsm = 1.12;
+                    $randomConsistencyIndexTsm  = 1.12;
                     break;
                 case 6:
-                    $randomConsistencyIndexTsm = 1.24;
+                    $randomConsistencyIndexTsm  = 1.24;
                     break;
                 case 7:
-                    $randomConsistencyIndexTsm = 1.32;
+                    $randomConsistencyIndexTsm  = 1.32;
                     break;
                 case 8:
-                    $randomConsistencyIndexTsm = 1.41;
+                    $randomConsistencyIndexTsm  = 1.41;
                     break;
                 case 9:
-                    $randomConsistencyIndexTsm = 1.45;
+                    $randomConsistencyIndexTsm  = 1.45;
                     break;
                 case 10:
-                    $randomConsistencyIndexTsm = 1.49;
+                    $randomConsistencyIndexTsm  = 1.49;
+                    break;
+                case 11:
+                    $randomConsistencyIndexTsm  = 1.51;
+                    break;
+                case 12:
+                    $randomConsistencyIndexTsm  = 1.48;
+                    break;
+                case 13:
+                    $randomConsistencyIndexTsm  = 1.56;
+                    break;
+                case 14:
+                    $randomConsistencyIndexTsm  = 1.57;
+                    break;
+                case 15:
+                    $randomConsistencyIndexTsm  = 1.59;
                     break;
                 default:
                     // Handle for more than 10 elements if needed
                     break;
             }
 
-            // Hitung Consistency Index (CI)
-            $consistencyIndexTsm = ($lambdaMaxTsm - $numTenantsTsm1) / ($numTenantsTsm1 - 1);
+            // Calculate Consistency Index (CI)
+            $CITsm = ($lambdaMaxTsm - $numMallsTsm) / ($numMallsTsm - 1);
 
-            // Hitung nilai konsistensi ratio (CR)
-            $consistencyRatioTsm = $consistencyIndexTsm / $randomConsistencyIndexTsm;
+
+            // Calculate Consistency Ratio (CR)
+            $CRTsm = $CITsm / $randomConsistencyIndexTsm; // You need to define RI according to your matrix size
 
             // Tampilkan hasil konsistensi
-            echo "<p>Nilai Consistency Index (CI): " . number_format($consistencyIndexTsm, 5, '.', '') . "</p>";
-            echo "<p>Nilai Random Consistency Index (RI) untuk $numTenantsTsm1 elemen: " . $randomConsistencyIndexTsm . "</p>";
-            echo "<p>Nilai Consistency Ratio (CR): " . number_format($consistencyRatioTsm, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Consistency Index (CI): " . number_format($CITsm, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsTsm elemen: " . $randomConsistencyIndexTsm . "</p>";
+            // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRTsm, 5, '.', '') . "</p>";
 
-            // Tambahkan kondisi untuk menentukan konsistensi
-            if ($consistencyRatioTsm < 0.1) {
-                echo "<p>Nilai Konsisten</p>";
+            // Check if consistency is acceptable
+            if ($CRTsm < 0.1) {
+                echo "<p>Consistency Ratio (CR) is acceptable </p>";
             } else {
-                echo "<p>Nilai Tidak Konsisten.</p>";
+                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
             }
         }
         ?>
-
-    </div>
-    </section>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

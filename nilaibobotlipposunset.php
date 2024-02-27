@@ -6,6 +6,7 @@ if (!isset($_SESSION['comparison_results_lipposunset'])) {
     $_SESSION['comparison_results_lipposunset'] = [];
 }
 
+$mallsToShow = $_SESSION['selected_malls'] ?? [];
 ?>
 
 <!DOCTYPE html>
@@ -29,13 +30,18 @@ if (!isset($_SESSION['comparison_results_lipposunset'])) {
                 <img src="img\logo.png" alt="Logo">
             </div>
 
-            <div class="navb-items d-none d-xl-flex">
-                <div class="item">
+            <div class="navb-items d-none d-xl-flex gap-3">
+
+                <div class="navb-items d-none d-xl-flex">
                     <a href="index.php">Beranda</a>
                 </div>
 
-                <div class="item">
+                <div class="navb-items d-none d-xl-flex">
                     <a href="search.php">Pencarian</a>
+                </div>
+
+                <div class="navb-items d-none d-xl-flex">
+                    <a href="pilihmall.php">Pilih Mall</a>
                 </div>
 
                 <div class="item dropdown">
@@ -103,14 +109,14 @@ if (!isset($_SESSION['comparison_results_lipposunset'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-4 mt-4">Nilai Bobot Kriteria</h2>
+                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Kriteria Terhadap Alternatif Lippo Plaza Sunset</h2>
             </div>
         </div>
 
         <form method="post">
             <div class="row mb-3">
                 <div class="col">
-                    <label for="alternatif">Alternative:</label>
+                    <label for="alternatif">Alternatif:</label>
                     <input type="text" name="alternatif_lipposunset" class="form-control" value="A07 - Lippo Plaza Sunset" readonly>
                 </div>
             </div>
@@ -119,14 +125,16 @@ if (!isset($_SESSION['comparison_results_lipposunset'])) {
                     <select name="kriteria_lipposunset" class="form-select">
                         <?php
                         $tenants_lipposunset = [
-                            "Location",
-                            "Price",
-                            "Competitor",
+                            "Lokasi",
+                            "Harga",
+                            "Pesaing",
                         ];
 
                         foreach ($tenants_lipposunset as $tenant_lipposunset) {
-                            echo "<option value=\"$tenant_lipposunset\">$tenant_lipposunset</option>";
+                            $selected = in_array($tenant_lipposunset, $mallsToShow) ? 'selected' : ''; // Menandai mal yang sudah dipilih sebelumnya
+                            echo "<option value=\"$tenant_lipposunset\" $selected>$tenant_lipposunset</option>";
                         }
+
                         ?>
                     </select>
                 </div>
@@ -164,52 +172,62 @@ if (!isset($_SESSION['comparison_results_lipposunset'])) {
 
         <?php
         if (isset($_POST['submit'])) {
-            // Get input values
-            $alternatif_lipposunset = $_POST['alternatif_lipposunset'];
-            $kriteria_lipposunset = $_POST['kriteria_lipposunset'];
-            $comparison_value_lipposunset = $_POST['comparison_lipposunset'];
-            $kriteria_lipposunset2 = $_POST['kriteria_lipposunset2'];
+            // Check if alternatif_lipposunset is set
+            if (isset($_POST['alternatif_lipposunset'])) {
+                // Get input values
+                $alternatif_lipposunset = $_POST['alternatif_lipposunset'];
+                $kriteria_lipposunset = $_POST['kriteria_lipposunset'];
+                $comparison_value_lipposunset = $_POST['comparison_lipposunset'];
+                $kriteria_lipposunset2 = $_POST['kriteria_lipposunset2'];
 
-            // Retrieve comparison results from session
-            $comparison_results_lipposunset = $_SESSION['comparison_results_lipposunset'];
+                // Retrieve comparison_lipposunset results from session
+                $comparison_results_lipposunset = $_SESSION['comparison_results_lipposunset'];
 
-            // Check if the comparison result for this combination of alternative1 and alternative2 already exists
-            $exists = false;
-            foreach ($comparison_results_lipposunset as $key_lipposunset => $result_lipposunset) {
-                if ($result_lipposunset['kriteria_lipposunset'] == $kriteria_lipposunset && $result_lipposunset['kriteria_lipposunset2'] == $kriteria_lipposunset2) {
-                    $exists = true;
-                    // Update the comparison value
-                    $comparison_results_lipposunset[$key_lipposunset][$alternatif_lipposunset] = $comparison_value_lipposunset;
-                    break;
+                // Check if the comparison_lipposunset result_lipposunset for this combination of kriteria_lipposunset and kriteria_lipposunset2 already exists
+                // Jika kriteria_lipposunset dan kriteria_lipposunset2 sama, set nilai perbandingannya menjadi 1
+                if ($kriteria_lipposunset === $kriteria_lipposunset2) {
+                    $comparison_value_lipposunset = 1;
                 }
+
+                // Check if the comparison_lipposunset result_lipposunset for this combination of kriteria_lipposunset and kriteria_lipposunset2 already exists
+                $exists = false;
+                foreach ($comparison_results_lipposunset as $key_lipposunset => $result_lipposunset) {
+                    if ($result_lipposunset['kriteria_lipposunset'] == $kriteria_lipposunset && $result_lipposunset['kriteria_lipposunset2'] == $kriteria_lipposunset2) {
+                        $exists = true;
+                        // Update the comparison_lipposunset value
+                        $comparison_results_lipposunset[$key_lipposunset][$alternatif_lipposunset] = $comparison_value_lipposunset;
+                        break; // Break the loop after updating the comparison_lipposunset value
+                    }
+                }
+
+                // If the comparison_lipposunset result_lipposunset doesn't exist, add it to the comparison_lipposunset results array
+                if (!$exists) {
+                    $comparison_results_lipposunset[] = array(
+                        'kriteria_lipposunset' => $kriteria_lipposunset,
+                        'kriteria_lipposunset2' => $kriteria_lipposunset2,
+                        $alternatif_lipposunset => $comparison_value_lipposunset
+                    );
+                }
+
+
+                // Update the comparison_lipposunset results in the session
+                $_SESSION['comparison_results_lipposunset'] = $comparison_results_lipposunset;
+            } else {
+                // Action if alternatif_lipposunset is not defined
+                echo "Alternatif tidak terdefinisi.";
             }
 
-            // If the comparison result doesn't exist, add it to the comparison results array
-            if (!$exists) {
-                $comparison_results_lipposunset[] = array(
-                    'kriteria_lipposunset' => $kriteria_lipposunset,
-                    'kriteria_lipposunset2' => $kriteria_lipposunset2,
-                    $alternatif_lipposunset => $comparison_value_lipposunset
-                );
-            }
-
-
-            // Update the comparison results in the session
-            $_SESSION['comparison_results_lipposunset'] = $comparison_results_lipposunset;
-
-
-            echo "<h3>Comparison Results</h3>";
+            echo "<h3>Comparison_lipposunset Results</h3>";
             echo "<table border='1'>";
-            echo "<tr><th>Comparison</th>";
+            echo "<tr><th>Comparison_lipposunset</th>";
             foreach ($tenants_lipposunset as $tenant_lipposunset) {
                 echo "<th>$tenant_lipposunset</th>";
             }
-            echo "<th>Total</th></tr>";
 
-            // Initialize an array to store the total values for each mall
+            // Initialize an array to store the total values for each tenant
             $totalValuesLippoSunset = array_fill_keys($tenants_lipposunset, 0);
 
-            // Loop through each mall for comparison results
+            // Loop through each tenant for comparison_lipposunset results
             foreach ($tenants_lipposunset as $tenant_lipposunset1) {
                 echo "<tr>";
                 echo "<td>$tenant_lipposunset1</td>";
@@ -217,7 +235,7 @@ if (!isset($_SESSION['comparison_results_lipposunset'])) {
 
                 foreach ($tenants_lipposunset as $tenant_lipposunset2) {
                     $comparisonValueLippoSunset = null;
-                    $isInverseLippoSunset = false; // Flag to check if the comparison is inverse
+                    $isInverseLippoSunset = false; // Flag to check if the comparison_lipposunset is inverse
 
                     foreach ($comparison_results_lipposunset as $result_lipposunset) {
                         if (($result_lipposunset['kriteria_lipposunset'] == $tenant_lipposunset1 && $result_lipposunset['kriteria_lipposunset2'] == $tenant_lipposunset2)) {
@@ -232,208 +250,192 @@ if (!isset($_SESSION['comparison_results_lipposunset'])) {
 
                     if ($comparisonValueLippoSunset !== null) {
                         if ($isInverseLippoSunset) {
-                            echo "<td>" . number_format($comparisonValueLippoSunset, 5, '.', '') . "</td>"; // Display inverse comparison value
+                            echo "<td>" . number_format($comparisonValueLippoSunset, 5, '.', '') . "</td>"; // Display inverse comparison_lipposunset value
                         } else {
-                            echo "<td>" . number_format($comparisonValueLippoSunset, 5, '.', '') . "</td>"; // Display comparison value
+                            echo "<td>" . number_format($comparisonValueLippoSunset, 5, '.', '') . "</td>"; // Display comparison_lipposunset value
                         }
-                        $totalRowLippoSunset += $comparisonValueLippoSunset;
-                        $totalValuesLippoSunset[$tenant_lipposunset1] += $comparisonValueLippoSunset;
+                        $totalValuesLippoSunset[$tenant_lipposunset2] += $comparisonValueLippoSunset; // Fix here, use tenant_lipposunset2 as key_mlippokutafor totalValuesLippoSunset
+                    } else {
+                        echo "<td>-</td>";
+                    }
+                }
+            }
+
+            // Show the total row after looping through all tenants_lipposunset
+            echo "<tr><td>Total</td>";
+            $totalTotalLippoSunset = 0;
+            foreach ($tenants_lipposunset as $tenant_lipposunset) {
+                $totalTotalLippoSunset += $totalValuesLippoSunset[$tenant_lipposunset];
+                echo "<td>" . number_format($totalValuesLippoSunset[$tenant_lipposunset], 5, '.', '') . "</td>";
+            }
+            echo "</tr>";
+
+            echo "</table>";
+
+            echo "<h3>Normalized Comparison Results</h3>";
+            echo "<table border='1'>";
+            echo "<tr><th>Comparison</th>";
+            foreach ($tenants_lipposunset as $tenant_lipposunset) {
+                echo "<th>$tenant_lipposunset</th>";
+            }
+            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+
+            // Array to store column totals
+            $columnTotalsLippoSunset = array_fill_keys($tenants_lipposunset, 0);
+
+            // Counting the number of tenants$tenants_lipposunset
+            $numMallsLippoSunset = count($tenants_lipposunset);
+
+            // Initialize an array to store normalized row totals
+            $normalizedRowTotalsLippoSunset = [];
+
+            // Loop through each ten$tenant_lipposunset for comparison results
+            foreach ($tenants_lipposunset as $tenant_lipposunset1) {
+                echo "<tr>";
+                echo "<td>$tenant_lipposunset1</td>";
+                $rowTotalLippoSunset = 0; // Menyimpan total per baris
+
+                foreach ($tenants_lipposunset as $tenant_lipposunset2) {
+                    $comparisonValueLippoSunset = null;
+
+                    foreach ($comparison_results_lipposunset as $result_lipposunset) {
+                        if (($result_lipposunset['kriteria_lipposunset'] == $tenant_lipposunset1 && $result_lipposunset['kriteria_lipposunset2'] == $tenant_lipposunset2)) {
+                            $comparisonValueLippoSunset = $result_lipposunset[$alternatif_lipposunset];
+                            break;
+                        } elseif (($result_lipposunset['kriteria_lipposunset'] == $tenant_lipposunset2 && $result_lipposunset['kriteria_lipposunset2'] == $tenant_lipposunset1)) {
+                            $comparisonValueLippoSunset = 1 / $result_lipposunset[$alternatif_lipposunset]; // Take the inverse
+                            break;
+                        }
+                    }
+
+                    if ($comparisonValueLippoSunset !== null) {
+                        // Calculate the normalized value
+                        $normalizedValueLippoSunset = $comparisonValueLippoSunset / $totalValuesLippoSunset[$tenant_lipposunset2];
+                        echo "<td>" . number_format($normalizedValueLippoSunset, 5, '.', '') . "</td>";
+
+                        // Add to column totals
+                        $columnTotalsLippoSunset[$tenant_lipposunset2] += $normalizedValueLippoSunset;
+
+                        // Add to row total
+                        $rowTotalLippoSunset += $normalizedValueLippoSunset;
                     } else {
                         echo "<td>-</td>";
                     }
                 }
 
-                echo "<td>" . number_format($totalRowLippoSunset, 5, '.', '') . "</td>"; // Display the total for this row
-                echo "</tr>";
+                // Calculate normalized row total
+                $normalizedRowTotalLippoSunset = $rowTotalLippoSunset / $numMallsLippoSunset;
+                $normalizedRowTotalsLippoSunset[$tenant_lipposunset1] = $normalizedRowTotalLippoSunset; // Store normalized row total
+                echo "<td>" . number_format($normalizedRowTotalLippoSunset, 5, '.', '') . "</td>";
             }
 
+            // Show the total row after looping through all tenants$tenants_lipposunset
+            echo "<tr><td>Total</td>";
+            foreach ($tenants_lipposunset as $tenant_lipposunset) {
+                echo "<td>" . number_format($columnTotalsLippoSunset[$tenant_lipposunset], 5, '.', '') . "</td>";
+            }
 
+            // Calculate eigen value and display
+            $eigenValueLippoSunset = array_sum($columnTotalsLippoSunset) / $numMallsLippoSunset;
+            echo "<td>" . number_format($eigenValueLippoSunset, 5, '.', '') . "</td>";
+
+            echo "</tr>";
             echo "</table>";
 
-            // Display the divided comparison results
-            echo "<h3>Divided Comparison Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Criteria</th>";
-            foreach ($tenants_lipposunset as $tenant_lipposunset) {
-                echo "<th>$tenant_lipposunset</th>";
-            }
-            echo "<th>Total</th>"; // Add Total column header
-            echo "</tr>";
+            // Display normalized row totals
+            // echo "<h3>Normalized Row Totals</h3>";
+            // echo "<ul>";
+            // foreach ($normalizedRowTotalsLippoSunset as $tenant_lipposunset => $rowTotalLippoSunset) {
+            //     echo "<li><strong>$tenant_lipposunset:</strong> " . number_format($rowTotalLippoSunset, 5, '.', '') . "</li>";
+            // }
+            // echo "</ul>";
 
-            // Display the divided comparison results
-            foreach ($tenants_lipposunset as $tenant_lipposunset) {
-                echo "<tr>";
-                echo "<td>$tenant_lipposunset</td>";
 
-                // Get the total for this row
-                $rowTotalLippoSunset = $totalValuesLippoSunset[$tenant_lipposunset];
+            // Simpan nilai normalized row totals dalam sesi
+            $_SESSION['normalized_row_totals_lipposunset'] = $normalizedRowTotalsLippoSunset;
 
-                // Initialize the sum of divided values for this row
-                $dividedValuesSumLippoSunset = 0;
-
-                foreach ($tenants_lipposunset as $tenant_lipposunset2) {
-                    // Get the current value in the table
-                    $currentValueLippoSunset = 0;
-
-                    // Search for the corresponding value in the comparison results
-                    foreach ($comparison_results_lipposunset as $result_lipposunset) {
-                        if (($result_lipposunset['kriteria_lipposunset'] == $tenant_lipposunset && $result_lipposunset['kriteria_lipposunset2'] == $tenant_lipposunset2)) {
-                            $currentValueLippoSunset = $result_lipposunset[$alternatif_lipposunset];
-                            break;
-                        } elseif (($result_lipposunset['kriteria_lipposunset'] == $tenant_lipposunset2 && $result_lipposunset['kriteria_lipposunset2'] == $tenant_lipposunset)) {
-                            // If inverse comparison found, set the current value as its inverse
-                            $currentValueLippoSunset = 1 / $result_lipposunset[$alternatif_lipposunset];
-                            break;
-                        }
-                    }
-
-                    // Calculate the value divided by the row total
-                    $dividedValueLippoSunset = 0;
-                    if ($rowTotalLippoSunset != 0) {
-                        // Perform division only if row total is non-zero
-                        $dividedValueLippoSunset = $currentValueLippoSunset / $rowTotalLippoSunset;
-                    }
-
-                    // Update the sum of divided values for this row
-                    $dividedValuesSumLippoSunset += $dividedValueLippoSunset;
-
-                    // Display the divided value
-                    echo "<td>" . number_format($dividedValueLippoSunset, 5, '.', '') . "</td>";
-                }
-
-                // Display the sum of divided values for this row
-                echo "<td>" . $dividedValuesSumLippoSunset . "</td>";
-                echo "</tr>";
-            }
-
-            // Menghitung jumlah elemen mall
-            $numTenantsLippoSunset1 = count($tenants_lipposunset);
-
-            // Array untuk menyimpan total nilai per kolom
-            $totalPerColumnLippoSunset = array_fill_keys($tenants_lipposunset, 0);
-
-            // Menghitung total nilai per kolom
-            foreach ($tenants_lipposunset as $tenant_lipposunset) {
-                foreach ($tenants_lipposunset as $tenant_lipposunset2) {
-                    // Menambahkan nilai pada kolom ke total kolom yang sesuai
-                    $rowTotalLippoSunset = $totalValuesLippoSunset[$tenant_lipposunset];
-                    foreach ($comparison_results_lipposunset as $result_lipposunset) {
-                        if (($result_lipposunset['kriteria_lipposunset'] == $tenant_lipposunset && $result_lipposunset['kriteria_lipposunset2'] == $tenant_lipposunset2)) {
-                            $currentValueLippoSunset = $result_lipposunset[$alternatif_lipposunset] / $rowTotalLippoSunset; // Dibagi dengan total baris
-                            $totalPerColumnLippoSunset[$tenant_lipposunset2] += $currentValueLippoSunset;
-                            break;
-                        } elseif (($result_lipposunset['kriteria_lipposunset'] == $tenant_lipposunset2 && $result_lipposunset['kriteria_lipposunset2'] == $tenant_lipposunset)) {
-                            $currentValueLippoSunset = 1 / $result_lipposunset[$alternatif_lipposunset] / $rowTotalLippoSunset; // Dibagi dengan total baris
-                            $totalPerColumnLippoSunset[$tenant_lipposunset2] += $currentValueLippoSunset;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // Membagi total nilai per kolom dengan jumlah elemen mall
-            foreach ($totalPerColumnLippoSunset as $tenant_lipposunset => $totalLippoSunset) {
-                $totalPerColumnLippoSunset[$tenant_lipposunset] /= $numTenantsLippoSunset1;
-            }
-
-            // Menghitung total dari hasil
-            $totalResultLippoSunset = 0;
-            foreach ($totalPerColumnLippoSunset as $totalLippoSunset) {
-                $totalResultLippoSunset += $totalLippoSunset;
-            }
-
-            // Menampilkan total nilai per kolom
-            echo "<tr><th>Eigen Vector</th>";
-            foreach ($tenants_lipposunset as $tenant_lipposunset) {
-                // Display the eigenvector value
-                echo "<td>" . number_format($totalPerColumnLippoSunset[$tenant_lipposunset], 5, '.', '') . "</td>";;
-            }
-            echo "<td>$totalResultLippoSunset</td>"; // Menampilkan total dari hasil
-            echo "</tr>";
-
-            echo "</table>";
-
-            $_SESSION['eigenvector_lipposunset'] = $totalPerColumnLippoSunset;
-
-            // Hitung Lambda Max
+            // Calculate Lambda Max
             $lambdaMaxLippoSunset = 0;
-
-            // Pengulangan untuk setiap alternatif
             foreach ($tenants_lipposunset as $tenant_lipposunset) {
-                // Inisialisasi nilai hasil total untuk alternatif ini
-                $totalValueForTenantLippoSunset = $totalValuesLippoSunset[$tenant_lipposunset];
-
-                // Ambil nilai eigenvector untuk alternatif ini
-                $eigenvectorForTenantLippoSunset = $totalPerColumnLippoSunset[$tenant_lipposunset];
-
-                // Perkalian nilai total dengan nilai eigenvector dan tambahkan ke Lambda Max
-                $lambdaMaxLippoSunset += $totalValueForTenantLippoSunset * $eigenvectorForTenantLippoSunset;
+                $lambdaMaxLippoSunset += $totalValuesLippoSunset[$tenant_lipposunset2] * $normalizedRowTotalLippoSunset;
             }
 
-            echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxLippoSunset, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxLippoSunset, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall
-            $randomConsistencyIndexLippoSunset = 0;
-            switch ($numTenantsLippoSunset1) {
+            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+            $randomConsistencyIndexLippoSunset  = 0;
+            switch ($numMallsLippoSunset) {
                 case 1:
-                    $randomConsistencyIndexLippoSunset = 0;
+                    $randomConsistencyIndexLippoSunset  = 0;
                     break;
                 case 2:
-                    $randomConsistencyIndexLippoSunset = 0;
+                    $randomConsistencyIndexLippoSunset  = 0;
                     break;
                 case 3:
-                    $randomConsistencyIndexLippoSunset = 0.58;
+                    $randomConsistencyIndexLippoSunset  = 0.58;
                     break;
                 case 4:
-                    $randomConsistencyIndexLippoSunset = 0.90;
+                    $randomConsistencyIndexLippoSunset  = 0.90;
                     break;
                 case 5:
-                    $randomConsistencyIndexLippoSunset = 1.12;
+                    $randomConsistencyIndexLippoSunset  = 1.12;
                     break;
                 case 6:
-                    $randomConsistencyIndexLippoSunset = 1.24;
+                    $randomConsistencyIndexLippoSunset  = 1.24;
                     break;
                 case 7:
-                    $randomConsistencyIndexLippoSunset = 1.32;
+                    $randomConsistencyIndexLippoSunset  = 1.32;
                     break;
                 case 8:
-                    $randomConsistencyIndexLippoSunset = 1.41;
+                    $randomConsistencyIndexLippoSunset  = 1.41;
                     break;
                 case 9:
-                    $randomConsistencyIndexLippoSunset = 1.45;
+                    $randomConsistencyIndexLippoSunset  = 1.45;
                     break;
                 case 10:
-                    $randomConsistencyIndexLippoSunset = 1.49;
+                    $randomConsistencyIndexLippoSunset  = 1.49;
+                    break;
+                case 11:
+                    $randomConsistencyIndexLippoSunset  = 1.51;
+                    break;
+                case 12:
+                    $randomConsistencyIndexLippoSunset  = 1.48;
+                    break;
+                case 13:
+                    $randomConsistencyIndexLippoSunset  = 1.56;
+                    break;
+                case 14:
+                    $randomConsistencyIndexLippoSunset  = 1.57;
+                    break;
+                case 15:
+                    $randomConsistencyIndexLippoSunset  = 1.59;
                     break;
                 default:
                     // Handle for more than 10 elements if needed
                     break;
             }
 
-            // Hitung Consistency Index (CI)
-            $consistencyIndexLippoSunset = ($lambdaMaxLippoSunset - $numTenantsLippoSunset1) / ($numTenantsLippoSunset1 - 1);
+            // Calculate Consistency Index (CI)
+            $CILippoSunset = ($lambdaMaxLippoSunset - $numMallsLippoSunset) / ($numMallsLippoSunset - 1);
 
-            // Hitung nilai konsistensi ratio (CR)
-            $consistencyRatioLippoSunset = $consistencyIndexLippoSunset / $randomConsistencyIndexLippoSunset;
+
+            // Calculate Consistency Ratio (CR)
+            $CRLippoSunset = $CILippoSunset / $randomConsistencyIndexLippoSunset; // You need to define RI according to your matrix size
 
             // Tampilkan hasil konsistensi
-            echo "<p>Nilai Consistency Index (CI): " . number_format($consistencyIndexLippoSunset, 5, '.', '') . "</p>";
-            echo "<p>Nilai Random Consistency Index (RI) untuk $numTenantsLippoSunset1 elemen: " . $randomConsistencyIndexLippoSunset . "</p>";
-            echo "<p>Nilai Consistency Ratio (CR): " . number_format($consistencyRatioLippoSunset, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Consistency Index (CI): " . number_format($CILippoSunset, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsLippoSunset elemen: " . $randomConsistencyIndexLippoSunset . "</p>";
+            // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRLippoSunset, 5, '.', '') . "</p>";
 
-            // Tambahkan kondisi untuk menentukan konsistensi
-            if ($consistencyRatioLippoSunset < 0.1) {
-                echo "<p>Nilai Konsisten</p>";
+            // Check if consistency is acceptable
+            if ($CRLippoSunset < 0.1) {
+                echo "<p>Consistency Ratio (CR) is acceptable </p>";
             } else {
-                echo "<p>Nilai Tidak Konsisten.</p>";
+                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
             }
         }
         ?>
-
-    </div>
-    </section>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

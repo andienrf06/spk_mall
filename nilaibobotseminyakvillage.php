@@ -6,6 +6,7 @@ if (!isset($_SESSION['comparison_results_village'])) {
     $_SESSION['comparison_results_village'] = [];
 }
 
+$mallsToShow = $_SESSION['selected_malls'] ?? [];
 ?>
 
 <!DOCTYPE html>
@@ -29,13 +30,18 @@ if (!isset($_SESSION['comparison_results_village'])) {
                 <img src="img\logo.png" alt="Logo">
             </div>
 
-            <div class="navb-items d-none d-xl-flex">
-                <div class="item">
+            <div class="navb-items d-none d-xl-flex gap-3">
+
+                <div class="navb-items d-none d-xl-flex">
                     <a href="index.php">Beranda</a>
                 </div>
 
-                <div class="item">
+                <div class="navb-items d-none d-xl-flex">
                     <a href="search.php">Pencarian</a>
+                </div>
+
+                <div class="navb-items d-none d-xl-flex">
+                    <a href="pilihmall.php">Pilih Mall</a>
                 </div>
 
                 <div class="item dropdown">
@@ -103,14 +109,14 @@ if (!isset($_SESSION['comparison_results_village'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-4 mt-4">Nilai Bobot Kriteria</h2>
+                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Kriteria Terhadap Alternatif Seminyak Village</h2>
             </div>
         </div>
 
         <form method="post">
             <div class="row mb-3">
                 <div class="col">
-                    <label for="alternatif">Alternative:</label>
+                    <label for="alternatif">Alternatif:</label>
                     <input type="text" name="alternatif_village" class="form-control" value="A11 - Seminyak Village" readonly>
                 </div>
             </div>
@@ -119,14 +125,16 @@ if (!isset($_SESSION['comparison_results_village'])) {
                     <select name="kriteria_village" class="form-select">
                         <?php
                         $tenants_village = [
-                            "Location",
-                            "Price",
-                            "Competitor",
+                            "Lokasi",
+                            "Harga",
+                            "Pesaing",
                         ];
 
                         foreach ($tenants_village as $tenant_village) {
-                            echo "<option value=\"$tenant_village\">$tenant_village</option>";
+                            $selected = in_array($tenant_village, $mallsToShow) ? 'selected' : ''; // Menandai mal yang sudah dipilih sebelumnya
+                            echo "<option value=\"$tenant_village\" $selected>$tenant_village</option>";
                         }
+
                         ?>
                     </select>
                 </div>
@@ -164,52 +172,62 @@ if (!isset($_SESSION['comparison_results_village'])) {
 
         <?php
         if (isset($_POST['submit'])) {
-            // Get input values
-            $alternatif_village = $_POST['alternatif_village'];
-            $kriteria_village = $_POST['kriteria_village'];
-            $comparison_value_village = $_POST['comparison_village'];
-            $kriteria_village2 = $_POST['kriteria_village2'];
+            // Check if alternatif_village is set
+            if (isset($_POST['alternatif_village'])) {
+                // Get input values
+                $alternatif_village = $_POST['alternatif_village'];
+                $kriteria_village = $_POST['kriteria_village'];
+                $comparison_value_village = $_POST['comparison_village'];
+                $kriteria_village2 = $_POST['kriteria_village2'];
 
-            // Retrieve comparison results from session
-            $comparison_results_village = $_SESSION['comparison_results_village'];
+                // Retrieve comparison_village results from session
+                $comparison_results_village = $_SESSION['comparison_results_village'];
 
-            // Check if the comparison result for this combination of alternative1 and alternative2 already exists
-            $exists = false;
-            foreach ($comparison_results_village as $key_village => $result_village) {
-                if ($result_village['kriteria_village'] == $kriteria_village && $result_village['kriteria_village2'] == $kriteria_village2) {
-                    $exists = true;
-                    // Update the comparison value
-                    $comparison_results_village[$key_village][$alternatif_village] = $comparison_value_village;
-                    break;
+                // Check if the comparison_village result_village for this combination of kriteria_village and kriteria_village2 already exists
+                // Jika kriteria_village dan kriteria_village2 sama, set nilai perbandingannya menjadi 1
+                if ($kriteria_village === $kriteria_village2) {
+                    $comparison_value_village = 1;
                 }
+
+                // Check if the comparison_village result_village for this combination of kriteria_village and kriteria_village2 already exists
+                $exists = false;
+                foreach ($comparison_results_village as $key_village => $result_village) {
+                    if ($result_village['kriteria_village'] == $kriteria_village && $result_village['kriteria_village2'] == $kriteria_village2) {
+                        $exists = true;
+                        // Update the comparison_village value
+                        $comparison_results_village[$key_village][$alternatif_village] = $comparison_value_village;
+                        break; // Break the loop after updating the comparison_village value
+                    }
+                }
+
+                // If the comparison_village result_village doesn't exist, add it to the comparison_village results array
+                if (!$exists) {
+                    $comparison_results_village[] = array(
+                        'kriteria_village' => $kriteria_village,
+                        'kriteria_village2' => $kriteria_village2,
+                        $alternatif_village => $comparison_value_village
+                    );
+                }
+
+
+                // Update the comparison_village results in the session
+                $_SESSION['comparison_results_village'] = $comparison_results_village;
+            } else {
+                // Action if alternatif_village is not defined
+                echo "Alternatif tidak terdefinisi.";
             }
 
-            // If the comparison result doesn't exist, add it to the comparison results array
-            if (!$exists) {
-                $comparison_results_village[] = array(
-                    'kriteria_village' => $kriteria_village,
-                    'kriteria_village2' => $kriteria_village2,
-                    $alternatif_village => $comparison_value_village
-                );
-            }
-
-
-            // Update the comparison results in the session
-            $_SESSION['comparison_results_village'] = $comparison_results_village;
-
-
-            echo "<h3>Comparison Results</h3>";
+            echo "<h3>Comparison_village Results</h3>";
             echo "<table border='1'>";
-            echo "<tr><th>Comparison</th>";
+            echo "<tr><th>Comparison_village</th>";
             foreach ($tenants_village as $tenant_village) {
                 echo "<th>$tenant_village</th>";
             }
-            echo "<th>Total</th></tr>";
 
-            // Initialize an array to store the total values for each mall
+            // Initialize an array to store the total values for each tenant
             $totalValuesVillage = array_fill_keys($tenants_village, 0);
 
-            // Loop through each mall for comparison results
+            // Loop through each tenant for comparison_village results
             foreach ($tenants_village as $tenant_village1) {
                 echo "<tr>";
                 echo "<td>$tenant_village1</td>";
@@ -217,7 +235,7 @@ if (!isset($_SESSION['comparison_results_village'])) {
 
                 foreach ($tenants_village as $tenant_village2) {
                     $comparisonValueVillage = null;
-                    $isInverseVillage = false; // Flag to check if the comparison is inverse
+                    $isInverseVillage = false; // Flag to check if the comparison_village is inverse
 
                     foreach ($comparison_results_village as $result_village) {
                         if (($result_village['kriteria_village'] == $tenant_village1 && $result_village['kriteria_village2'] == $tenant_village2)) {
@@ -232,209 +250,192 @@ if (!isset($_SESSION['comparison_results_village'])) {
 
                     if ($comparisonValueVillage !== null) {
                         if ($isInverseVillage) {
-                            echo "<td>" . number_format($comparisonValueVillage, 5, '.', '') . "</td>"; // Display inverse comparison value
+                            echo "<td>" . number_format($comparisonValueVillage, 5, '.', '') . "</td>"; // Display inverse comparison_village value
                         } else {
-                            echo "<td>" . number_format($comparisonValueVillage, 5, '.', '') . "</td>"; // Display comparison value
+                            echo "<td>" . number_format($comparisonValueVillage, 5, '.', '') . "</td>"; // Display comparison_village value
                         }
-                        $totalRowVillage += $comparisonValueVillage;
-                        $totalValuesVillage[$tenant_village1] += $comparisonValueVillage;
+                        $totalValuesVillage[$tenant_village2] += $comparisonValueVillage; // Fix here, use tenant_village2 as key_village for totalValuesVillage
+                    } else {
+                        echo "<td>-</td>";
+                    }
+                }
+            }
+
+            // Show the total row after looping through all tenants_village
+            echo "<tr><td>Total</td>";
+            $totalTotalVillage = 0;
+            foreach ($tenants_village as $tenant_village) {
+                $totalTotalVillage += $totalValuesVillage[$tenant_village];
+                echo "<td>" . number_format($totalValuesVillage[$tenant_village], 5, '.', '') . "</td>";
+            }
+            echo "</tr>";
+
+            echo "</table>";
+
+            echo "<h3>Normalized Comparison Results</h3>";
+            echo "<table border='1'>";
+            echo "<tr><th>Comparison</th>";
+            foreach ($tenants_village as $tenant_village) {
+                echo "<th>$tenant_village</th>";
+            }
+            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+
+            // Array to store column totals
+            $columnTotalsVillage = array_fill_keys($tenants_village, 0);
+
+            // Counting the number of tenants$tenants_village
+            $numMallsVillage = count($tenants_village);
+
+            // Initialize an array to store normalized row totals
+            $normalizedRowTotalsVillage = [];
+
+            // Loop through each ten$tenant_village for comparison results
+            foreach ($tenants_village as $tenant_village1) {
+                echo "<tr>";
+                echo "<td>$tenant_village1</td>";
+                $rowTotalVillage = 0; // Menyimpan total per baris
+
+                foreach ($tenants_village as $tenant_village2) {
+                    $comparisonValueVillage = null;
+
+                    foreach ($comparison_results_village as $result_village) {
+                        if (($result_village['kriteria_village'] == $tenant_village1 && $result_village['kriteria_village2'] == $tenant_village2)) {
+                            $comparisonValueVillage = $result_village[$alternatif_village];
+                            break;
+                        } elseif (($result_village['kriteria_village'] == $tenant_village2 && $result_village['kriteria_village2'] == $tenant_village1)) {
+                            $comparisonValueVillage = 1 / $result_village[$alternatif_village]; // Take the inverse
+                            break;
+                        }
+                    }
+
+                    if ($comparisonValueVillage !== null) {
+                        // Calculate the normalized value
+                        $normalizedValueVillage = $comparisonValueVillage / $totalValuesVillage[$tenant_village2];
+                        echo "<td>" . number_format($normalizedValueVillage, 5, '.', '') . "</td>";
+
+                        // Add to column totals
+                        $columnTotalsVillage[$tenant_village2] += $normalizedValueVillage;
+
+                        // Add to row total
+                        $rowTotalVillage += $normalizedValueVillage;
                     } else {
                         echo "<td>-</td>";
                     }
                 }
 
-                echo "<td>" . number_format($totalRowVillage, 5, '.', '') . "</td>"; // Display the total for this row
-                echo "</tr>";
+                // Calculate normalized row total
+                $normalizedRowTotalVillage = $rowTotalVillage / $numMallsVillage;
+                $normalizedRowTotalsVillage[$tenant_village1] = $normalizedRowTotalVillage; // Store normalized row total
+                echo "<td>" . number_format($normalizedRowTotalVillage, 5, '.', '') . "</td>";
             }
 
+            // Show the total row after looping through all tenants$tenants_village
+            echo "<tr><td>Total</td>";
+            foreach ($tenants_village as $tenant_village) {
+                echo "<td>" . number_format($columnTotalsVillage[$tenant_village], 5, '.', '') . "</td>";
+            }
 
+            // Calculate eigen value and display
+            $eigenValueVillage = array_sum($columnTotalsVillage) / $numMallsVillage;
+            echo "<td>" . number_format($eigenValueVillage, 5, '.', '') . "</td>";
+
+            echo "</tr>";
             echo "</table>";
 
-            // Display the divided comparison results
-            echo "<h3>Divided Comparison Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Criteria</th>";
-            foreach ($tenants_village as $tenant_village) {
-                echo "<th>$tenant_village</th>";
-            }
-            echo "<th>Total</th>"; // Add Total column header
-            echo "</tr>";
-
-            // Display the divided comparison results
-            foreach ($tenants_village as $tenant_village) {
-                echo "<tr>";
-                echo "<td>$tenant_village</td>";
-
-                // Get the total for this row
-                $rowTotalVillage = $totalValuesVillage[$tenant_village];
-
-                // Initialize the sum of divided values for this row
-                $dividedValuesSumVillage = 0;
-
-                foreach ($tenants_village as $tenant_village2) {
-                    // Get the current value in the table
-                    $currentValueVillage = 0;
-
-                    // Search for the corresponding value in the comparison results
-                    foreach ($comparison_results_village as $result_village) {
-                        if (($result_village['kriteria_village'] == $tenant_village && $result_village['kriteria_village2'] == $tenant_village2)) {
-                            $currentValueVillage = $result_village[$alternatif_village];
-                            break;
-                        } elseif (($result_village['kriteria_village'] == $tenant_village2 && $result_village['kriteria_village2'] == $tenant_village)) {
-                            // If inverse comparison found, set the current value as its inverse
-                            $currentValueVillage = 1 / $result_village[$alternatif_village];
-                            break;
-                        }
-                    }
-
-                    // Calculate the value divided by the row total
-                    $dividedValueVillage = 0;
-                    if ($rowTotalVillage != 0) {
-                        // Perform division only if row total is non-zero
-                        $dividedValueVillage = $currentValueVillage / $rowTotalVillage;
-                    }
-
-                    // Update the sum of divided values for this row
-                    $dividedValuesSumVillage += $dividedValueVillage;
-
-                    // Display the divided value
-                    echo "<td>" . number_format($dividedValueVillage, 5, '.', '') . "</td>";
-                }
-
-                // Display the sum of divided values for this row
-                echo "<td>" . $dividedValuesSumVillage . "</td>";
-                echo "</tr>";
-            }
-
-            // Menghitung jumlah elemen mall
-            $numTenantsVillage1 = count($tenants_village);
-
-            // Array untuk menyimpan total nilai per kolom
-            $totalPerColumnVillage = array_fill_keys($tenants_village, 0);
-
-            // Menghitung total nilai per kolom
-            foreach ($tenants_village as $tenant_village) {
-                foreach ($tenants_village as $tenant_village2) {
-                    // Menambahkan nilai pada kolom ke total kolom yang sesuai
-                    $rowTotalVillage = $totalValuesVillage[$tenant_village];
-                    foreach ($comparison_results_village as $result_village) {
-                        if (($result_village['kriteria_village'] == $tenant_village && $result_village['kriteria_village2'] == $tenant_village2)) {
-                            $currentValueVillage = $result_village[$alternatif_village] / $rowTotalVillage; // Dibagi dengan total baris
-                            $totalPerColumnVillage[$tenant_village2] += $currentValueVillage;
-                            break;
-                        } elseif (($result_village['kriteria_village'] == $tenant_village2 && $result_village['kriteria_village2'] == $tenant_village)) {
-                            $currentValueVillage = 1 / $result_village[$alternatif_village] / $rowTotalVillage; // Dibagi dengan total baris
-                            $totalPerColumnVillage[$tenant_village2] += $currentValueVillage;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // Membagi total nilai per kolom dengan jumlah elemen mall
-            foreach ($totalPerColumnVillage as $tenant_village => $totalVillage) {
-                $totalPerColumnVillage[$tenant_village] /= $numTenantsVillage1;
-            }
-
-            // Menghitung total dari hasil
-            $totalResultVillage = 0;
-            foreach ($totalPerColumnVillage as $totalVillage) {
-                $totalResultVillage += $totalVillage;
-            }
-
-            // Menampilkan total nilai per kolom
-            echo "<tr><th>Eigen Vector</th>";
-            foreach ($tenants_village as $tenant_village) {
-                // Display the eigenvector value
-                echo "<td>" . number_format($totalPerColumnVillage[$tenant_village], 5, '.', '') . "</td>";;
-            }
-            echo "<td>$totalResultVillage</td>"; // Menampilkan total dari hasil
-            echo "</tr>";
-
-            echo "</table>";
-
-            $_SESSION['eigenvector_seminyakvillage'] = $totalPerColumnVillage;
+            // Display normalized row totals
+            // echo "<h3>Normalized Row Totals</h3>";
+            // echo "<ul>";
+            // foreach ($normalizedRowTotalsVillage as $tenant_village => $rowTotalVillage) {
+            //     echo "<li><strong>$tenant_village:</strong> " . number_format($rowTotalVillage, 5, '.', '') . "</li>";
+            // }
+            // echo "</ul>";
 
 
-            // Hitung Lambda Max
+            // Simpan nilai normalized row totals dalam sesi
+            $_SESSION['normalized_row_totals_village'] = $normalizedRowTotalsVillage;
+
+            // Calculate Lambda Max
             $lambdaMaxVillage = 0;
-
-            // Pengulangan untuk setiap alternatif
             foreach ($tenants_village as $tenant_village) {
-                // Inisialisasi nilai hasil total untuk alternatif ini
-                $totalValueForTenantVillage = $totalValuesVillage[$tenant_village];
-
-                // Ambil nilai eigenvector untuk alternatif ini
-                $eigenvectorForTenantVillage = $totalPerColumnVillage[$tenant_village];
-
-                // Perkalian nilai total dengan nilai eigenvector dan tambahkan ke Lambda Max
-                $lambdaMaxVillage += $totalValueForTenantVillage * $eigenvectorForTenantVillage;
+                $lambdaMaxVillage += $totalValuesVillage[$tenant_village2] * $normalizedRowTotalVillage;
             }
 
-            echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxVillage, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxVillage, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall
-            $randomConsistencyIndexVillage = 0;
-            switch ($numTenantsVillage1) {
+            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+            $randomConsistencyIndexVillage  = 0;
+            switch ($numMallsVillage) {
                 case 1:
-                    $randomConsistencyIndexVillage = 0;
+                    $randomConsistencyIndexVillage  = 0;
                     break;
                 case 2:
-                    $randomConsistencyIndexVillage = 0;
+                    $randomConsistencyIndexVillage  = 0;
                     break;
                 case 3:
-                    $randomConsistencyIndexVillage = 0.58;
+                    $randomConsistencyIndexVillage  = 0.58;
                     break;
                 case 4:
-                    $randomConsistencyIndexVillage = 0.90;
+                    $randomConsistencyIndexVillage  = 0.90;
                     break;
                 case 5:
-                    $randomConsistencyIndexVillage = 1.12;
+                    $randomConsistencyIndexVillage  = 1.12;
                     break;
                 case 6:
-                    $randomConsistencyIndexVillage = 1.24;
+                    $randomConsistencyIndexVillage  = 1.24;
                     break;
                 case 7:
-                    $randomConsistencyIndexVillage = 1.32;
+                    $randomConsistencyIndexVillage  = 1.32;
                     break;
                 case 8:
-                    $randomConsistencyIndexVillage = 1.41;
+                    $randomConsistencyIndexVillage  = 1.41;
                     break;
                 case 9:
-                    $randomConsistencyIndexVillage = 1.45;
+                    $randomConsistencyIndexVillage  = 1.45;
                     break;
                 case 10:
-                    $randomConsistencyIndexVillage = 1.49;
+                    $randomConsistencyIndexVillage  = 1.49;
+                    break;
+                case 11:
+                    $randomConsistencyIndexVillage  = 1.51;
+                    break;
+                case 12:
+                    $randomConsistencyIndexVillage  = 1.48;
+                    break;
+                case 13:
+                    $randomConsistencyIndexVillage  = 1.56;
+                    break;
+                case 14:
+                    $randomConsistencyIndexVillage  = 1.57;
+                    break;
+                case 15:
+                    $randomConsistencyIndexVillage  = 1.59;
                     break;
                 default:
                     // Handle for more than 10 elements if needed
                     break;
             }
 
-            // Hitung Consistency Index (CI)
-            $consistencyIndexVillage = ($lambdaMaxVillage - $numTenantsVillage1) / ($numTenantsVillage1 - 1);
+            // Calculate Consistency Index (CI)
+            $CIVillage = ($lambdaMaxVillage - $numMallsVillage) / ($numMallsVillage - 1);
 
-            // Hitung nilai konsistensi ratio (CR)
-            $consistencyRatioVillage = $consistencyIndexVillage / $randomConsistencyIndexVillage;
+
+            // Calculate Consistency Ratio (CR)
+            $CRVillage = $CIVillage / $randomConsistencyIndexVillage; // You need to define RI according to your matrix size
 
             // Tampilkan hasil konsistensi
-            echo "<p>Nilai Consistency Index (CI): " . number_format($consistencyIndexVillage, 5, '.', '') . "</p>";
-            echo "<p>Nilai Random Consistency Index (RI) untuk $numTenantsVillage1 elemen: " . $randomConsistencyIndexVillage . "</p>";
-            echo "<p>Nilai Consistency Ratio (CR): " . number_format($consistencyRatioVillage, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Consistency Index (CI): " . number_format($CIVillage, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsVillage elemen: " . $randomConsistencyIndexVillage . "</p>";
+            // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRVillage, 5, '.', '') . "</p>";
 
-            // Tambahkan kondisi untuk menentukan konsistensi
-            if ($consistencyRatioVillage < 0.1) {
-                echo "<p>Nilai Konsisten</p>";
+            // Check if consistency is acceptable
+            if ($CRVillage < 0.1) {
+                echo "<p>Consistency Ratio (CR) is acceptable </p>";
             } else {
-                echo "<p>Nilai Tidak Konsisten.</p>";
+                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
             }
         }
         ?>
-
-    </div>
-    </section>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

@@ -1,9 +1,11 @@
 <?php
 session_start();
 
-// Initialize the $input_values array
-if (!isset($_SESSION['comparison_competitor_results_competitor'])) {
-    $_SESSION['comparison_competitor_results_competitor'] = [];
+// Initialize selected mallsT$mallsToShowCompetitor
+$mallsToShowCompetitor = $_SESSION['selected_malls'] ?? [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+    // Your form handling code here
 }
 
 ?>
@@ -29,13 +31,18 @@ if (!isset($_SESSION['comparison_competitor_results_competitor'])) {
                 <img src="img\logo.png" alt="Logo">
             </div>
 
-            <div class="navb-items d-none d-xl-flex">
-                <div class="item">
+            <div class="navb-items d-none d-xl-flex gap-3">
+
+                <div class="navb-items d-none d-xl-flex">
                     <a href="index.php">Beranda</a>
                 </div>
 
-                <div class="item">
+                <div class="navb-items d-none d-xl-flex">
                     <a href="search.php">Pencarian</a>
+                </div>
+
+                <div class="navb-items d-none d-xl-flex">
+                    <a href="pilihmall.php">Pilih Mall</a>
                 </div>
 
                 <div class="item dropdown">
@@ -58,18 +65,18 @@ if (!isset($_SESSION['comparison_competitor_results_competitor'])) {
                         <a class="dropdown-item" href="nilaibobotsamasta.php">Berdasarkan Samasta Lifestyle Village</a>
                         <a class="dropdown-item" href="nilaibobotsidewalk.php">Berdasarkan Sidewalk Jimbaran</a>
                         <a class="dropdown-item" href="nilaibobotpark23.php">Berdasarkan Park 23</a>
-                        <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall Bali Galeria</a>
-                        <a class="dropdown-item" href="nilaibobotlippokuta.php">Berdasarkan Lippo Mall Kuta</a>
+                        <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall_competitor Bali Galeria</a>
+                        <a class="dropdown-item" href="nilaibobotlippokuta.php">Berdasarkan Lippo Mall_competitor Kuta</a>
                         <a class="dropdown-item" href="nilaibobotlipposunset.php">Berdasarkan Lippo Plaza Sunset</a>
-                        <a class="dropdown-item" href="nilaibobottsm.php">Berdasarkan Trans Studio Mall Bali</a>
-                        <a class="dropdown-item" href="nilaibobotlevel.php">Berdasarkan Level21 Mall</a>
+                        <a class="dropdown-item" href="nilaibobottsm.php">Berdasarkan Trans Studio Mall_competitor Bali</a>
+                        <a class="dropdown-item" href="nilaibobotlevel.php">Berdasarkan Level21 Mall_competitor</a>
                         <a class="dropdown-item" href="nilaibobotplazarenon.php">Berdasarkan Lippo Plaza Renon</a>
                         <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
                         <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
                         <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
-                        <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall</a>
+                        <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall_competitor</a>
                         <a class="dropdown-item" href="nilaibobotliving.php">Berdasarkan Living World Denpasar</a>
-                        <a class="dropdown-item" href="nilaibobotramayana.php">Berdasarkan Ramayana Bali Mall</a>
+                        <a class="dropdown-item" href="nilaibobotramayana.php">Berdasarkan Ramayana Bali Mall_competitor</a>
                     </div>
                 </div>
 
@@ -103,41 +110,23 @@ if (!isset($_SESSION['comparison_competitor_results_competitor'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-4 mt-4">Nilai Bobot Alternatif</h2>
+                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Alternatif Terhadap Kriteria Pesaing</h2>
             </div>
         </div>
 
         <form method="post">
             <div class="row mb-3">
                 <div class="col">
-                    <label for="criteria_competitor">Criteria:</label>
+                    <label for="criteria">Kriteria:</label>
                     <input type="text" name="criteria_competitor" class="form-control" value="K03 - Pesaing" readonly>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col">
-                    <select name="alternative_competitor" class="form-select">
+                    <select name="alternative_competitor1" class="form-select">
                         <?php
-                        $malls_competitor = [
-                            "Bali Collection",
-                            "Samasta Lifestyle Village",
-                            "Sidewalk Jimbaran",
-                            // "Park 23",
-                            // "Mall Bali Galeria",
-                            // "Lippo Mall Kuta",
-                            // "Lippo Plaza Sunset",
-                            // "Trans Studio Mall Bali",
-                            // "Level21 Mall",
-                            // "Lippo Plaza Renon",
-                            // "Seminyak Village",
-                            // "Seminyak Square",
-                            // "Beachwalk Shopping Centre",
-                            // "Discovery Shopping Mall",
-                            // "Living World Denpasar",
-                            // "Ramayana Bali Mall",
-                        ];
-
-                        foreach ($malls_competitor as $mall_competitor) {
+                        foreach ($mallsToShowCompetitor as $mall_competitor) {
+                            $selected = in_array($mall_competitor, $mallsToShowCompetitor) ? 'selected' : ''; // Menandai mal yang sudah dipilih sebelumnya
                             echo "<option value=\"$mall_competitor\">$mall_competitor</option>";
                         }
                         ?>
@@ -161,7 +150,7 @@ if (!isset($_SESSION['comparison_competitor_results_competitor'])) {
                 <div class="col">
                     <select name="alternative_competitor2" class="form-select">
                         <?php
-                        foreach ($malls_competitor as $mall_competitor) {
+                        foreach ($mallsToShowCompetitor as $mall_competitor) {
                             echo "<option value=\"$mall_competitor\">$mall_competitor</option>";
                         }
                         ?>
@@ -181,42 +170,42 @@ if (!isset($_SESSION['comparison_competitor_results_competitor'])) {
             if (isset($_POST['criteria_competitor'])) {
                 // Get input values
                 $criteria_competitor = $_POST['criteria_competitor'];
-                $alternative_competitor = $_POST['alternative_competitor'];
-                $comparison_competitor_value_competitor = $_POST['comparison_competitor'];
+                $alternative_competitor1 = $_POST['alternative_competitor1'];
+                $comparison_value_competitor = $_POST['comparison_competitor'];
                 $alternative_competitor2 = $_POST['alternative_competitor2'];
 
                 // Retrieve comparison_competitor results from session
-                $comparison_competitor_results_competitor = $_SESSION['comparison_competitor_results_competitor'];
+                $comparison_results_competitor = $_SESSION['comparison_results_competitor'];
 
-                // Check if the comparison_competitor result for this combination of alternative_competitor and alternative_competitor2 already exists
-                // Jika alternative_competitor dan alternative_competitor2 sama, set nilai perbandingannya menjadi 1
-                if ($alternative_competitor === $alternative_competitor2) {
-                    $comparison_competitor_value_competitor = 1;
+                // Check if the comparison_competitor result_competitor for this combination of alternative_competitor1 and alternative_competitor2 already exists
+                // Jika alternative_competitor1 dan alternative_competitor2 sama, set nilai perbandingannya menjadi 1
+                if ($alternative_competitor1 === $alternative_competitor2) {
+                    $comparison_value_competitor = 1;
                 }
 
-                // Check if the comparison_competitor result for this combination of alternative_competitor and alternative_competitor2 already exists
+                // Check if the comparison_competitor result_competitor for this combination of alternative_competitor1 and alternative_competitor2 already exists
                 $exists = false;
-                foreach ($comparison_competitor_results_competitor as $key_competitor => $result_competitor) {
-                    if ($result_competitor['alternative_competitor'] == $alternative_competitor && $result_competitor['alternative_competitor2'] == $alternative_competitor2) {
+                foreach ($comparison_results_competitor as $key_competitor => $result_competitor) {
+                    if ($result_competitor['alternative_competitor1'] == $alternative_competitor1 && $result_competitor['alternative_competitor2'] == $alternative_competitor2) {
                         $exists = true;
                         // Update the comparison_competitor value
-                        $comparison_competitor_results_competitor[$key_competitor][$criteria_competitor] = $comparison_competitor_value_competitor;
+                        $comparison_results_competitor[$key_competitor][$criteria_competitor] = $comparison_value_competitor;
                         break; // Break the loop after updating the comparison_competitor value
                     }
                 }
 
-                // If the comparison_competitor result doesn't exist, add it to the comparison_competitor results array
+                // If the comparison_competitor result_competitor doesn't exist, add it to the comparison_competitor results array
                 if (!$exists) {
-                    $comparison_competitor_results_competitor[] = array(
-                        'alternative_competitor' => $alternative_competitor,
+                    $comparison_results_competitor[] = array(
+                        'alternative_competitor1' => $alternative_competitor1,
                         'alternative_competitor2' => $alternative_competitor2,
-                        $criteria_competitor => $comparison_competitor_value_competitor
+                        $criteria_competitor => $comparison_value_competitor
                     );
                 }
 
 
                 // Update the comparison_competitor results in the session
-                $_SESSION['comparison_competitor_results_competitor'] = $comparison_competitor_results_competitor;
+                $_SESSION['comparison_results_competitor'] = $comparison_results_competitor;
             } else {
                 // Action if criteria_competitor is not defined
                 echo "Kriteria tidak terdefinisi.";
@@ -225,249 +214,211 @@ if (!isset($_SESSION['comparison_competitor_results_competitor'])) {
             echo "<h3>Comparison_competitor Results</h3>";
             echo "<table border='1'>";
             echo "<tr><th>Comparison_competitor</th>";
-            foreach ($malls_competitor as $mall_competitor) {
+            foreach ($mallsToShowCompetitor as $mall_competitor) {
                 echo "<th>$mall_competitor</th>";
             }
-            echo "<th>Total</th></tr>";
 
-            // Initialize an array to store the total values for each mall
-            $totalValuesCompetitor = array_fill_keys($malls_competitor, 0);
+            // Initialize an array to store the total values for each mall_competitor
+            $totalValuesCompetitor = array_fill_keys($mallsToShowCompetitor, 0);
 
-            // Loop through each mall for comparison_competitor results
-            foreach ($malls_competitor as $mall_competitor1) {
+            // Loop through each mall_competitor for comparison_competitor results
+            foreach ($mallsToShowCompetitor as $mall_competitor1) {
                 echo "<tr>";
                 echo "<td>$mall_competitor1</td>";
                 $totalRowCompetitor = 0; // Total for this row
 
-
-                foreach ($malls_competitor as $mall_competitor2) {
-                    $comparison_competitorValuePrice = null;
+                foreach ($mallsToShowCompetitor as $mall_competitor2) {
+                    $comparisonValueCompetitor = null;
                     $isInverseCompetitor = false; // Flag to check if the comparison_competitor is inverse
 
-                    foreach ($comparison_competitor_results_competitor as $result_competitor) {
-                        if (($result_competitor['alternative_competitor'] == $mall_competitor1 && $result_competitor['alternative_competitor2'] == $mall_competitor2)) {
-                            $comparison_competitorValuePrice = $result_competitor[$criteria_competitor];
+                    foreach ($comparison_results_competitor as $result_competitor) {
+                        if (($result_competitor['alternative_competitor1'] == $mall_competitor1 && $result_competitor['alternative_competitor2'] == $mall_competitor2)) {
+                            $comparisonValueCompetitor = $result_competitor[$criteria_competitor];
                             break;
-                        } elseif (($result_competitor['alternative_competitor'] == $mall_competitor2 && $result_competitor['alternative_competitor2'] == $mall_competitor1)) {
-                            $comparison_competitorValuePrice = 1 / $result_competitor[$criteria_competitor]; // Take the inverse
+                        } elseif (($result_competitor['alternative_competitor1'] == $mall_competitor2 && $result_competitor['alternative_competitor2'] == $mall_competitor1)) {
+                            $comparisonValueCompetitor = 1 / $result_competitor[$criteria_competitor]; // Take the inverse
                             $isInverseCompetitor = true;
                             break;
                         }
                     }
 
-
-                    if ($comparison_competitorValuePrice !== null) {
+                    if ($comparisonValueCompetitor !== null) {
                         if ($isInverseCompetitor) {
-                            echo "<td>" . number_format($comparison_competitorValuePrice, 5, '.', '') . "</td>"; // Display inverse comparison_competitor value
+                            echo "<td>" . number_format($comparisonValueCompetitor, 5, '.', '') . "</td>"; // Display inverse comparison_competitor value
                         } else {
-                            echo "<td>" . number_format($comparison_competitorValuePrice, 5, '.', '') . "</td>"; // Display comparison_competitor value
+                            echo "<td>" . number_format($comparisonValueCompetitor, 5, '.', '') . "</td>"; // Display comparison_competitor value
                         }
-                        $totalRowCompetitor += $comparison_competitorValuePrice;
-                        $totalValuesCompetitor[$mall_competitor1] += $comparison_competitorValuePrice;
+                        $totalValuesCompetitor[$mall_competitor2] += $comparisonValueCompetitor; // Fix here, use mall_competitor2 as key_competitor for totalValuesCompetitor
+                    } else {
+                        echo "<td>-</td>";
+                    }
+                }
+            }
+
+            // Show the total row after looping through all mallsT$mallsToShowCompetitor
+            echo "<tr><td>Total</td>";
+            $totalTotalCompetitor = 0;
+            foreach ($mallsToShowCompetitor as $mall_competitor) {
+                $totalTotalCompetitor += $totalValuesCompetitor[$mall_competitor];
+                echo "<td>" . number_format($totalValuesCompetitor[$mall_competitor], 5, '.', '') . "</td>";
+            }
+            echo "</tr>";
+
+            echo "</table>";
+
+            echo "<h3>Normalized Comparison_competitor Results</h3>";
+            echo "<table border='1'>";
+            echo "<tr><th>Comparison_competitor</th>";
+            foreach ($mallsToShowCompetitor as $mall_competitor) {
+                echo "<th>$mall_competitor</th>";
+            }
+            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+
+            // Array to store column totals
+            $columnTotalsCompetitor = array_fill_keys($mallsToShowCompetitor, 0);
+
+            // Counting the number of mallsT$mallsToShowCompetitor
+            $numMallsCompetitor = count($mallsToShowCompetitor);
+
+            // Initialize an array to store normalized row totals
+            $normalizedRowTotalsCompetitor = [];
+
+            // Loop through each mall_competitor for comparison_competitor results
+            foreach ($mallsToShowCompetitor as $mall_competitor1) {
+                echo "<tr>";
+                echo "<td>$mall_competitor1</td>";
+                $normalizedRowTotalsCompetitor = 0; // Menyimpan total per baris
+
+                foreach ($mallsToShowCompetitor as $mall_competitor2) {
+                    $comparisonValueCompetitor = null;
+
+                    foreach ($comparison_results_competitor as $result_competitor) {
+                        if (($result_competitor['alternative_competitor1'] == $mall_competitor1 && $result_competitor['alternative_competitor2'] == $mall_competitor2)) {
+                            $comparisonValueCompetitor = $result_competitor[$criteria_competitor];
+                            break;
+                        } elseif (($result_competitor['alternative_competitor1'] == $mall_competitor2 && $result_competitor['alternative_competitor2'] == $mall_competitor1)) {
+                            $comparisonValueCompetitor = 1 / $result_competitor[$criteria_competitor]; // Take the inverse
+                            break;
+                        }
+                    }
+
+                    if ($comparisonValueCompetitor !== null) {
+                        // Calculate the normalized value
+                        $normalizedValueCompetitor = $comparisonValueCompetitor / $totalValuesCompetitor[$mall_competitor2];
+                        echo "<td>" . number_format($normalizedValueCompetitor, 5, '.', '') . "</td>";
+
+                        // Add to column totals
+                        $columnTotalsCompetitor[$mall_competitor2] += $normalizedValueCompetitor;
+
+                        // Add to row total
+                        $normalizedRowTotalsCompetitor += $normalizedValueCompetitor;
                     } else {
                         echo "<td>-</td>";
                     }
                 }
 
-                echo "<td>" . number_format($totalRowCompetitor, 5, '.', '') . "</td>"; // Display the total for this row
-                echo "</tr>";
+                // Calculate normalized row total
+                $normalizedRowTotalCompetitor = $normalizedRowTotalsCompetitor / $numMallsCompetitor;
+                $normalizedRowTotalsCompetitor[$mall_competitor1] = $normalizedRowTotalCompetitor; // Store normalized row total
+                echo "<td>" . number_format($normalizedRowTotalCompetitor, 5, '.', '') . "</td>";
             }
 
+            // Show the total row after looping through all mallsT$mallsToShowCompetitor
+            echo "<tr><td>Total</td>";
+            foreach ($mallsToShowCompetitor as $mall_competitor) {
+                echo "<td>" . number_format($columnTotalsCompetitor[$mall_competitor], 5, '.', '') . "</td>";
+            }
 
+            // Calculate eigen value and display
+            $eigenValueCompetitor = array_sum($columnTotalsCompetitor) / $numMallsCompetitor;
+            echo "<td>" . number_format($eigenValueCompetitor, 5, '.', '') . "</td>";
+
+            echo "</tr>";
             echo "</table>";
 
-            // Display the divided comparison_competitor results
-            echo "<h3>Divided Comparison_competitor Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Mall</th>";
-            foreach ($malls_competitor as $mall_competitor) {
-                echo "<th>$mall_competitor</th>";
-            }
-            echo "<th>Total</th>"; // Add Total column header
-            echo "</tr>";
+            // Display normalized row totals
+            // echo "<h3>Normalized Row Totals</h3>";
+            // echo "<ul>";
+            // foreach ($normalizedRowTotalsCompetitor as $mall_competitor => $normalizedRowTotalsCompetitor) {
+            //     echo "<li><strong>$mall_competitor:</strong> " . number_format($normalizedRowTotalsCompetitor, 5, '.', '') . "</li>";
+            // }
+            // echo "</ul>";
 
-            // Display the divided comparison_competitor results
-            foreach ($malls_competitor as $mall_competitor) {
-                echo "<tr>";
-                echo "<td>$mall_competitor</td>";
 
-                // Get the total for this row
-                $rowTotalCompetitor = $totalValuesCompetitor[$mall_competitor];
+            // Simpan nilai normalized row totals dalam sesi
+            $_SESSION['normalized_row_totals_pesaing'] = $normalizedRowTotalsCompetitor;
 
-                // Initialize the sum of divided values for this row
-                $dividedValuesSumCompetitor = 0;
-
-                foreach ($malls_competitor as $mall_competitor2) {
-                    // Get the current value in the table
-                    $currentValueCompetitor = 0;
-
-                    // Search for the corresponding value in the comparison_competitor results
-                    foreach ($comparison_competitor_results_competitor as $result_competitor) {
-                        if (($result_competitor['alternative_competitor'] == $mall_competitor && $result_competitor['alternative_competitor2'] == $mall_competitor2)) {
-                            $currentValueCompetitor = $result_competitor[$criteria_competitor];
-                            break;
-                        } elseif (($result_competitor['alternative_competitor'] == $mall_competitor2 && $result_competitor['alternative_competitor2'] == $mall_competitor)) {
-                            // If inverse comparison_competitor found, set the current value as its inverse
-                            $currentValueCompetitor = 1 / $result_competitor[$criteria_competitor];
-                            break;
-                        }
-                    }
-
-                    // Calculate the value divided by the row total
-                    $dividedValueCompetitor = 0;
-                    if ($rowTotalCompetitor != 0) {
-                        // Perform division only if row total is non-zero
-                        $dividedValueCompetitor = $currentValueCompetitor / $rowTotalCompetitor;
-                    }
-
-                    // Update the sum of divided values for this row
-                    $dividedValuesSumCompetitor += $dividedValueCompetitor;
-
-                    // Display the divided value
-                    echo "<td>" . number_format($dividedValueCompetitor, 5, '.', '') . "</td>";
-                }
-
-                // Display the sum of divided values for this row
-                echo "<td>" . $dividedValuesSumCompetitor . "</td>";
-                echo "</tr>";
-            }
-
-            // Menghitung jumlah elemen mall
-            $numMalls_competitor = count($malls_competitor);
-
-            // Array untuk menyimpan total nilai per kolom
-            $totalPerColumnCompetitor = array_fill_keys($malls_competitor, 0);
-
-            // Menghitung total nilai per kolom
-            foreach ($malls_competitor as $mall_competitor) {
-                foreach ($malls_competitor as $mall_competitor2) {
-                    // Menambahkan nilai pada kolom ke total kolom yang sesuai
-                    $rowTotalCompetitor = $totalValuesCompetitor[$mall_competitor];
-                    foreach ($comparison_competitor_results_competitor as $result) {
-                        if (($result['alternative_competitor'] == $mall_competitor && $result['alternative_competitor2'] == $mall_competitor2)) {
-                            $currentValueCompetitor = $result[$criteria_competitor] / $rowTotalCompetitor; // Dibagi dengan total baris
-                            $totalPerColumnCompetitor[$mall_competitor2] += $currentValueCompetitor;
-                            break;
-                        } elseif (($result['alternative_competitor'] == $mall_competitor2 && $result['alternative_competitor2'] == $mall_competitor)) {
-                            $currentValueCompetitor = 1 / $result[$criteria_competitor] / $rowTotalCompetitor; // Dibagi dengan total baris
-                            $totalPerColumnCompetitor[$mall_competitor2] += $currentValueCompetitor;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // Membagi total nilai per kolom dengan jumlah elemen mall
-            foreach ($totalPerColumnCompetitor as $mall_competitor => $total_competitor) {
-                $totalPerColumnCompetitor[$mall_competitor] /= $numMalls_competitor;
-            }
-
-            // Menghitung total dari hasil
-            $totalResultCompetitor = 0;
-            foreach ($totalPerColumnCompetitor as $total_competitor) {
-                $totalResultCompetitor += $total_competitor;
-            }
-
-            // Menampilkan total nilai per kolom
-            echo "<tr><th>Eigen Vector</th>";
-            foreach ($malls_competitor as $mall_competitor) {
-                // Display the eigenvector value
-                echo "<td>" . number_format($totalPerColumnCompetitor[$mall_competitor], 5, '.', '') . "</td>";;
-            }
-            echo "<td>$totalResultCompetitor</td>"; // Menampilkan total dari hasil
-            echo "</tr>";
-
-            echo "</table>";
-
-            // Simpan nilai eigenvector dalam sesi
-            $_SESSION['eigenvector_pesaing'] = $totalPerColumnCompetitor;
-
-            // Hitung Lambda Max
+            // Calculate Lambda Max
             $lambdaMaxCompetitor = 0;
-
-            // Pengulangan untuk setiap alternatif
-            foreach ($malls_competitor as $mall_competitor) {
-                // Inisialisasi nilai hasil total untuk alternatif ini
-                $totalValueForMallCompetitor = $totalValuesCompetitor[$mall_competitor];
-
-                // Ambil nilai eigenvector untuk alternatif ini
-                $eigenvectorForMallCompetitor = $totalPerColumnCompetitor[$mall_competitor];
-
-                // Perkalian nilai total dengan nilai eigenvector dan tambahkan ke Lambda Max
-                $lambdaMaxCompetitor += $totalValueForMallCompetitor * $eigenvectorForMallCompetitor;
+            foreach ($mallsToShowCompetitor as $mall_competitor) {
+                $lambdaMaxCompetitor += $totalValuesCompetitor[$mall_competitor2] * $normalizedRowTotalCompetitor;
             }
 
-            echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxCompetitor, 5, '.', '') . "</p>";
-
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall
-            $randomConsistencyIndexCompetitor = 0;
-            switch ($numMalls_competitor) {
+            // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall_competitor
+            $randomConsistencyIndexCompetitor  = 0;
+            switch ($numMallsCompetitor) {
                 case 1:
-                    $randomConsistencyIndexCompetitor = 0;
+                    $randomConsistencyIndexCompetitor  = 0;
                     break;
                 case 2:
-                    $randomConsistencyIndexCompetitor = 0;
+                    $randomConsistencyIndexCompetitor  = 0;
                     break;
                 case 3:
-                    $randomConsistencyIndexCompetitor = 0.58;
+                    $randomConsistencyIndexCompetitor  = 0.58;
                     break;
                 case 4:
-                    $randomConsistencyIndexCompetitor = 0.90;
+                    $randomConsistencyIndexCompetitor  = 0.90;
                     break;
                 case 5:
-                    $randomConsistencyIndexCompetitor = 1.12;
+                    $randomConsistencyIndexCompetitor  = 1.12;
                     break;
                 case 6:
-                    $randomConsistencyIndexCompetitor = 1.24;
+                    $randomConsistencyIndexCompetitor  = 1.24;
                     break;
                 case 7:
-                    $randomConsistencyIndexCompetitor = 1.32;
+                    $randomConsistencyIndexCompetitor  = 1.32;
                     break;
                 case 8:
-                    $randomConsistencyIndexCompetitor = 1.41;
+                    $randomConsistencyIndexCompetitor  = 1.41;
                     break;
                 case 9:
-                    $randomConsistencyIndexCompetitor = 1.45;
+                    $randomConsistencyIndexCompetitor  = 1.45;
                     break;
                 case 10:
-                    $randomConsistencyIndexCompetitor = 1.49;
+                    $randomConsistencyIndexCompetitor  = 1.49;
                     break;
                 case 11:
-                    $randomConsistencyIndexCompetitor = 1.51;
+                    $randomConsistencyIndexCompetitor  = 1.51;
                     break;
                 case 12:
-                    $randomConsistencyIndexCompetitor = 1.48;
+                    $randomConsistencyIndexCompetitor  = 1.48;
                     break;
                 case 13:
-                    $randomConsistencyIndexCompetitor = 1.56;
+                    $randomConsistencyIndexCompetitor  = 1.56;
                     break;
                 case 14:
-                    $randomConsistencyIndexCompetitor = 1.57;
+                    $randomConsistencyIndexCompetitor  = 1.57;
                     break;
                 case 15:
-                    $randomConsistencyIndexCompetitor = 1.59;
+                    $randomConsistencyIndexCompetitor  = 1.59;
                     break;
                 default:
                     // Handle for more than 10 elements if needed
                     break;
             }
 
-            // Hitung Consistency Index (CI)
-            $consistencyIndexCompetitor = ($lambdaMaxCompetitor - $numMalls_competitor) / ($numMalls_competitor - 1);
+            // Calculate Consistency Index (CI)
+            $CICompetitor = ($lambdaMaxCompetitor - $numMallsCompetitor) / ($numMallsCompetitor - 1);
 
-            // Hitung nilai konsistensi ratio (CR)
-            $consistencyRatioCompetitor = $consistencyIndexCompetitor / $randomConsistencyIndexCompetitor;
 
-            // Tampilkan hasil konsistensi
-            echo "<p>Nilai Consistency Index (CI): " . number_format($consistencyIndexCompetitor, 5, '.', '') . "</p>";
-            echo "<p>Nilai Random Consistency Index (RI) untuk $numMalls_competitor elemen: " . $randomConsistencyIndexCompetitor . "</p>";
-            echo "<p>Nilai Consistency Ratio (CR): " . number_format($consistencyRatioCompetitor, 5, '.', '') . "</p>";
+            // Calculate Consistency Ratio (CR)
+            $CRCompetitor = $CICompetitor / $randomConsistencyIndexCompetitor; // You need to define RI according to your matrix size
 
-            // Tambahkan kondisi untuk menentukan konsistensi
-            if ($consistencyRatioCompetitor < 0.1) {
-                echo "<p>Nilai Konsisten</p>";
+            // Check if consistency is acceptable
+            if ($CRCompetitor < 0.1) {
+                echo "<p>Consistency Ratio (CR) is acceptable </p>";
             } else {
-                echo "<p>Nilai Tidak Konsisten</p>";
+                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
             }
         }
         ?>

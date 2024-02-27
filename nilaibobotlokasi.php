@@ -1,12 +1,13 @@
 <?php
 session_start();
 
-// Initialize the $input_values array
-if (!isset($_SESSION['comparison_results'])) {
-    $_SESSION['comparison_results'] = [];
+// Initialize selected mallsT$mallsToShow
+$mallsToShow = $_SESSION['selected_malls'] ?? [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+    // Your form handling code here
 }
 
-$mallsToShow = $_SESSION['selected_malls'] ?? [];
 ?>
 
 <!DOCTYPE html>
@@ -30,13 +31,18 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 <img src="img\logo.png" alt="Logo">
             </div>
 
-            <div class="navb-items d-none d-xl-flex">
-                <div class="item">
+            <div class="navb-items d-none d-xl-flex gap-3">
+
+                <div class="navb-items d-none d-xl-flex">
                     <a href="index.php">Beranda</a>
                 </div>
 
-                <div class="item">
+                <div class="navb-items d-none d-xl-flex">
                     <a href="search.php">Pencarian</a>
+                </div>
+
+                <div class="navb-items d-none d-xl-flex">
+                    <a href="pilihmall.php">Pilih Mall</a>
                 </div>
 
                 <div class="item dropdown">
@@ -111,38 +117,18 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
         <form method="post">
             <div class="row mb-3">
                 <div class="col">
-                    <label for="criteria">Criteria:</label>
-                    <input type="text" name="criteria" class="form-control" value="K01 - Location" readonly>
+                    <label for="criteria">Kriteria:</label>
+                    <input type="text" name="criteria" class="form-control" value="K01 - Lokasi" readonly>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col">
                     <select name="alternative1" class="form-select">
                         <?php
-                        $malls = [
-                            "Bali Collection",
-                            "Samasta Lifestyle Village",
-                            "Sidewalk Jimbaran",
-                            "Park 23",
-                            "Mall Bali Galeria",
-                            "Lippo Mall Kuta",
-                            "Lippo Plaza Sunset",
-                            "Trans Studio Mall Bali",
-                            "Level21 Mall",
-                            "Lippo Plaza Renon",
-                            "Seminyak Village",
-                            "Seminyak Square",
-                            "Beachwalk Shopping Centre",
-                            "Discovery Shopping Mall",
-                            "Living World Denpasar",
-                            "Ramayana Bali Mall",
-                        ];
-
-                        foreach ($malls as $mall) {
+                        foreach ($mallsToShow as $mall) {
                             $selected = in_array($mall, $mallsToShow) ? 'selected' : ''; // Menandai mal yang sudah dipilih sebelumnya
-                            echo "<option value=\"$mall\" $selected>$mall</option>";
+                            echo "<option value=\"$mall\">$mall</option>";
                         }
-
                         ?>
                     </select>
                 </div>
@@ -164,7 +150,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 <div class="col">
                     <select name="alternative2" class="form-select">
                         <?php
-                        foreach ($malls as $mall) {
+                        foreach ($mallsToShow as $mall) {
                             echo "<option value=\"$mall\">$mall</option>";
                         }
                         ?>
@@ -228,22 +214,20 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             echo "<h3>Comparison Results</h3>";
             echo "<table border='1'>";
             echo "<tr><th>Comparison</th>";
-            foreach ($malls as $mall) {
+            foreach ($mallsToShow as $mall) {
                 echo "<th>$mall</th>";
             }
-            echo "<th>Total</th></tr>";
 
             // Initialize an array to store the total values for each mall
-            $totalValues = array_fill_keys($malls, 0);
+            $totalValues = array_fill_keys($mallsToShow, 0);
 
             // Loop through each mall for comparison results
-            foreach ($malls as $mall1) {
+            foreach ($mallsToShow as $mall1) {
                 echo "<tr>";
                 echo "<td>$mall1</td>";
                 $totalRow = 0; // Total for this row
 
-
-                foreach ($malls as $mall2) {
+                foreach ($mallsToShow as $mall2) {
                     $comparisonValue = null;
                     $isInverse = false; // Flag to check if the comparison is inverse
 
@@ -258,219 +242,183 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         }
                     }
 
-
                     if ($comparisonValue !== null) {
                         if ($isInverse) {
                             echo "<td>" . number_format($comparisonValue, 5, '.', '') . "</td>"; // Display inverse comparison value
                         } else {
                             echo "<td>" . number_format($comparisonValue, 5, '.', '') . "</td>"; // Display comparison value
                         }
-                        $totalRow += $comparisonValue;
-                        $totalValues[$mall1] += $comparisonValue;
+                        $totalValues[$mall2] += $comparisonValue; // Fix here, use mall2 as key for totalValues
+                    } else {
+                        echo "<td>-</td>";
+                    }
+                }
+            }
+
+            // Show the total row after looping through all mallsT$mallsToShow
+            echo "<tr><td>Total</td>";
+            $totalTotal = 0;
+            foreach ($mallsToShow as $mall) {
+                $totalTotal += $totalValues[$mall];
+                echo "<td>" . number_format($totalValues[$mall], 5, '.', '') . "</td>";
+            }
+            echo "</tr>";
+
+            echo "</table>";
+
+            echo "<h3>Normalized Comparison Results</h3>";
+            echo "<table border='1'>";
+            echo "<tr><th>Comparison</th>";
+            foreach ($mallsToShow as $mall) {
+                echo "<th>$mall</th>";
+            }
+            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+
+            // Array to store column totals
+            $columnTotals = array_fill_keys($mallsToShow, 0);
+
+            // Counting the number of mallsT$mallsToShow
+            $numMalls = count($mallsToShow);
+
+            // Initialize an array to store normalized row totals
+            $normalizedRowTotals = [];
+
+            // Loop through each mall for comparison results
+            foreach ($mallsToShow as $mall1) {
+                echo "<tr>";
+                echo "<td>$mall1</td>";
+                $rowTotal = 0; // Menyimpan total per baris
+
+                foreach ($mallsToShow as $mall2) {
+                    $comparisonValue = null;
+
+                    foreach ($comparison_results as $result) {
+                        if (($result['alternative1'] == $mall1 && $result['alternative2'] == $mall2)) {
+                            $comparisonValue = $result[$criteria];
+                            break;
+                        } elseif (($result['alternative1'] == $mall2 && $result['alternative2'] == $mall1)) {
+                            $comparisonValue = 1 / $result[$criteria]; // Take the inverse
+                            break;
+                        }
+                    }
+
+                    if ($comparisonValue !== null) {
+                        // Calculate the normalized value
+                        $normalizedValue = $comparisonValue / $totalValues[$mall2];
+                        echo "<td>" . number_format($normalizedValue, 5, '.', '') . "</td>";
+
+                        // Add to column totals
+                        $columnTotals[$mall2] += $normalizedValue;
+
+                        // Add to row total
+                        $rowTotal += $normalizedValue;
                     } else {
                         echo "<td>-</td>";
                     }
                 }
 
-                echo "<td>" . number_format($totalRow, 5, '.', '') . "</td>"; // Display the total for this row
-                echo "</tr>";
+                // Calculate normalized row total
+                $normalizedRowTotal = $rowTotal / $numMalls;
+                $normalizedRowTotals[$mall1] = $normalizedRowTotal; // Store normalized row total
+                echo "<td>" . number_format($normalizedRowTotal, 5, '.', '') . "</td>";
             }
 
+            // Show the total row after looping through all mallsT$mallsToShow
+            echo "<tr><td>Total</td>";
+            foreach ($mallsToShow as $mall) {
+                echo "<td>" . number_format($columnTotals[$mall], 5, '.', '') . "</td>";
+            }
 
+            // Calculate eigen value and display
+            $eigenValue = array_sum($columnTotals) / $numMalls;
+            echo "<td>" . number_format($eigenValue, 5, '.', '') . "</td>";
+
+            echo "</tr>";
             echo "</table>";
 
-            // Display the divided comparison results
-            echo "<h3>Divided Comparison Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Mall</th>";
-            foreach ($malls as $mall) {
-                echo "<th>$mall</th>";
-            }
-            echo "<th>Total</th>"; // Add Total column header
-            echo "</tr>";
+            // Display normalized row totals
+            // echo "<h3>Normalized Row Totals</h3>";
+            // echo "<ul>";
+            // foreach ($normalizedRowTotals as $mall => $rowTotal) {
+            //     echo "<li><strong>$mall:</strong> " . number_format($rowTotal, 5, '.', '') . "</li>";
+            // }
+            // echo "</ul>";
 
-            // Display the divided comparison results
-            foreach ($malls as $mall) {
-                echo "<tr>";
-                echo "<td>$mall</td>";
 
-                // Get the total for this row
-                $rowTotal = $totalValues[$mall];
+            // Simpan nilai normalized row totals dalam sesi
+            $_SESSION['normalized_row_totals_lokasi'] = $normalizedRowTotals;
 
-                // Initialize the sum of divided values for this row
-                $dividedValuesSum = 0;
-
-                foreach ($malls as $mall2) {
-                    // Get the current value in the table
-                    $currentValue = 0;
-
-                    // Search for the corresponding value in the comparison results
-                    foreach ($comparison_results as $result) {
-                        if (($result['alternative1'] == $mall && $result['alternative2'] == $mall2)) {
-                            $currentValue = $result[$criteria];
-                            break;
-                        } elseif (($result['alternative1'] == $mall2 && $result['alternative2'] == $mall)) {
-                            // If inverse comparison found, set the current value as its inverse
-                            $currentValue = 1 / $result[$criteria];
-                            break;
-                        }
-                    }
-
-                    // Calculate the value divided by the row total
-                    $dividedValue = 0;
-                    if ($rowTotal != 0) {
-                        // Perform division only if row total is non-zero
-                        $dividedValue = $currentValue / $rowTotal;
-                    }
-
-                    // Update the sum of divided values for this row
-                    $dividedValuesSum += $dividedValue;
-
-                    // Display the divided value
-                    echo "<td>" . number_format($dividedValue, 5, '.', '') . "</td>";
-                }
-
-                // Display the sum of divided values for this row
-                echo "<td>" . $dividedValuesSum . "</td>";
-                echo "</tr>";
-            }
-
-            // Menghitung jumlah elemen mall
-            $numMalls = count($malls);
-
-            // Array untuk menyimpan total nilai per kolom
-            $totalPerColumn = array_fill_keys($malls, 0);
-
-            // Menghitung total nilai per kolom
-            foreach ($malls as $mall) {
-                foreach ($malls as $mall2) {
-                    // Menambahkan nilai pada kolom ke total kolom yang sesuai
-                    $rowTotal = $totalValues[$mall];
-                    foreach ($comparison_results as $result) {
-                        if (($result['alternative1'] == $mall && $result['alternative2'] == $mall2)) {
-                            $currentValue = $result[$criteria] / $rowTotal; // Dibagi dengan total baris
-                            $totalPerColumn[$mall2] += $currentValue;
-                            break;
-                        } elseif (($result['alternative1'] == $mall2 && $result['alternative2'] == $mall)) {
-                            $currentValue = 1 / $result[$criteria] / $rowTotal; // Dibagi dengan total baris
-                            $totalPerColumn[$mall2] += $currentValue;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // Membagi total nilai per kolom dengan jumlah elemen mall
-            foreach ($totalPerColumn as $mall => $total) {
-                $totalPerColumn[$mall] /= $numMalls;
-            }
-
-            // Menghitung total dari hasil
-            $totalResult = 0;
-            foreach ($totalPerColumn as $total) {
-                $totalResult += $total;
-            }
-
-            // Menampilkan total nilai per kolom
-            echo "<tr><th>Eigen Vector</th>";
-            foreach ($malls as $mall) {
-                // Display the eigenvector value
-                echo "<td>" . number_format($totalPerColumn[$mall], 5, '.', '') . "</td>";;
-            }
-            echo "<td>$totalResult</td>"; // Menampilkan total dari hasil
-            echo "</tr>";
-
-            echo "</table>";
-
-            // Simpan nilai eigenvector dalam sesi
-            $_SESSION['eigenvector_lokasi'] = $totalPerColumn;
-
-            // Hitung Lambda Max
+            // Calculate Lambda Max
             $lambdaMax = 0;
-
-            // Pengulangan untuk setiap alternatif
-            foreach ($malls as $mall) {
-                // Inisialisasi nilai hasil total untuk alternatif ini
-                $totalValueForMall = $totalValues[$mall];
-
-                // Ambil nilai eigenvector untuk alternatif ini
-                $eigenvectorForMall = $totalPerColumn[$mall];
-
-                // Perkalian nilai total dengan nilai eigenvector dan tambahkan ke Lambda Max
-                $lambdaMax += $totalValueForMall * $eigenvectorForMall;
+            foreach ($mallsToShow as $mall) {
+                $lambdaMax += $totalValues[$mall2] * $normalizedRowTotal;
             }
-
-            echo "<p>Nilai Lambda Max: " . number_format($lambdaMax, 5, '.', '') . "</p>";
 
             // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall
-            $randomConsistencyIndex = 0;
+            $randomConsistencyIndex  = 0;
             switch ($numMalls) {
                 case 1:
-                    $randomConsistencyIndex = 0;
+                    $randomConsistencyIndex  = 0;
                     break;
                 case 2:
-                    $randomConsistencyIndex = 0;
+                    $randomConsistencyIndex  = 0;
                     break;
                 case 3:
-                    $randomConsistencyIndex = 0.58;
+                    $randomConsistencyIndex  = 0.58;
                     break;
                 case 4:
-                    $randomConsistencyIndex = 0.90;
+                    $randomConsistencyIndex  = 0.90;
                     break;
                 case 5:
-                    $randomConsistencyIndex = 1.12;
+                    $randomConsistencyIndex  = 1.12;
                     break;
                 case 6:
-                    $randomConsistencyIndex = 1.24;
+                    $randomConsistencyIndex  = 1.24;
                     break;
                 case 7:
-                    $randomConsistencyIndex = 1.32;
+                    $randomConsistencyIndex  = 1.32;
                     break;
                 case 8:
-                    $randomConsistencyIndex = 1.41;
+                    $randomConsistencyIndex  = 1.41;
                     break;
                 case 9:
-                    $randomConsistencyIndex = 1.45;
+                    $randomConsistencyIndex  = 1.45;
                     break;
                 case 10:
-                    $randomConsistencyIndex = 1.49;
+                    $randomConsistencyIndex  = 1.49;
                     break;
                 case 11:
-                    $randomConsistencyIndex = 1.51;
+                    $randomConsistencyIndex  = 1.51;
                     break;
                 case 12:
-                    $randomConsistencyIndex = 1.48;
+                    $randomConsistencyIndex  = 1.48;
                     break;
                 case 13:
-                    $randomConsistencyIndex = 1.56;
+                    $randomConsistencyIndex  = 1.56;
                     break;
                 case 14:
-                    $randomConsistencyIndex = 1.57;
+                    $randomConsistencyIndex  = 1.57;
                     break;
                 case 15:
-                    $randomConsistencyIndex = 1.59;
+                    $randomConsistencyIndex  = 1.59;
                     break;
                 default:
                     // Handle for more than 10 elements if needed
                     break;
             }
 
-            // Hitung Consistency Index (CI)
-            $consistencyIndex = ($lambdaMax - $numMalls) / ($numMalls - 1);
+            // Calculate Consistency Index (CI)
+            $CI = ($lambdaMax - $numMalls) / ($numMalls - 1);
 
-            // Hitung nilai konsistensi ratio (CR)
-            $consistencyRatio = $consistencyIndex / $randomConsistencyIndex;
 
-            // Tampilkan hasil konsistensi
-            echo "<p>Nilai Consistency Index (CI): " . number_format($consistencyIndex, 5, '.', '') . "</p>";
-            echo "<p>Nilai Random Consistency Index (RI) untuk $numMalls elemen: " . $randomConsistencyIndex . "</p>";
-            echo "<p>Nilai Consistency Ratio (CR): " . number_format($consistencyRatio, 5, '.', '') . "</p>";
+            // Calculate Consistency Ratio (CR)
+            $CR = $CI / $randomConsistencyIndex; // You need to define RI according to your matrix size
 
-            // Tambahkan kondisi untuk menentukan konsistensi
-            if ($consistencyRatio < 0.1) {
-                echo "<p>Nilai Konsisten</p>";
+            // Check if consistency is acceptable
+            if ($CR < 0.1) {
+                echo "<p>Consistency Ratio (CR) is acceptable </p>";
             } else {
-                echo "<p>Nilai Tidak Konsisten</p>";
+                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
             }
         }
         ?>

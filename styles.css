@@ -402,8 +402,8 @@ h3 {
 }
 
 .dropdown-toggle {
-    padding-right: 10px; 
-    padding-left: 10px;
+    /* padding-left: 20px;
+    padding-right: 20px; */
     font-size: 16px; 
     font-family: 'Urbanist', sans-serif;
     margin-top: 10px;
@@ -418,8 +418,19 @@ h3 {
     font-size: 16px; /* Atur ukuran font sesuai kebutuhan */
 }
 
-.navb-items .navb-item:not(:last-child) {
-    margin-right: 5px; /* Atur margin kanan setiap item kecuali yang terakhir */
+#popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #000;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000; /* Pastikan popup ada di atas elemen lain */
+    text-align: center; /* Menengahkan teks */
+    font-size: 18px;
 }
 
 

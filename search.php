@@ -21,7 +21,7 @@
                     <img src="img\logo.png" alt="Logo">
                 </div>
 
-                <div class="navb-items d-none d-xl-flex">
+                <div class="navb-items d-none d-xl-flex gap-3">
 
                     <div class="navb-items d-none d-xl-flex">
                         <a href="index.php">Beranda</a>
@@ -31,123 +31,129 @@
                         <a href="search.php">Pencarian</a>
                     </div>
 
-
                     <div class="navb-items d-none d-xl-flex">
-                        <div class="item dropdown">
-                            <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Nilai Bobot Alternatif
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                                <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
-                                <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
-                                <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
-                            </div>
-                        </div>
+                        <a href="pilihmall.php">Pilih Mall</a>
+                    </div>
 
-                        <div class="item dropdown">
-                            <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Nilai Bobot Kriteria
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                                <a class="dropdown-item" href="nilaibobotbalicollection.php">Berdasarkan Bali Collection</a>
-                                <a class="dropdown-item" href="nilaibobotsamasta.php">Berdasarkan Samasta Lifestyle Village</a>
-                                <a class="dropdown-item" href="nilaibobotsidewalk.php">Berdasarkan Sidewalk Jimbaran</a>
-                                <a class="dropdown-item" href="nilaibobotpark23.php">Berdasarkan Park 23</a>
-                                <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall Bali Galeria</a>
-                                <a class="dropdown-item" href="nilaibobotlippokuta.php">Berdasarkan Lippo Mall Kuta</a>
-                                <a class="dropdown-item" href="nilaibobotlipposunset.php">Berdasarkan Lippo Plaza Sunset</a>
-                                <a class="dropdown-item" href="nilaibobottsm.php">Berdasarkan Trans Studio Mall Bali</a>
-                                <a class="dropdown-item" href="nilaibobotlevel.php">Berdasarkan Level21 Mall</a>
-                                <a class="dropdown-item" href="nilaibobotplazarenon.php">Berdasarkan Lippo Plaza Renon</a>
-                                <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
-                                <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
-                                <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
-                                <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall</a>
-                                <a class="dropdown-item" href="nilaibobotliving.php">Berdasarkan Living World Denpasar</a>
-                                <a class="dropdown-item" href="nilaibobotramayana.php">Berdasarkan Ramayana Bali Mall</a>
-                            </div>
-                        </div>
-
-                        <div class="item dropdown">
-                            <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Rekomendasi
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                                <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Weighted Supermatrix</a>
-                                <a class="dropdown-item" href="hasilakhir.php">Hasil Rekomendasi</a>
-                            </div>
+                    <div class="item dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Nilai Bobot Alternatif
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
+                            <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                            <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
+                            <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                         </div>
                     </div>
 
-                    <!-- Button trigger modal -->
+                    <div class="item dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Nilai Bobot Kriteria
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
+                            <a class="dropdown-item" href="nilaibobotbalicollection.php">Berdasarkan Bali Collection</a>
+                            <a class="dropdown-item" href="nilaibobotsamasta.php">Berdasarkan Samasta Lifestyle Village</a>
+                            <a class="dropdown-item" href="nilaibobotsidewalk.php">Berdasarkan Sidewalk Jimbaran</a>
+                            <a class="dropdown-item" href="nilaibobotpark23.php">Berdasarkan Park 23</a>
+                            <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall Bali Galeria</a>
+                            <a class="dropdown-item" href="nilaibobotlippokuta.php">Berdasarkan Lippo Mall Kuta</a>
+                            <a class="dropdown-item" href="nilaibobotlipposunset.php">Berdasarkan Lippo Plaza Sunset</a>
+                            <a class="dropdown-item" href="nilaibobottsm.php">Berdasarkan Trans Studio Mall Bali</a>
+                            <a class="dropdown-item" href="nilaibobotlevel.php">Berdasarkan Level21 Mall</a>
+                            <a class="dropdown-item" href="nilaibobotplazarenon.php">Berdasarkan Lippo Plaza Renon</a>
+                            <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
+                            <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
+                            <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
+                            <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall</a>
+                            <a class="dropdown-item" href="nilaibobotliving.php">Berdasarkan Living World Denpasar</a>
+                            <a class="dropdown-item" href="nilaibobotramayana.php">Berdasarkan Ramayana Bali Mall</a>
+                        </div>
+                    </div>
 
-                    <!-- The modal pop-up -->
-                    <div id="popup" class="modal">
+                    <div class="item dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Rekomendasi
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
+                            <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Weighted Supermatrix</a>
+                            <a class="dropdown-item" href="hasilakhir.php">Hasil Rekomendasi</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Button trigger modal -->
+
+                <!-- The modal pop-up -->
+                <div id="popup" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <p>This is the popup content.</p>
+                    </div>
+                </div>
+
+
+
+
+                <!-- Modal -->
+                <div class="modal fade" id="navbModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
                         <div class="modal-content">
-                            <span class="close">&times;</span>
-                            <p>This is the popup content.</p>
-                        </div>
-                    </div>
 
+                            <div class="modal-header">
+                                <img src="/img/logo-variant.png" alt="Logo">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
 
+                            <div class="modal-body">
 
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="navbModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-
-                                <div class="modal-header">
-                                    <img src="/img/logo-variant.png" alt="Logo">
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+                                <div class="modal-line">
+                                    <i class="fa-solid fa-house"></i><a href="index.php">Beranda</a>
                                 </div>
 
-                                <div class="modal-body">
+                                <div class="modal-line">
+                                    <i class="fa-solid fa-bell-concierge"></i><a href="search.php">Pencarian</a>
+                                </div>
 
-                                    <div class="modal-line">
-                                        <i class="fa-solid fa-house"></i><a href="index.php">Beranda</a>
-                                    </div>
+                                <div class="modal-line">
+                                    <i class="fa-solid fa-bell-concierge"></i><a href="pilihmall.php">Pilih Mall</a>
+                                </div>
 
-                                    <div class="modal-line">
-                                        <i class="fa-solid fa-bell-concierge"></i><a href="search.php">Pencarian</a>
-                                    </div>
-
-
-                                    <div class="item dropdown">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Nilai Bobot Alternatif
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                                            <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
-                                            <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
-                                            <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
-                                        </div>
-                                    </div>
-
-                                    <div class="item dropdown">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Nilai Bobot Kriteria
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                                            <a class="dropdown-item" href="nilaibobotbalicollection.php">Berdasarkan Bali Collection</a>
-                                            <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Samasta Lifestyle Village</a>
-                                            <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Sidewalk Jimbaran</a>
-                                        </div>
+                                <div class="item dropdown">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Nilai Bobot Alternatif
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
+                                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                                        <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
+                                        <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                                     </div>
                                 </div>
 
-                                <div class="mobile-modal-footer">
-
-                                    <a target="_blank" href="#"><i class="fa-brands fa-instagram"></i></a>
-                                    <a target="_blank" href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                                    <a target="_blank" href="#"><i class="fa-brands fa-youtube"></i></a>
-                                    <a target="_blank" href="#"><i class="fa-brands fa-facebook"></i></a>
+                                <div class="item dropdown">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Nilai Bobot Kriteria
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
+                                        <a class="dropdown-item" href="nilaibobotbalicollection.php">Berdasarkan Bali Collection</a>
+                                        <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Samasta Lifestyle Village</a>
+                                        <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Sidewalk Jimbaran</a>
+                                    </div>
                                 </div>
+                            </div>
+
+                            <div class="mobile-modal-footer">
+
+                                <a target="_blank" href="#"><i class="fa-brands fa-instagram"></i></a>
+                                <a target="_blank" href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a target="_blank" href="#"><i class="fa-brands fa-youtube"></i></a>
+                                <a target="_blank" href="#"><i class="fa-brands fa-facebook"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
         </header>
+
         <?php
         require_once("sparqllib.php");
         $test = "";

@@ -24,7 +24,7 @@
                 <img src="img\logo.png" alt="Logo">
             </div>
 
-            <div class="navb-items d-none d-xl-flex">
+            <div class="navb-items d-none d-xl-flex gap-3">
 
                 <div class="navb-items d-none d-xl-flex">
                     <a href="index.php">Beranda</a>
@@ -111,8 +111,8 @@
                                 <i class="fa-solid fa-bell-concierge"></i><a href="search.php">Pencarian</a>
                             </div>
 
-                            <div class="navb-items d-none d-xl-flex">
-                                <a href="pilihmall.php">Pilih Mall</a>
+                            <div class="modal-line">
+                                <i class="fa-solid fa-bell-concierge"></i><a href="pilihmall.php">Pilih Mall</a>
                             </div>
 
                             <div class="item dropdown">
@@ -171,7 +171,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </header>
 

@@ -2,10 +2,11 @@
 session_start();
 
 // Initialize the $input_values array
-if (!isset($_SESSION['comparison_results_lipporenon'])) {
-    $_SESSION['comparison_results_lipporenon'] = [];
+if (!isset($_SESSION['comparison_results_plaza'])) {
+    $_SESSION['comparison_results_plaza'] = [];
 }
 
+$mallsToShow = $_SESSION['selected_malls'] ?? [];
 ?>
 
 <!DOCTYPE html>
@@ -29,13 +30,18 @@ if (!isset($_SESSION['comparison_results_lipporenon'])) {
                 <img src="img\logo.png" alt="Logo">
             </div>
 
-            <div class="navb-items d-none d-xl-flex">
-                <div class="item">
+            <div class="navb-items d-none d-xl-flex gap-3">
+
+                <div class="navb-items d-none d-xl-flex">
                     <a href="index.php">Beranda</a>
                 </div>
 
-                <div class="item">
+                <div class="navb-items d-none d-xl-flex">
                     <a href="search.php">Pencarian</a>
+                </div>
+
+                <div class="navb-items d-none d-xl-flex">
+                    <a href="pilihmall.php">Pilih Mall</a>
                 </div>
 
                 <div class="item dropdown">
@@ -103,36 +109,38 @@ if (!isset($_SESSION['comparison_results_lipporenon'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-4 mt-4">Nilai Bobot Kriteria</h2>
+                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Kriteria Terhadap Alternatif Lippo Plaza Renon</h2>
             </div>
         </div>
 
         <form method="post">
             <div class="row mb-3">
                 <div class="col">
-                    <label for="alternatif">Alternative:</label>
-                    <input type="text" name="alternatif_lipporenon" class="form-control" value="A10 - Lippo Plaza Renon" readonly>
+                    <label for="alternatif">Alternatif:</label>
+                    <input type="text" name="alternatif_plaza" class="form-control" value="A10 - Lippo Plaza Renon" readonly>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col">
-                    <select name="kriteria_lipporenon" class="form-select">
+                    <select name="kriteria_plaza" class="form-select">
                         <?php
-                        $tenants_lipporenon = [
-                            "Location",
-                            "Price",
-                            "Competitor",
+                        $tenants_plaza = [
+                            "Lokasi",
+                            "Harga",
+                            "Pesaing",
                         ];
 
-                        foreach ($tenants_lipporenon as $tenant_lipporenon) {
-                            echo "<option value=\"$tenant_lipporenon\">$tenant_lipporenon</option>";
+                        foreach ($tenants_plaza as $tenant_plaza) {
+                            $selected = in_array($tenant_plaza, $mallsToShow) ? 'selected' : ''; // Menandai mal yang sudah dipilih sebelumnya
+                            echo "<option value=\"$tenant_plaza\" $selected>$tenant_plaza</option>";
                         }
+
                         ?>
                     </select>
                 </div>
 
                 <div class="col">
-                    <select name="comparison_lipporenon" class="form-select">
+                    <select name="comparison_plaza" class="form-select">
                         <option value="1">1 - Kedua elemen sama pentingnya</option>
                         <option value="3">3 - Elemen yang satu sedikit lebih penting daripada elemen yang lainnya</option>
                         <option value="5">5 - Elemen yang satu lebih penting daripada elemen lainnya</option>
@@ -146,10 +154,10 @@ if (!isset($_SESSION['comparison_results_lipporenon'])) {
                 </div>
 
                 <div class="col">
-                    <select name="kriteria_lipporenon2" class="form-select">
+                    <select name="kriteria_plaza2" class="form-select">
                         <?php
-                        foreach ($tenants_lipporenon as $tenant_lipporenon) {
-                            echo "<option value=\"$tenant_lipporenon\">$tenant_lipporenon</option>";
+                        foreach ($tenants_plaza as $tenant_plaza) {
+                            echo "<option value=\"$tenant_plaza\">$tenant_plaza</option>";
                         }
                         ?>
                     </select>
@@ -164,276 +172,270 @@ if (!isset($_SESSION['comparison_results_lipporenon'])) {
 
         <?php
         if (isset($_POST['submit'])) {
-            // Get input values
-            $alternatif_lipporenon = $_POST['alternatif_lipporenon'];
-            $kriteria_lipporenon = $_POST['kriteria_lipporenon'];
-            $comparison_value_lipporenon = $_POST['comparison_lipporenon'];
-            $kriteria_lipporenon2 = $_POST['kriteria_lipporenon2'];
+            // Check if alternatif_plaza is set
+            if (isset($_POST['alternatif_plaza'])) {
+                // Get input values
+                $alternatif_plaza = $_POST['alternatif_plaza'];
+                $kriteria_plaza = $_POST['kriteria_plaza'];
+                $comparison_value_plaza = $_POST['comparison_plaza'];
+                $kriteria_plaza2 = $_POST['kriteria_plaza2'];
 
-            // Retrieve comparison results from session
-            $comparison_results_lipporenon = $_SESSION['comparison_results_lipporenon'];
+                // Retrieve comparison_plaza results from session
+                $comparison_results_plaza = $_SESSION['comparison_results_plaza'];
 
-            // Check if the comparison result for this combination of alternative1 and alternative2 already exists
-            $exists = false;
-            foreach ($comparison_results_lipporenon as $key_lipporenon => $result_lipporenon) {
-                if ($result_lipporenon['kriteria_lipporenon'] == $kriteria_lipporenon && $result_lipporenon['kriteria_lipporenon2'] == $kriteria_lipporenon2) {
-                    $exists = true;
-                    // Update the comparison value
-                    $comparison_results_lipporenon[$key_lipporenon][$alternatif_lipporenon] = $comparison_value_lipporenon;
-                    break;
+                // Check if the comparison_plaza result_plaza for this combination of kriteria_plaza and kriteria_plaza2 already exists
+                // Jika kriteria_plaza dan kriteria_plaza2 sama, set nilai perbandingannya menjadi 1
+                if ($kriteria_plaza === $kriteria_plaza2) {
+                    $comparison_value_plaza = 1;
                 }
+
+                // Check if the comparison_plaza result_plaza for this combination of kriteria_plaza and kriteria_plaza2 already exists
+                $exists = false;
+                foreach ($comparison_results_plaza as $key_plaza => $result_plaza) {
+                    if ($result_plaza['kriteria_plaza'] == $kriteria_plaza && $result_plaza['kriteria_plaza2'] == $kriteria_plaza2) {
+                        $exists = true;
+                        // Update the comparison_plaza value
+                        $comparison_results_plaza[$key_plaza][$alternatif_plaza] = $comparison_value_plaza;
+                        break; // Break the loop after updating the comparison_plaza value
+                    }
+                }
+
+                // If the comparison_plaza result_plaza doesn't exist, add it to the comparison_plaza results array
+                if (!$exists) {
+                    $comparison_results_plaza[] = array(
+                        'kriteria_plaza' => $kriteria_plaza,
+                        'kriteria_plaza2' => $kriteria_plaza2,
+                        $alternatif_plaza => $comparison_value_plaza
+                    );
+                }
+
+
+                // Update the comparison_plaza results in the session
+                $_SESSION['comparison_results_plaza'] = $comparison_results_plaza;
+            } else {
+                // Action if alternatif_plaza is not defined
+                echo "Alternatif tidak terdefinisi.";
             }
 
-            // If the comparison result doesn't exist, add it to the comparison results array
-            if (!$exists) {
-                $comparison_results_lipporenon[] = array(
-                    'kriteria_lipporenon' => $kriteria_lipporenon,
-                    'kriteria_lipporenon2' => $kriteria_lipporenon2,
-                    $alternatif_lipporenon => $comparison_value_lipporenon
-                );
-            }
-
-
-            // Update the comparison results in the session
-            $_SESSION['comparison_results_lipporenon'] = $comparison_results_lipporenon;
-
-
-            echo "<h3>Comparison Results</h3>";
+            echo "<h3>Comparison_plaza Results</h3>";
             echo "<table border='1'>";
-            echo "<tr><th>Comparison</th>";
-            foreach ($tenants_lipporenon as $tenant_lipporenon) {
-                echo "<th>$tenant_lipporenon</th>";
+            echo "<tr><th>Comparison_plaza</th>";
+            foreach ($tenants_plaza as $tenant_plaza) {
+                echo "<th>$tenant_plaza</th>";
             }
-            echo "<th>Total</th></tr>";
 
-            // Initialize an array to store the total values for each mall
-            $totalValuesLippoRenon = array_fill_keys($tenants_lipporenon, 0);
+            // Initialize an array to store the total values for each tenant
+            $totalValuesPlaza = array_fill_keys($tenants_plaza, 0);
 
-            // Loop through each mall for comparison results
-            foreach ($tenants_lipporenon as $tenant_lipporenon1) {
+            // Loop through each tenant for comparison_plaza results
+            foreach ($tenants_plaza as $tenant_plaza1) {
                 echo "<tr>";
-                echo "<td>$tenant_lipporenon1</td>";
-                $totalRowLippoRenon = 0; // Total for this row
+                echo "<td>$tenant_plaza1</td>";
+                $totalRowPlaza = 0; // Total for this row
 
-                foreach ($tenants_lipporenon as $tenant_lipporenon2) {
-                    $comparisonValueLippoRenon = null;
-                    $isInverseLippoRenon = false; // Flag to check if the comparison is inverse
+                foreach ($tenants_plaza as $tenant_plaza2) {
+                    $comparisonValuePlaza = null;
+                    $isInversePlaza = false; // Flag to check if the comparison_plaza is inverse
 
-                    foreach ($comparison_results_lipporenon as $result_lipporenon) {
-                        if (($result_lipporenon['kriteria_lipporenon'] == $tenant_lipporenon1 && $result_lipporenon['kriteria_lipporenon2'] == $tenant_lipporenon2)) {
-                            $comparisonValueLippoRenon = $result_lipporenon[$alternatif_lipporenon];
+                    foreach ($comparison_results_plaza as $result_plaza) {
+                        if (($result_plaza['kriteria_plaza'] == $tenant_plaza1 && $result_plaza['kriteria_plaza2'] == $tenant_plaza2)) {
+                            $comparisonValuePlaza = $result_plaza[$alternatif_plaza];
                             break;
-                        } elseif (($result_lipporenon['kriteria_lipporenon'] == $tenant_lipporenon2 && $result_lipporenon['kriteria_lipporenon2'] == $tenant_lipporenon1)) {
-                            $comparisonValueLippoRenon = 1 / $result_lipporenon[$alternatif_lipporenon]; // Take the inverse
-                            $isInverseLippoRenon = true;
+                        } elseif (($result_plaza['kriteria_plaza'] == $tenant_plaza2 && $result_plaza['kriteria_plaza2'] == $tenant_plaza1)) {
+                            $comparisonValuePlaza = 1 / $result_plaza[$alternatif_plaza]; // Take the inverse
+                            $isInversePlaza = true;
                             break;
                         }
                     }
 
-                    if ($comparisonValueLippoRenon !== null) {
-                        if ($isInverseLippoRenon) {
-                            echo "<td>" . number_format($comparisonValueLippoRenon, 5, '.', '') . "</td>"; // Display inverse comparison value
+                    if ($comparisonValuePlaza !== null) {
+                        if ($isInversePlaza) {
+                            echo "<td>" . number_format($comparisonValuePlaza, 5, '.', '') . "</td>"; // Display inverse comparison_plaza value
                         } else {
-                            echo "<td>" . number_format($comparisonValueLippoRenon, 5, '.', '') . "</td>"; // Display comparison value
+                            echo "<td>" . number_format($comparisonValuePlaza, 5, '.', '') . "</td>"; // Display comparison_plaza value
                         }
-                        $totalRowLippoRenon += $comparisonValueLippoRenon;
-                        $totalValuesLippoRenon[$tenant_lipporenon1] += $comparisonValueLippoRenon;
+                        $totalValuesPlaza[$tenant_plaza2] += $comparisonValuePlaza; // Fix here, use tenant_plaza2 as key_plaza for totalValuesPlaza
+                    } else {
+                        echo "<td>-</td>";
+                    }
+                }
+            }
+
+            // Show the total row after looping through all tenants_plaza
+            echo "<tr><td>Total</td>";
+            $totalTotalPlza = 0;
+            foreach ($tenants_plaza as $tenant_plaza) {
+                $totalTotalPlza += $totalValuesPlaza[$tenant_plaza];
+                echo "<td>" . number_format($totalValuesPlaza[$tenant_plaza], 5, '.', '') . "</td>";
+            }
+            echo "</tr>";
+
+            echo "</table>";
+
+            echo "<h3>Normalized Comparison Results</h3>";
+            echo "<table border='1'>";
+            echo "<tr><th>Comparison</th>";
+            foreach ($tenants_plaza as $tenant_plaza) {
+                echo "<th>$tenant_plaza</th>";
+            }
+            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+
+            // Array to store column totals
+            $columnTotalsPlaza = array_fill_keys($tenants_plaza, 0);
+
+            // Counting the number of tenants$tenants_plaza
+            $numMallsPlaza = count($tenants_plaza);
+
+            // Initialize an array to store normalized row totals
+            $normalizedRowTotalsPlaza = [];
+
+            // Loop through each ten$tenant_plaza for comparison results
+            foreach ($tenants_plaza as $tenant_plaza1) {
+                echo "<tr>";
+                echo "<td>$tenant_plaza1</td>";
+                $rowTotalPlaza = 0; // Menyimpan total per baris
+
+                foreach ($tenants_plaza as $tenant_plaza2) {
+                    $comparisonValuePlaza = null;
+
+                    foreach ($comparison_results_plaza as $result_plaza) {
+                        if (($result_plaza['kriteria_plaza'] == $tenant_plaza1 && $result_plaza['kriteria_plaza2'] == $tenant_plaza2)) {
+                            $comparisonValuePlaza = $result_plaza[$alternatif_plaza];
+                            break;
+                        } elseif (($result_plaza['kriteria_plaza'] == $tenant_plaza2 && $result_plaza['kriteria_plaza2'] == $tenant_plaza1)) {
+                            $comparisonValuePlaza = 1 / $result_plaza[$alternatif_plaza]; // Take the inverse
+                            break;
+                        }
+                    }
+
+                    if ($comparisonValuePlaza !== null) {
+                        // Calculate the normalized value
+                        $normalizedValuePlaza = $comparisonValuePlaza / $totalValuesPlaza[$tenant_plaza2];
+                        echo "<td>" . number_format($normalizedValuePlaza, 5, '.', '') . "</td>";
+
+                        // Add to column totals
+                        $columnTotalsPlaza[$tenant_plaza2] += $normalizedValuePlaza;
+
+                        // Add to row total
+                        $rowTotalPlaza += $normalizedValuePlaza;
                     } else {
                         echo "<td>-</td>";
                     }
                 }
 
-                echo "<td>" . number_format($totalRowLippoRenon, 5, '.', '') . "</td>"; // Display the total for this row
-                echo "</tr>";
+                // Calculate normalized row total
+                $normalizedRowTotalPlaza = $rowTotalPlaza / $numMallsPlaza;
+                $normalizedRowTotalsPlaza[$tenant_plaza1] = $normalizedRowTotalPlaza; // Store normalized row total
+                echo "<td>" . number_format($normalizedRowTotalPlaza, 5, '.', '') . "</td>";
             }
 
+            // Show the total row after looping through all tenants$tenants_plaza
+            echo "<tr><td>Total</td>";
+            foreach ($tenants_plaza as $tenant_plaza) {
+                echo "<td>" . number_format($columnTotalsPlaza[$tenant_plaza], 5, '.', '') . "</td>";
+            }
 
+            // Calculate eigen value and display
+            $eigenValuePlaza = array_sum($columnTotalsPlaza) / $numMallsPlaza;
+            echo "<td>" . number_format($eigenValuePlaza, 5, '.', '') . "</td>";
+
+            echo "</tr>";
             echo "</table>";
 
-            // Display the divided comparison results
-            echo "<h3>Divided Comparison Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Criteria</th>";
-            foreach ($tenants_lipporenon as $tenant_lipporenon) {
-                echo "<th>$tenant_lipporenon</th>";
-            }
-            echo "<th>Total</th>"; // Add Total column header
-            echo "</tr>";
+            // Display normalized row totals
+            // echo "<h3>Normalized Row Totals</h3>";
+            // echo "<ul>";
+            // foreach ($normalizedRowTotalsPlaza as $tenant_plaza => $rowTotalPlaza) {
+            //     echo "<li><strong>$tenant_plaza:</strong> " . number_format($rowTotalPlaza, 5, '.', '') . "</li>";
+            // }
+            // echo "</ul>";
 
-            // Display the divided comparison results
-            foreach ($tenants_lipporenon as $tenant_lipporenon) {
-                echo "<tr>";
-                echo "<td>$tenant_lipporenon</td>";
 
-                // Get the total for this row
-                $rowTotalLippoRenon = $totalValuesLippoRenon[$tenant_lipporenon];
+            // Simpan nilai normalized row totals dalam sesi
+            $_SESSION['normalized_row_totals_plaza'] = $normalizedRowTotalsPlaza;
 
-                // Initialize the sum of divided values for this row
-                $dividedValuesSumLippoRenon = 0;
-
-                foreach ($tenants_lipporenon as $tenant_lipporenon2) {
-                    // Get the current value in the table
-                    $currentValueLippoRenon = 0;
-
-                    // Search for the corresponding value in the comparison results
-                    foreach ($comparison_results_lipporenon as $result_lipporenon) {
-                        if (($result_lipporenon['kriteria_lipporenon'] == $tenant_lipporenon && $result_lipporenon['kriteria_lipporenon2'] == $tenant_lipporenon2)) {
-                            $currentValueLippoRenon = $result_lipporenon[$alternatif_lipporenon];
-                            break;
-                        } elseif (($result_lipporenon['kriteria_lipporenon'] == $tenant_lipporenon2 && $result_lipporenon['kriteria_lipporenon2'] == $tenant_lipporenon)) {
-                            // If inverse comparison found, set the current value as its inverse
-                            $currentValueLippoRenon = 1 / $result_lipporenon[$alternatif_lipporenon];
-                            break;
-                        }
-                    }
-
-                    // Calculate the value divided by the row total
-                    $dividedValueLippoRenon = 0;
-                    if ($rowTotalLippoRenon != 0) {
-                        // Perform division only if row total is non-zero
-                        $dividedValueLippoRenon = $currentValueLippoRenon / $rowTotalLippoRenon;
-                    }
-
-                    // Update the sum of divided values for this row
-                    $dividedValuesSumLippoRenon += $dividedValueLippoRenon;
-
-                    // Display the divided value
-                    echo "<td>" . number_format($dividedValueLippoRenon, 5, '.', '') . "</td>";
-                }
-
-                // Display the sum of divided values for this row
-                echo "<td>" . $dividedValuesSumLippoRenon . "</td>";
-                echo "</tr>";
+            // Calculate Lambda Max
+            $lambdaMaxPlaza = 0;
+            foreach ($tenants_plaza as $tenant_plaza) {
+                $lambdaMaxPlaza += $totalValuesPlaza[$tenant_plaza2] * $normalizedRowTotalPlaza;
             }
 
-            // Menghitung jumlah elemen mall
-            $numTenantsLippoRenon1 = count($tenants_lipporenon);
+            // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxPlaza, 5, '.', '') . "</p>";
 
-            // Array untuk menyimpan total nilai per kolom
-            $totalPerColumnLippoRenon = array_fill_keys($tenants_lipporenon, 0);
-
-            // Menghitung total nilai per kolom
-            foreach ($tenants_lipporenon as $tenant_lipporenon) {
-                foreach ($tenants_lipporenon as $tenant_lipporenon2) {
-                    // Menambahkan nilai pada kolom ke total kolom yang sesuai
-                    $rowTotalLippoRenon = $totalValuesLippoRenon[$tenant_lipporenon];
-                    foreach ($comparison_results_lipporenon as $result_lipporenon) {
-                        if (($result_lipporenon['kriteria_lipporenon'] == $tenant_lipporenon && $result_lipporenon['kriteria_lipporenon2'] == $tenant_lipporenon2)) {
-                            $currentValueLippoRenon = $result_lipporenon[$alternatif_lipporenon] / $rowTotalLippoRenon; // Dibagi dengan total baris
-                            $totalPerColumnLippoRenon[$tenant_lipporenon2] += $currentValueLippoRenon;
-                            break;
-                        } elseif (($result_lipporenon['kriteria_lipporenon'] == $tenant_lipporenon2 && $result_lipporenon['kriteria_lipporenon2'] == $tenant_lipporenon)) {
-                            $currentValueLippoRenon = 1 / $result_lipporenon[$alternatif_lipporenon] / $rowTotalLippoRenon; // Dibagi dengan total baris
-                            $totalPerColumnLippoRenon[$tenant_lipporenon2] += $currentValueLippoRenon;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // Membagi total nilai per kolom dengan jumlah elemen mall
-            foreach ($totalPerColumnLippoRenon as $tenant_lipporenon => $totalLippoRenon) {
-                $totalPerColumnLippoRenon[$tenant_lipporenon] /= $numTenantsLippoRenon1;
-            }
-
-            // Menghitung total dari hasil
-            $totalResultLippoRenon = 0;
-            foreach ($totalPerColumnLippoRenon as $totalLippoRenon) {
-                $totalResultLippoRenon += $totalLippoRenon;
-            }
-
-            // Menampilkan total nilai per kolom
-            echo "<tr><th>Eigen Vector</th>";
-            foreach ($tenants_lipporenon as $tenant_lipporenon) {
-                // Display the eigenvector value
-                echo "<td>" . number_format($totalPerColumnLippoRenon[$tenant_lipporenon], 5, '.', '') . "</td>";;
-            }
-            echo "<td>$totalResultLippoRenon</td>"; // Menampilkan total dari hasil
-            echo "</tr>";
-
-            echo "</table>";
-
-            $_SESSION['eigenvector_lipporenon'] = $totalPerColumnLippoRenon;
-
-            // Hitung Lambda Max
-            $lambdaMaxLippoRenon = 0;
-
-            // Pengulangan untuk setiap alternatif
-            foreach ($tenants_lipporenon as $tenant_lipporenon) {
-                // Inisialisasi nilai hasil total untuk alternatif ini
-                $totalValueForTenantLippoRenon = $totalValuesLippoRenon[$tenant_lipporenon];
-
-                // Ambil nilai eigenvector untuk alternatif ini
-                $eigenvectorForTenantLippoRenon = $totalPerColumnLippoRenon[$tenant_lipporenon];
-
-                // Perkalian nilai total dengan nilai eigenvector dan tambahkan ke Lambda Max
-                $lambdaMaxLippoRenon += $totalValueForTenantLippoRenon * $eigenvectorForTenantLippoRenon;
-            }
-
-            echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxLippoRenon, 5, '.', '') . "</p>";
-
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall
-            $randomConsistencyIndexLippoRenon = 0;
-            switch ($numTenantsLippoRenon1) {
+            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+            $randomConsistencyIndexPlaza  = 0;
+            switch ($numMallsPlaza) {
                 case 1:
-                    $randomConsistencyIndexLippoRenon = 0;
+                    $randomConsistencyIndexPlaza  = 0;
                     break;
                 case 2:
-                    $randomConsistencyIndexLippoRenon = 0;
+                    $randomConsistencyIndexPlaza  = 0;
                     break;
                 case 3:
-                    $randomConsistencyIndexLippoRenon = 0.58;
+                    $randomConsistencyIndexPlaza  = 0.58;
                     break;
                 case 4:
-                    $randomConsistencyIndexLippoRenon = 0.90;
+                    $randomConsistencyIndexPlaza  = 0.90;
                     break;
                 case 5:
-                    $randomConsistencyIndexLippoRenon = 1.12;
+                    $randomConsistencyIndexPlaza  = 1.12;
                     break;
                 case 6:
-                    $randomConsistencyIndexLippoRenon = 1.24;
+                    $randomConsistencyIndexPlaza  = 1.24;
                     break;
                 case 7:
-                    $randomConsistencyIndexLippoRenon = 1.32;
+                    $randomConsistencyIndexPlaza  = 1.32;
                     break;
                 case 8:
-                    $randomConsistencyIndexLippoRenon = 1.41;
+                    $randomConsistencyIndexPlaza  = 1.41;
                     break;
                 case 9:
-                    $randomConsistencyIndexLippoRenon = 1.45;
+                    $randomConsistencyIndexPlaza  = 1.45;
                     break;
                 case 10:
-                    $randomConsistencyIndexLippoRenon = 1.49;
+                    $randomConsistencyIndexPlaza  = 1.49;
+                    break;
+                case 11:
+                    $randomConsistencyIndexPlaza  = 1.51;
+                    break;
+                case 12:
+                    $randomConsistencyIndexPlaza  = 1.48;
+                    break;
+                case 13:
+                    $randomConsistencyIndexPlaza  = 1.56;
+                    break;
+                case 14:
+                    $randomConsistencyIndexPlaza  = 1.57;
+                    break;
+                case 15:
+                    $randomConsistencyIndexPlaza  = 1.59;
                     break;
                 default:
                     // Handle for more than 10 elements if needed
                     break;
             }
 
-            // Hitung Consistency Index (CI)
-            $consistencyIndexLippoRenon = ($lambdaMaxLippoRenon - $numTenantsLippoRenon1) / ($numTenantsLippoRenon1 - 1);
+            // Calculate Consistency Index (CI)
+            $CIPlaza = ($lambdaMaxPlaza - $numMallsPlaza) / ($numMallsPlaza - 1);
 
-            // Hitung nilai konsistensi ratio (CR)
-            $consistencyRatioLippoRenon = $consistencyIndexLippoRenon / $randomConsistencyIndexLippoRenon;
+
+            // Calculate Consistency Ratio (CR)
+            $CRPlaza = $CIPlaza / $randomConsistencyIndexPlaza; // You need to define RI according to your matrix size
 
             // Tampilkan hasil konsistensi
-            echo "<p>Nilai Consistency Index (CI): " . number_format($consistencyIndexLippoRenon, 5, '.', '') . "</p>";
-            echo "<p>Nilai Random Consistency Index (RI) untuk $numTenantsLippoRenon1 elemen: " . $randomConsistencyIndexLippoRenon . "</p>";
-            echo "<p>Nilai Consistency Ratio (CR): " . number_format($consistencyRatioLippoRenon, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Consistency Index (CI): " . number_format($CIPlaza, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsPlaza elemen: " . $randomConsistencyIndexPlaza . "</p>";
+            // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRPlaza, 5, '.', '') . "</p>";
 
-            // Tambahkan kondisi untuk menentukan konsistensi
-            if ($consistencyRatioLippoRenon < 0.1) {
-                echo "<p>Nilai Konsisten</p>";
+            // Check if consistency is acceptable
+            if ($CRPlaza < 0.1) {
+                echo "<p>Consistency Ratio (CR) is acceptable </p>";
             } else {
-                echo "<p>Nilai Tidak Konsisten.</p>";
+                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
             }
         }
         ?>
-
-    </div>
-    </section>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

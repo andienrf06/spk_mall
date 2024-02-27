@@ -6,6 +6,7 @@ if (!isset($_SESSION['comparison_results_living'])) {
     $_SESSION['comparison_results_living'] = [];
 }
 
+$mallsToShow = $_SESSION['selected_malls'] ?? [];
 ?>
 
 <!DOCTYPE html>
@@ -29,13 +30,18 @@ if (!isset($_SESSION['comparison_results_living'])) {
                 <img src="img\logo.png" alt="Logo">
             </div>
 
-            <div class="navb-items d-none d-xl-flex">
-                <div class="item">
+            <div class="navb-items d-none d-xl-flex gap-3">
+
+                <div class="navb-items d-none d-xl-flex">
                     <a href="index.php">Beranda</a>
                 </div>
 
-                <div class="item">
+                <div class="navb-items d-none d-xl-flex">
                     <a href="search.php">Pencarian</a>
+                </div>
+
+                <div class="navb-items d-none d-xl-flex">
+                    <a href="pilihmall.php">Pilih Mall</a>
                 </div>
 
                 <div class="item dropdown">
@@ -103,14 +109,14 @@ if (!isset($_SESSION['comparison_results_living'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-4 mt-4">Nilai Bobot Kriteria</h2>
+                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Kriteria Terhadap Alternatif Living World Denpasar</h2>
             </div>
         </div>
 
         <form method="post">
             <div class="row mb-3">
                 <div class="col">
-                    <label for="alternatif">Alternative:</label>
+                    <label for="alternatif">Alternatif:</label>
                     <input type="text" name="alternatif_living" class="form-control" value="A15 - Living World Denpasar" readonly>
                 </div>
             </div>
@@ -119,14 +125,16 @@ if (!isset($_SESSION['comparison_results_living'])) {
                     <select name="kriteria_living" class="form-select">
                         <?php
                         $tenants_living = [
-                            "Location",
-                            "Price",
-                            "Competitor",
+                            "Lokasi",
+                            "Harga",
+                            "Pesaing",
                         ];
 
                         foreach ($tenants_living as $tenant_living) {
-                            echo "<option value=\"$tenant_living\">$tenant_living</option>";
+                            $selected = in_array($tenant_living, $mallsToShow) ? 'selected' : ''; // Menandai mal yang sudah dipilih sebelumnya
+                            echo "<option value=\"$tenant_living\" $selected>$tenant_living</option>";
                         }
+
                         ?>
                     </select>
                 </div>
@@ -164,52 +172,62 @@ if (!isset($_SESSION['comparison_results_living'])) {
 
         <?php
         if (isset($_POST['submit'])) {
-            // Get input values
-            $alternatif_living = $_POST['alternatif_living'];
-            $kriteria_living = $_POST['kriteria_living'];
-            $comparison_value_living = $_POST['comparison_living'];
-            $kriteria_living2 = $_POST['kriteria_living2'];
+            // Check if alternatif_living is set
+            if (isset($_POST['alternatif_living'])) {
+                // Get input values
+                $alternatif_living = $_POST['alternatif_living'];
+                $kriteria_living = $_POST['kriteria_living'];
+                $comparison_value_living = $_POST['comparison_living'];
+                $kriteria_living2 = $_POST['kriteria_living2'];
 
-            // Retrieve comparison results from session
-            $comparison_results_living = $_SESSION['comparison_results_living'];
+                // Retrieve comparison_living results from session
+                $comparison_results_living = $_SESSION['comparison_results_living'];
 
-            // Check if the comparison result for this combination of alternative1 and alternative2 already exists
-            $exists = false;
-            foreach ($comparison_results_living as $key_living => $result_living) {
-                if ($result_living['kriteria_living'] == $kriteria_living && $result_living['kriteria_living2'] == $kriteria_living2) {
-                    $exists = true;
-                    // Update the comparison value
-                    $comparison_results_living[$key_living][$alternatif_living] = $comparison_value_living;
-                    break;
+                // Check if the comparison_living result_living for this combination of kriteria_living and kriteria_living2 already exists
+                // Jika kriteria_living dan kriteria_living2 sama, set nilai perbandingannya menjadi 1
+                if ($kriteria_living === $kriteria_living2) {
+                    $comparison_value_living = 1;
                 }
+
+                // Check if the comparison_living result_living for this combination of kriteria_living and kriteria_living2 already exists
+                $exists = false;
+                foreach ($comparison_results_living as $key_living => $result_living) {
+                    if ($result_living['kriteria_living'] == $kriteria_living && $result_living['kriteria_living2'] == $kriteria_living2) {
+                        $exists = true;
+                        // Update the comparison_living value
+                        $comparison_results_living[$key_living][$alternatif_living] = $comparison_value_living;
+                        break; // Break the loop after updating the comparison_living value
+                    }
+                }
+
+                // If the comparison_living result_living doesn't exist, add it to the comparison_living results array
+                if (!$exists) {
+                    $comparison_results_living[] = array(
+                        'kriteria_living' => $kriteria_living,
+                        'kriteria_living2' => $kriteria_living2,
+                        $alternatif_living => $comparison_value_living
+                    );
+                }
+
+
+                // Update the comparison_living results in the session
+                $_SESSION['comparison_results_living'] = $comparison_results_living;
+            } else {
+                // Action if alternatif_living is not defined
+                echo "Alternatif tidak terdefinisi.";
             }
 
-            // If the comparison result doesn't exist, add it to the comparison results array
-            if (!$exists) {
-                $comparison_results_living[] = array(
-                    'kriteria_living' => $kriteria_living,
-                    'kriteria_living2' => $kriteria_living2,
-                    $alternatif_living => $comparison_value_living
-                );
-            }
-
-
-            // Update the comparison results in the session
-            $_SESSION['comparison_results_living'] = $comparison_results_living;
-
-
-            echo "<h3>Comparison Results</h3>";
+            echo "<h3>Comparison_living Results</h3>";
             echo "<table border='1'>";
-            echo "<tr><th>Comparison</th>";
+            echo "<tr><th>Comparison_living</th>";
             foreach ($tenants_living as $tenant_living) {
                 echo "<th>$tenant_living</th>";
             }
-            echo "<th>Total</th></tr>";
 
-            // Initialize an array to store the total values for each mall
+            // Initialize an array to store the total values for each tenant
             $totalValuesLiving = array_fill_keys($tenants_living, 0);
 
-            // Loop through each mall for comparison results
+            // Loop through each tenant for comparison_living results
             foreach ($tenants_living as $tenant_living1) {
                 echo "<tr>";
                 echo "<td>$tenant_living1</td>";
@@ -217,7 +235,7 @@ if (!isset($_SESSION['comparison_results_living'])) {
 
                 foreach ($tenants_living as $tenant_living2) {
                     $comparisonValueLiving = null;
-                    $isInverseLiving = false; // Flag to check if the comparison is inverse
+                    $isInverseLiving = false; // Flag to check if the comparison_living is inverse
 
                     foreach ($comparison_results_living as $result_living) {
                         if (($result_living['kriteria_living'] == $tenant_living1 && $result_living['kriteria_living2'] == $tenant_living2)) {
@@ -232,208 +250,192 @@ if (!isset($_SESSION['comparison_results_living'])) {
 
                     if ($comparisonValueLiving !== null) {
                         if ($isInverseLiving) {
-                            echo "<td>" . number_format($comparisonValueLiving, 5, '.', '') . "</td>"; // Display inverse comparison value
+                            echo "<td>" . number_format($comparisonValueLiving, 5, '.', '') . "</td>"; // Display inverse comparison_living value
                         } else {
-                            echo "<td>" . number_format($comparisonValueLiving, 5, '.', '') . "</td>"; // Display comparison value
+                            echo "<td>" . number_format($comparisonValueLiving, 5, '.', '') . "</td>"; // Display comparison_living value
                         }
-                        $totalRowLiving += $comparisonValueLiving;
-                        $totalValuesLiving[$tenant_living1] += $comparisonValueLiving;
+                        $totalValuesLiving[$tenant_living2] += $comparisonValueLiving; // Fix here, use tenant_living2 as key_living for totalValuesLiving
+                    } else {
+                        echo "<td>-</td>";
+                    }
+                }
+            }
+
+            // Show the total row after looping through all tenants_living
+            echo "<tr><td>Total</td>";
+            $totalTotalLiving = 0;
+            foreach ($tenants_living as $tenant_living) {
+                $totalTotalLiving += $totalValuesLiving[$tenant_living];
+                echo "<td>" . number_format($totalValuesLiving[$tenant_living], 5, '.', '') . "</td>";
+            }
+            echo "</tr>";
+
+            echo "</table>";
+
+            echo "<h3>Normalized Comparison Results</h3>";
+            echo "<table border='1'>";
+            echo "<tr><th>Comparison</th>";
+            foreach ($tenants_living as $tenant_living) {
+                echo "<th>$tenant_living</th>";
+            }
+            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+
+            // Array to store column totals
+            $columnTotalsLiving = array_fill_keys($tenants_living, 0);
+
+            // Counting the number of tenants$tenants_living
+            $numMallsLiving = count($tenants_living);
+
+            // Initialize an array to store normalized row totals
+            $normalizedRowTotalsLiving = [];
+
+            // Loop through each ten$tenant_living for comparison results
+            foreach ($tenants_living as $tenant_living1) {
+                echo "<tr>";
+                echo "<td>$tenant_living1</td>";
+                $rowTotalLiving = 0; // Menyimpan total per baris
+
+                foreach ($tenants_living as $tenant_living2) {
+                    $comparisonValueLiving = null;
+
+                    foreach ($comparison_results_living as $result_living) {
+                        if (($result_living['kriteria_living'] == $tenant_living1 && $result_living['kriteria_living2'] == $tenant_living2)) {
+                            $comparisonValueLiving = $result_living[$alternatif_living];
+                            break;
+                        } elseif (($result_living['kriteria_living'] == $tenant_living2 && $result_living['kriteria_living2'] == $tenant_living1)) {
+                            $comparisonValueLiving = 1 / $result_living[$alternatif_living]; // Take the inverse
+                            break;
+                        }
+                    }
+
+                    if ($comparisonValueLiving !== null) {
+                        // Calculate the normalized value
+                        $normalizedValueLiving = $comparisonValueLiving / $totalValuesLiving[$tenant_living2];
+                        echo "<td>" . number_format($normalizedValueLiving, 5, '.', '') . "</td>";
+
+                        // Add to column totals
+                        $columnTotalsLiving[$tenant_living2] += $normalizedValueLiving;
+
+                        // Add to row total
+                        $rowTotalLiving += $normalizedValueLiving;
                     } else {
                         echo "<td>-</td>";
                     }
                 }
 
-                echo "<td>" . number_format($totalRowLiving, 5, '.', '') . "</td>"; // Display the total for this row
-                echo "</tr>";
+                // Calculate normalized row total
+                $normalizedRowTotalLiving = $rowTotalLiving / $numMallsLiving;
+                $normalizedRowTotalsLiving[$tenant_living1] = $normalizedRowTotalLiving; // Store normalized row total
+                echo "<td>" . number_format($normalizedRowTotalLiving, 5, '.', '') . "</td>";
             }
 
+            // Show the total row after looping through all tenants$tenants_living
+            echo "<tr><td>Total</td>";
+            foreach ($tenants_living as $tenant_living) {
+                echo "<td>" . number_format($columnTotalsLiving[$tenant_living], 5, '.', '') . "</td>";
+            }
 
+            // Calculate eigen value and display
+            $eigenValueLiving = array_sum($columnTotalsLiving) / $numMallsLiving;
+            echo "<td>" . number_format($eigenValueLiving, 5, '.', '') . "</td>";
+
+            echo "</tr>";
             echo "</table>";
 
-            // Display the divided comparison results
-            echo "<h3>Divided Comparison Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Criteria</th>";
-            foreach ($tenants_living as $tenant_living) {
-                echo "<th>$tenant_living</th>";
-            }
-            echo "<th>Total</th>"; // Add Total column header
-            echo "</tr>";
+            // Display normalized row totals
+            // echo "<h3>Normalized Row Totals</h3>";
+            // echo "<ul>";
+            // foreach ($normalizedRowTotalsLiving as $tenant_living => $rowTotalLiving) {
+            //     echo "<li><strong>$tenant_living:</strong> " . number_format($rowTotalLiving, 5, '.', '') . "</li>";
+            // }
+            // echo "</ul>";
 
-            // Display the divided comparison results
-            foreach ($tenants_living as $tenant_living) {
-                echo "<tr>";
-                echo "<td>$tenant_living</td>";
 
-                // Get the total for this row
-                $rowTotalLiving = $totalValuesLiving[$tenant_living];
+            // Simpan nilai normalized row totals dalam sesi
+            $_SESSION['normalized_row_totals_living'] = $normalizedRowTotalsLiving;
 
-                // Initialize the sum of divided values for this row
-                $dividedValuesSumLiving = 0;
-
-                foreach ($tenants_living as $tenant_living2) {
-                    // Get the current value in the table
-                    $currentValueLiving = 0;
-
-                    // Search for the corresponding value in the comparison results
-                    foreach ($comparison_results_living as $result_living) {
-                        if (($result_living['kriteria_living'] == $tenant_living && $result_living['kriteria_living2'] == $tenant_living2)) {
-                            $currentValueLiving = $result_living[$alternatif_living];
-                            break;
-                        } elseif (($result_living['kriteria_living'] == $tenant_living2 && $result_living['kriteria_living2'] == $tenant_living)) {
-                            // If inverse comparison found, set the current value as its inverse
-                            $currentValueLiving = 1 / $result_living[$alternatif_living];
-                            break;
-                        }
-                    }
-
-                    // Calculate the value divided by the row total
-                    $dividedValueLiving = 0;
-                    if ($rowTotalLiving != 0) {
-                        // Perform division only if row total is non-zero
-                        $dividedValueLiving = $currentValueLiving / $rowTotalLiving;
-                    }
-
-                    // Update the sum of divided values for this row
-                    $dividedValuesSumLiving += $dividedValueLiving;
-
-                    // Display the divided value
-                    echo "<td>" . number_format($dividedValueLiving, 5, '.', '') . "</td>";
-                }
-
-                // Display the sum of divided values for this row
-                echo "<td>" . $dividedValuesSumLiving . "</td>";
-                echo "</tr>";
-            }
-
-            // Menghitung jumlah elemen mall
-            $numTenantsLiving1 = count($tenants_living);
-
-            // Array untuk menyimpan total nilai per kolom
-            $totalPerColumnLiving = array_fill_keys($tenants_living, 0);
-
-            // Menghitung total nilai per kolom
-            foreach ($tenants_living as $tenant_living) {
-                foreach ($tenants_living as $tenant_living2) {
-                    // Menambahkan nilai pada kolom ke total kolom yang sesuai
-                    $rowTotalLiving = $totalValuesLiving[$tenant_living];
-                    foreach ($comparison_results_living as $result_living) {
-                        if (($result_living['kriteria_living'] == $tenant_living && $result_living['kriteria_living2'] == $tenant_living2)) {
-                            $currentValueLiving = $result_living[$alternatif_living] / $rowTotalLiving; // Dibagi dengan total baris
-                            $totalPerColumnLiving[$tenant_living2] += $currentValueLiving;
-                            break;
-                        } elseif (($result_living['kriteria_living'] == $tenant_living2 && $result_living['kriteria_living2'] == $tenant_living)) {
-                            $currentValueLiving = 1 / $result_living[$alternatif_living] / $rowTotalLiving; // Dibagi dengan total baris
-                            $totalPerColumnLiving[$tenant_living2] += $currentValueLiving;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // Membagi total nilai per kolom dengan jumlah elemen mall
-            foreach ($totalPerColumnLiving as $tenant_living => $totalLiving) {
-                $totalPerColumnLiving[$tenant_living] /= $numTenantsLiving1;
-            }
-
-            // Menghitung total dari hasil
-            $totalResultLiving = 0;
-            foreach ($totalPerColumnLiving as $totalLiving) {
-                $totalResultLiving += $totalLiving;
-            }
-
-            // Menampilkan total nilai per kolom
-            echo "<tr><th>Eigen Vector</th>";
-            foreach ($tenants_living as $tenant_living) {
-                // Display the eigenvector value
-                echo "<td>" . number_format($totalPerColumnLiving[$tenant_living], 5, '.', '') . "</td>";;
-            }
-            echo "<td>$totalResultLiving</td>"; // Menampilkan total dari hasil
-            echo "</tr>";
-
-            echo "</table>";
-
-            $_SESSION['eigenvector_living'] = $totalPerColumnLiving;
-
-            // Hitung Lambda Max
+            // Calculate Lambda Max
             $lambdaMaxLiving = 0;
-
-            // Pengulangan untuk setiap alternatif
             foreach ($tenants_living as $tenant_living) {
-                // Inisialisasi nilai hasil total untuk alternatif ini
-                $totalValueForTenantLiving = $totalValuesLiving[$tenant_living];
-
-                // Ambil nilai eigenvector untuk alternatif ini
-                $eigenvectorForTenantLiving = $totalPerColumnLiving[$tenant_living];
-
-                // Perkalian nilai total dengan nilai eigenvector dan tambahkan ke Lambda Max
-                $lambdaMaxLiving += $totalValueForTenantLiving * $eigenvectorForTenantLiving;
+                $lambdaMaxLiving += $totalValuesLiving[$tenant_living2] * $normalizedRowTotalLiving;
             }
 
-            echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxLiving, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxLiving, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall
-            $randomConsistencyIndexLiving = 0;
-            switch ($numTenantsLiving1) {
+            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+            $randomConsistencyIndexLiving  = 0;
+            switch ($numMallsLiving) {
                 case 1:
-                    $randomConsistencyIndexLiving = 0;
+                    $randomConsistencyIndexLiving  = 0;
                     break;
                 case 2:
-                    $randomConsistencyIndexLiving = 0;
+                    $randomConsistencyIndexLiving  = 0;
                     break;
                 case 3:
-                    $randomConsistencyIndexLiving = 0.58;
+                    $randomConsistencyIndexLiving  = 0.58;
                     break;
                 case 4:
-                    $randomConsistencyIndexLiving = 0.90;
+                    $randomConsistencyIndexLiving  = 0.90;
                     break;
                 case 5:
-                    $randomConsistencyIndexLiving = 1.12;
+                    $randomConsistencyIndexLiving  = 1.12;
                     break;
                 case 6:
-                    $randomConsistencyIndexLiving = 1.24;
+                    $randomConsistencyIndexLiving  = 1.24;
                     break;
                 case 7:
-                    $randomConsistencyIndexLiving = 1.32;
+                    $randomConsistencyIndexLiving  = 1.32;
                     break;
                 case 8:
-                    $randomConsistencyIndexLiving = 1.41;
+                    $randomConsistencyIndexLiving  = 1.41;
                     break;
                 case 9:
-                    $randomConsistencyIndexLiving = 1.45;
+                    $randomConsistencyIndexLiving  = 1.45;
                     break;
                 case 10:
-                    $randomConsistencyIndexLiving = 1.49;
+                    $randomConsistencyIndexLiving  = 1.49;
+                    break;
+                case 11:
+                    $randomConsistencyIndexLiving  = 1.51;
+                    break;
+                case 12:
+                    $randomConsistencyIndexLiving  = 1.48;
+                    break;
+                case 13:
+                    $randomConsistencyIndexLiving  = 1.56;
+                    break;
+                case 14:
+                    $randomConsistencyIndexLiving  = 1.57;
+                    break;
+                case 15:
+                    $randomConsistencyIndexLiving  = 1.59;
                     break;
                 default:
                     // Handle for more than 10 elements if needed
                     break;
             }
 
-            // Hitung Consistency Index (CI)
-            $consistencyIndexLiving = ($lambdaMaxLiving - $numTenantsLiving1) / ($numTenantsLiving1 - 1);
+            // Calculate Consistency Index (CI)
+            $CILiving = ($lambdaMaxLiving - $numMallsLiving) / ($numMallsLiving - 1);
 
-            // Hitung nilai konsistensi ratio (CR)
-            $consistencyRatioLiving = $consistencyIndexLiving / $randomConsistencyIndexLiving;
+
+            // Calculate Consistency Ratio (CR)
+            $CRLiving = $CILiving / $randomConsistencyIndexLiving; // You need to define RI according to your matrix size
 
             // Tampilkan hasil konsistensi
-            echo "<p>Nilai Consistency Index (CI): " . number_format($consistencyIndexLiving, 5, '.', '') . "</p>";
-            echo "<p>Nilai Random Consistency Index (RI) untuk $numTenantsLiving1 elemen: " . $randomConsistencyIndexLiving . "</p>";
-            echo "<p>Nilai Consistency Ratio (CR): " . number_format($consistencyRatioLiving, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Consistency Index (CI): " . number_format($CILiving, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsLiving elemen: " . $randomConsistencyIndexLiving . "</p>";
+            // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRLiving, 5, '.', '') . "</p>";
 
-            // Tambahkan kondisi untuk menentukan konsistensi
-            if ($consistencyRatioLiving < 0.1) {
-                echo "<p>Nilai Konsisten</p>";
+            // Check if consistency is acceptable
+            if ($CRLiving < 0.1) {
+                echo "<p>Consistency Ratio (CR) is acceptable </p>";
             } else {
-                echo "<p>Nilai Tidak Konsisten.</p>";
+                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
             }
         }
         ?>
-
-    </div>
-    </section>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

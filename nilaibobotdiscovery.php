@@ -6,6 +6,7 @@ if (!isset($_SESSION['comparison_results_discovery'])) {
     $_SESSION['comparison_results_discovery'] = [];
 }
 
+$mallsToShow = $_SESSION['selected_malls'] ?? [];
 ?>
 
 <!DOCTYPE html>
@@ -29,13 +30,18 @@ if (!isset($_SESSION['comparison_results_discovery'])) {
                 <img src="img\logo.png" alt="Logo">
             </div>
 
-            <div class="navb-items d-none d-xl-flex">
-                <div class="item">
+            <div class="navb-items d-none d-xl-flex gap-3">
+
+                <div class="navb-items d-none d-xl-flex">
                     <a href="index.php">Beranda</a>
                 </div>
 
-                <div class="item">
+                <div class="navb-items d-none d-xl-flex">
                     <a href="search.php">Pencarian</a>
+                </div>
+
+                <div class="navb-items d-none d-xl-flex">
+                    <a href="pilihmall.php">Pilih Mall</a>
                 </div>
 
                 <div class="item dropdown">
@@ -103,14 +109,14 @@ if (!isset($_SESSION['comparison_results_discovery'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-4 mt-4">Nilai Bobot Kriteria</h2>
+                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Kriteria Terhadap Alternatif Discovery Shopping Mall</h2>
             </div>
         </div>
 
         <form method="post">
             <div class="row mb-3">
                 <div class="col">
-                    <label for="alternatif">Alternative:</label>
+                    <label for="alternatif">Alternatif:</label>
                     <input type="text" name="alternatif_discovery" class="form-control" value="A14 - Discovery Shopping Mall" readonly>
                 </div>
             </div>
@@ -119,14 +125,16 @@ if (!isset($_SESSION['comparison_results_discovery'])) {
                     <select name="kriteria_discovery" class="form-select">
                         <?php
                         $tenants_discovery = [
-                            "Location",
-                            "Price",
-                            "Competitor",
+                            "Lokasi",
+                            "Harga",
+                            "Pesaing",
                         ];
 
                         foreach ($tenants_discovery as $tenant_discovery) {
-                            echo "<option value=\"$tenant_discovery\">$tenant_discovery</option>";
+                            $selected = in_array($tenant_discovery, $mallsToShow) ? 'selected' : ''; // Menandai mal yang sudah dipilih sebelumnya
+                            echo "<option value=\"$tenant_discovery\" $selected>$tenant_discovery</option>";
                         }
+
                         ?>
                     </select>
                 </div>
@@ -164,52 +172,62 @@ if (!isset($_SESSION['comparison_results_discovery'])) {
 
         <?php
         if (isset($_POST['submit'])) {
-            // Get input values
-            $alternatif_discovery = $_POST['alternatif_discovery'];
-            $kriteria_discovery = $_POST['kriteria_discovery'];
-            $comparison_value_discovery = $_POST['comparison_discovery'];
-            $kriteria_discovery2 = $_POST['kriteria_discovery2'];
+            // Check if alternatif_discovery is set
+            if (isset($_POST['alternatif_discovery'])) {
+                // Get input values
+                $alternatif_discovery = $_POST['alternatif_discovery'];
+                $kriteria_discovery = $_POST['kriteria_discovery'];
+                $comparison_value_discovery = $_POST['comparison_discovery'];
+                $kriteria_discovery2 = $_POST['kriteria_discovery2'];
 
-            // Retrieve comparison results from session
-            $comparison_results_discovery = $_SESSION['comparison_results_discovery'];
+                // Retrieve comparison_discovery results from session
+                $comparison_results_discovery = $_SESSION['comparison_results_discovery'];
 
-            // Check if the comparison result for this combination of alternative1 and alternative2 already exists
-            $exists = false;
-            foreach ($comparison_results_discovery as $key_discovery => $result_discovery) {
-                if ($result_discovery['kriteria_discovery'] == $kriteria_discovery && $result_discovery['kriteria_discovery2'] == $kriteria_discovery2) {
-                    $exists = true;
-                    // Update the comparison value
-                    $comparison_results_discovery[$key_discovery][$alternatif_discovery] = $comparison_value_discovery;
-                    break;
+                // Check if the comparison_discovery result_discovery for this combination of kriteria_discovery and kriteria_discovery2 already exists
+                // Jika kriteria_discovery dan kriteria_discovery2 sama, set nilai perbandingannya menjadi 1
+                if ($kriteria_discovery === $kriteria_discovery2) {
+                    $comparison_value_discovery = 1;
                 }
+
+                // Check if the comparison_discovery result_discovery for this combination of kriteria_discovery and kriteria_discovery2 already exists
+                $exists = false;
+                foreach ($comparison_results_discovery as $key_discovery => $result_discovery) {
+                    if ($result_discovery['kriteria_discovery'] == $kriteria_discovery && $result_discovery['kriteria_discovery2'] == $kriteria_discovery2) {
+                        $exists = true;
+                        // Update the comparison_discovery value
+                        $comparison_results_discovery[$key_discovery][$alternatif_discovery] = $comparison_value_discovery;
+                        break; // Break the loop after updating the comparison_discovery value
+                    }
+                }
+
+                // If the comparison_discovery result_discovery doesn't exist, add it to the comparison_discovery results array
+                if (!$exists) {
+                    $comparison_results_discovery[] = array(
+                        'kriteria_discovery' => $kriteria_discovery,
+                        'kriteria_discovery2' => $kriteria_discovery2,
+                        $alternatif_discovery => $comparison_value_discovery
+                    );
+                }
+
+
+                // Update the comparison_discovery results in the session
+                $_SESSION['comparison_results_discovery'] = $comparison_results_discovery;
+            } else {
+                // Action if alternatif_discovery is not defined
+                echo "Alternatif tidak terdefinisi.";
             }
 
-            // If the comparison result doesn't exist, add it to the comparison results array
-            if (!$exists) {
-                $comparison_results_discovery[] = array(
-                    'kriteria_discovery' => $kriteria_discovery,
-                    'kriteria_discovery2' => $kriteria_discovery2,
-                    $alternatif_discovery => $comparison_value_discovery
-                );
-            }
-
-
-            // Update the comparison results in the session
-            $_SESSION['comparison_results_discovery'] = $comparison_results_discovery;
-
-
-            echo "<h3>Comparison Results</h3>";
+            echo "<h3>Comparison_discovery Results</h3>";
             echo "<table border='1'>";
-            echo "<tr><th>Comparison</th>";
+            echo "<tr><th>Comparison_discovery</th>";
             foreach ($tenants_discovery as $tenant_discovery) {
                 echo "<th>$tenant_discovery</th>";
             }
-            echo "<th>Total</th></tr>";
 
-            // Initialize an array to store the total values for each mall
+            // Initialize an array to store the total values for each tenant
             $totalValuesDiscovery = array_fill_keys($tenants_discovery, 0);
 
-            // Loop through each mall for comparison results
+            // Loop through each tenant for comparison_discovery results
             foreach ($tenants_discovery as $tenant_discovery1) {
                 echo "<tr>";
                 echo "<td>$tenant_discovery1</td>";
@@ -217,7 +235,7 @@ if (!isset($_SESSION['comparison_results_discovery'])) {
 
                 foreach ($tenants_discovery as $tenant_discovery2) {
                     $comparisonValueDiscovery = null;
-                    $isInverseDiscovery = false; // Flag to check if the comparison is inverse
+                    $isInverseDiscovery = false; // Flag to check if the comparison_discovery is inverse
 
                     foreach ($comparison_results_discovery as $result_discovery) {
                         if (($result_discovery['kriteria_discovery'] == $tenant_discovery1 && $result_discovery['kriteria_discovery2'] == $tenant_discovery2)) {
@@ -232,208 +250,192 @@ if (!isset($_SESSION['comparison_results_discovery'])) {
 
                     if ($comparisonValueDiscovery !== null) {
                         if ($isInverseDiscovery) {
-                            echo "<td>" . number_format($comparisonValueDiscovery, 5, '.', '') . "</td>"; // Display inverse comparison value
+                            echo "<td>" . number_format($comparisonValueDiscovery, 5, '.', '') . "</td>"; // Display inverse comparison_discovery value
                         } else {
-                            echo "<td>" . number_format($comparisonValueDiscovery, 5, '.', '') . "</td>"; // Display comparison value
+                            echo "<td>" . number_format($comparisonValueDiscovery, 5, '.', '') . "</td>"; // Display comparison_discovery value
                         }
-                        $totalRowDiscovery += $comparisonValueDiscovery;
-                        $totalValuesDiscovery[$tenant_discovery1] += $comparisonValueDiscovery;
+                        $totalValuesDiscovery[$tenant_discovery2] += $comparisonValueDiscovery; // Fix here, use tenant_discovery2 as key_discovery for totalValuesDiscovery
+                    } else {
+                        echo "<td>-</td>";
+                    }
+                }
+            }
+
+            // Show the total row after looping through all tenants_discovery
+            echo "<tr><td>Total</td>";
+            $totalTotalDiscovery = 0;
+            foreach ($tenants_discovery as $tenant_discovery) {
+                $totalTotalDiscovery += $totalValuesDiscovery[$tenant_discovery];
+                echo "<td>" . number_format($totalValuesDiscovery[$tenant_discovery], 5, '.', '') . "</td>";
+            }
+            echo "</tr>";
+
+            echo "</table>";
+
+            echo "<h3>Normalized Comparison Results</h3>";
+            echo "<table border='1'>";
+            echo "<tr><th>Comparison</th>";
+            foreach ($tenants_discovery as $tenant_discovery) {
+                echo "<th>$tenant_discovery</th>";
+            }
+            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+
+            // Array to store column totals
+            $columnTotalsDiscovery = array_fill_keys($tenants_discovery, 0);
+
+            // Counting the number of tenants$tenants_discovery
+            $numMallsDiscovery = count($tenants_discovery);
+
+            // Initialize an array to store normalized row totals
+            $normalizedRowTotalsDiscovery = [];
+
+            // Loop through each ten$tenant_discovery for comparison results
+            foreach ($tenants_discovery as $tenant_discovery1) {
+                echo "<tr>";
+                echo "<td>$tenant_discovery1</td>";
+                $rowTotalDiscovery = 0; // Menyimpan total per baris
+
+                foreach ($tenants_discovery as $tenant_discovery2) {
+                    $comparisonValueDiscovery = null;
+
+                    foreach ($comparison_results_discovery as $result_discovery) {
+                        if (($result_discovery['kriteria_discovery'] == $tenant_discovery1 && $result_discovery['kriteria_discovery2'] == $tenant_discovery2)) {
+                            $comparisonValueDiscovery = $result_discovery[$alternatif_discovery];
+                            break;
+                        } elseif (($result_discovery['kriteria_discovery'] == $tenant_discovery2 && $result_discovery['kriteria_discovery2'] == $tenant_discovery1)) {
+                            $comparisonValueDiscovery = 1 / $result_discovery[$alternatif_discovery]; // Take the inverse
+                            break;
+                        }
+                    }
+
+                    if ($comparisonValueDiscovery !== null) {
+                        // Calculate the normalized value
+                        $normalizedValueDiscovery = $comparisonValueDiscovery / $totalValuesDiscovery[$tenant_discovery2];
+                        echo "<td>" . number_format($normalizedValueDiscovery, 5, '.', '') . "</td>";
+
+                        // Add to column totals
+                        $columnTotalsDiscovery[$tenant_discovery2] += $normalizedValueDiscovery;
+
+                        // Add to row total
+                        $rowTotalDiscovery += $normalizedValueDiscovery;
                     } else {
                         echo "<td>-</td>";
                     }
                 }
 
-                echo "<td>" . number_format($totalRowDiscovery, 5, '.', '') . "</td>"; // Display the total for this row
-                echo "</tr>";
+                // Calculate normalized row total
+                $normalizedRowTotalDiscovery = $rowTotalDiscovery / $numMallsDiscovery;
+                $normalizedRowTotalsDiscovery[$tenant_discovery1] = $normalizedRowTotalDiscovery; // Store normalized row total
+                echo "<td>" . number_format($normalizedRowTotalDiscovery, 5, '.', '') . "</td>";
             }
 
+            // Show the total row after looping through all tenants$tenants_discovery
+            echo "<tr><td>Total</td>";
+            foreach ($tenants_discovery as $tenant_discovery) {
+                echo "<td>" . number_format($columnTotalsDiscovery[$tenant_discovery], 5, '.', '') . "</td>";
+            }
 
+            // Calculate eigen value and display
+            $eigenValueDiscovery = array_sum($columnTotalsDiscovery) / $numMallsDiscovery;
+            echo "<td>" . number_format($eigenValueDiscovery, 5, '.', '') . "</td>";
+
+            echo "</tr>";
             echo "</table>";
 
-            // Display the divided comparison results
-            echo "<h3>Divided Comparison Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Criteria</th>";
-            foreach ($tenants_discovery as $tenant_discovery) {
-                echo "<th>$tenant_discovery</th>";
-            }
-            echo "<th>Total</th>"; // Add Total column header
-            echo "</tr>";
+            // Display normalized row totals
+            // echo "<h3>Normalized Row Totals</h3>";
+            // echo "<ul>";
+            // foreach ($normalizedRowTotalsDiscovery as $tenant_discovery => $rowTotalDiscovery) {
+            //     echo "<li><strong>$tenant_discovery:</strong> " . number_format($rowTotalDiscovery, 5, '.', '') . "</li>";
+            // }
+            // echo "</ul>";
 
-            // Display the divided comparison results
-            foreach ($tenants_discovery as $tenant_discovery) {
-                echo "<tr>";
-                echo "<td>$tenant_discovery</td>";
 
-                // Get the total for this row
-                $rowTotalDiscovery = $totalValuesDiscovery[$tenant_discovery];
+            // Simpan nilai normalized row totals dalam sesi
+            $_SESSION['normalized_row_totals_discovery'] = $normalizedRowTotalsDiscovery;
 
-                // Initialize the sum of divided values for this row
-                $dividedValuesSumDiscovery = 0;
-
-                foreach ($tenants_discovery as $tenant_discovery2) {
-                    // Get the current value in the table
-                    $currentValueDiscovery = 0;
-
-                    // Search for the corresponding value in the comparison results
-                    foreach ($comparison_results_discovery as $result_discovery) {
-                        if (($result_discovery['kriteria_discovery'] == $tenant_discovery && $result_discovery['kriteria_discovery2'] == $tenant_discovery2)) {
-                            $currentValueDiscovery = $result_discovery[$alternatif_discovery];
-                            break;
-                        } elseif (($result_discovery['kriteria_discovery'] == $tenant_discovery2 && $result_discovery['kriteria_discovery2'] == $tenant_discovery)) {
-                            // If inverse comparison found, set the current value as its inverse
-                            $currentValueDiscovery = 1 / $result_discovery[$alternatif_discovery];
-                            break;
-                        }
-                    }
-
-                    // Calculate the value divided by the row total
-                    $dividedValueDiscovery = 0;
-                    if ($rowTotalDiscovery != 0) {
-                        // Perform division only if row total is non-zero
-                        $dividedValueDiscovery = $currentValueDiscovery / $rowTotalDiscovery;
-                    }
-
-                    // Update the sum of divided values for this row
-                    $dividedValuesSumDiscovery += $dividedValueDiscovery;
-
-                    // Display the divided value
-                    echo "<td>" . number_format($dividedValueDiscovery, 5, '.', '') . "</td>";
-                }
-
-                // Display the sum of divided values for this row
-                echo "<td>" . $dividedValuesSumDiscovery . "</td>";
-                echo "</tr>";
-            }
-
-            // Menghitung jumlah elemen mall
-            $numTenantsDiscovery1 = count($tenants_discovery);
-
-            // Array untuk menyimpan total nilai per kolom
-            $totalPerColumnDiscovery = array_fill_keys($tenants_discovery, 0);
-
-            // Menghitung total nilai per kolom
-            foreach ($tenants_discovery as $tenant_discovery) {
-                foreach ($tenants_discovery as $tenant_discovery2) {
-                    // Menambahkan nilai pada kolom ke total kolom yang sesuai
-                    $rowTotalDiscovery = $totalValuesDiscovery[$tenant_discovery];
-                    foreach ($comparison_results_discovery as $result_discovery) {
-                        if (($result_discovery['kriteria_discovery'] == $tenant_discovery && $result_discovery['kriteria_discovery2'] == $tenant_discovery2)) {
-                            $currentValueDiscovery = $result_discovery[$alternatif_discovery] / $rowTotalDiscovery; // Dibagi dengan total baris
-                            $totalPerColumnDiscovery[$tenant_discovery2] += $currentValueDiscovery;
-                            break;
-                        } elseif (($result_discovery['kriteria_discovery'] == $tenant_discovery2 && $result_discovery['kriteria_discovery2'] == $tenant_discovery)) {
-                            $currentValueDiscovery = 1 / $result_discovery[$alternatif_discovery] / $rowTotalDiscovery; // Dibagi dengan total baris
-                            $totalPerColumnDiscovery[$tenant_discovery2] += $currentValueDiscovery;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // Membagi total nilai per kolom dengan jumlah elemen mall
-            foreach ($totalPerColumnDiscovery as $tenant_discovery => $totalDiscovery) {
-                $totalPerColumnDiscovery[$tenant_discovery] /= $numTenantsDiscovery1;
-            }
-
-            // Menghitung total dari hasil
-            $totalResultDiscovery = 0;
-            foreach ($totalPerColumnDiscovery as $totalDiscovery) {
-                $totalResultDiscovery += $totalDiscovery;
-            }
-
-            // Menampilkan total nilai per kolom
-            echo "<tr><th>Eigen Vector</th>";
-            foreach ($tenants_discovery as $tenant_discovery) {
-                // Display the eigenvector value
-                echo "<td>" . number_format($totalPerColumnDiscovery[$tenant_discovery], 5, '.', '') . "</td>";;
-            }
-            echo "<td>$totalResultDiscovery</td>"; // Menampilkan total dari hasil
-            echo "</tr>";
-
-            echo "</table>";
-
-            $_SESSION['eigenvector_discovery'] = $totalPerColumnDiscovery;
-
-            // Hitung Lambda Max
+            // Calculate Lambda Max
             $lambdaMaxDiscovery = 0;
-
-            // Pengulangan untuk setiap alternatif
             foreach ($tenants_discovery as $tenant_discovery) {
-                // Inisialisasi nilai hasil total untuk alternatif ini
-                $totalValueForTenantDiscovery = $totalValuesDiscovery[$tenant_discovery];
-
-                // Ambil nilai eigenvector untuk alternatif ini
-                $eigenvectorForTenantDiscovery = $totalPerColumnDiscovery[$tenant_discovery];
-
-                // Perkalian nilai total dengan nilai eigenvector dan tambahkan ke Lambda Max
-                $lambdaMaxDiscovery += $totalValueForTenantDiscovery * $eigenvectorForTenantDiscovery;
+                $lambdaMaxDiscovery += $totalValuesDiscovery[$tenant_discovery2] * $normalizedRowTotalDiscovery;
             }
 
-            echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxDiscovery, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxDiscovery, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall
-            $randomConsistencyIndexDiscovery = 0;
-            switch ($numTenantsDiscovery1) {
+            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+            $randomConsistencyIndexDiscovery  = 0;
+            switch ($numMallsDiscovery) {
                 case 1:
-                    $randomConsistencyIndexDiscovery = 0;
+                    $randomConsistencyIndexDiscovery  = 0;
                     break;
                 case 2:
-                    $randomConsistencyIndexDiscovery = 0;
+                    $randomConsistencyIndexDiscovery  = 0;
                     break;
                 case 3:
-                    $randomConsistencyIndexDiscovery = 0.58;
+                    $randomConsistencyIndexDiscovery  = 0.58;
                     break;
                 case 4:
-                    $randomConsistencyIndexDiscovery = 0.90;
+                    $randomConsistencyIndexDiscovery  = 0.90;
                     break;
                 case 5:
-                    $randomConsistencyIndexDiscovery = 1.12;
+                    $randomConsistencyIndexDiscovery  = 1.12;
                     break;
                 case 6:
-                    $randomConsistencyIndexDiscovery = 1.24;
+                    $randomConsistencyIndexDiscovery  = 1.24;
                     break;
                 case 7:
-                    $randomConsistencyIndexDiscovery = 1.32;
+                    $randomConsistencyIndexDiscovery  = 1.32;
                     break;
                 case 8:
-                    $randomConsistencyIndexDiscovery = 1.41;
+                    $randomConsistencyIndexDiscovery  = 1.41;
                     break;
                 case 9:
-                    $randomConsistencyIndexDiscovery = 1.45;
+                    $randomConsistencyIndexDiscovery  = 1.45;
                     break;
                 case 10:
-                    $randomConsistencyIndexDiscovery = 1.49;
+                    $randomConsistencyIndexDiscovery  = 1.49;
+                    break;
+                case 11:
+                    $randomConsistencyIndexDiscovery  = 1.51;
+                    break;
+                case 12:
+                    $randomConsistencyIndexDiscovery  = 1.48;
+                    break;
+                case 13:
+                    $randomConsistencyIndexDiscovery  = 1.56;
+                    break;
+                case 14:
+                    $randomConsistencyIndexDiscovery  = 1.57;
+                    break;
+                case 15:
+                    $randomConsistencyIndexDiscovery  = 1.59;
                     break;
                 default:
                     // Handle for more than 10 elements if needed
                     break;
             }
 
-            // Hitung Consistency Index (CI)
-            $consistencyIndexDiscovery = ($lambdaMaxDiscovery - $numTenantsDiscovery1) / ($numTenantsDiscovery1 - 1);
+            // Calculate Consistency Index (CI)
+            $CIDiscovery = ($lambdaMaxDiscovery - $numMallsDiscovery) / ($numMallsDiscovery - 1);
 
-            // Hitung nilai konsistensi ratio (CR)
-            $consistencyRatioDiscovery = $consistencyIndexDiscovery / $randomConsistencyIndexDiscovery;
+
+            // Calculate Consistency Ratio (CR)
+            $CRDiscovery = $CIDiscovery / $randomConsistencyIndexDiscovery; // You need to define RI according to your matrix size
 
             // Tampilkan hasil konsistensi
-            echo "<p>Nilai Consistency Index (CI): " . number_format($consistencyIndexDiscovery, 5, '.', '') . "</p>";
-            echo "<p>Nilai Random Consistency Index (RI) untuk $numTenantsDiscovery1 elemen: " . $randomConsistencyIndexDiscovery . "</p>";
-            echo "<p>Nilai Consistency Ratio (CR): " . number_format($consistencyRatioDiscovery, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Consistency Index (CI): " . number_format($CIDiscovery, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsDiscovery elemen: " . $randomConsistencyIndexDiscovery . "</p>";
+            // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRDiscovery, 5, '.', '') . "</p>";
 
-            // Tambahkan kondisi untuk menentukan konsistensi
-            if ($consistencyRatioDiscovery < 0.1) {
-                echo "<p>Nilai Konsisten</p>";
+            // Check if consistency is acceptable
+            if ($CRDiscovery < 0.1) {
+                echo "<p>Consistency Ratio (CR) is acceptable </p>";
             } else {
-                echo "<p>Nilai Tidak Konsisten.</p>";
+                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
             }
         }
         ?>
-
-    </div>
-    </section>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

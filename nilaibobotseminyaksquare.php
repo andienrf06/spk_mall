@@ -6,6 +6,7 @@ if (!isset($_SESSION['comparison_results_square'])) {
     $_SESSION['comparison_results_square'] = [];
 }
 
+$mallsToShow = $_SESSION['selected_malls'] ?? [];
 ?>
 
 <!DOCTYPE html>
@@ -29,13 +30,18 @@ if (!isset($_SESSION['comparison_results_square'])) {
                 <img src="img\logo.png" alt="Logo">
             </div>
 
-            <div class="navb-items d-none d-xl-flex">
-                <div class="item">
+            <div class="navb-items d-none d-xl-flex gap-3">
+
+                <div class="navb-items d-none d-xl-flex">
                     <a href="index.php">Beranda</a>
                 </div>
 
-                <div class="item">
+                <div class="navb-items d-none d-xl-flex">
                     <a href="search.php">Pencarian</a>
+                </div>
+
+                <div class="navb-items d-none d-xl-flex">
+                    <a href="pilihmall.php">Pilih Mall</a>
                 </div>
 
                 <div class="item dropdown">
@@ -103,14 +109,14 @@ if (!isset($_SESSION['comparison_results_square'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-4 mt-4">Nilai Bobot Kriteria</h2>
+                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Kriteria Terhadap Alternatif Seminyak Square</h2>
             </div>
         </div>
 
         <form method="post">
             <div class="row mb-3">
                 <div class="col">
-                    <label for="alternatif">Alternative:</label>
+                    <label for="alternatif">Alternatif:</label>
                     <input type="text" name="alternatif_square" class="form-control" value="A12 - Seminyak Square" readonly>
                 </div>
             </div>
@@ -119,14 +125,16 @@ if (!isset($_SESSION['comparison_results_square'])) {
                     <select name="kriteria_square" class="form-select">
                         <?php
                         $tenants_square = [
-                            "Location",
-                            "Price",
-                            "Competitor",
+                            "Lokasi",
+                            "Harga",
+                            "Pesaing",
                         ];
 
                         foreach ($tenants_square as $tenant_square) {
-                            echo "<option value=\"$tenant_square\">$tenant_square</option>";
+                            $selected = in_array($tenant_square, $mallsToShow) ? 'selected' : ''; // Menandai mal yang sudah dipilih sebelumnya
+                            echo "<option value=\"$tenant_square\" $selected>$tenant_square</option>";
                         }
+
                         ?>
                     </select>
                 </div>
@@ -164,52 +172,62 @@ if (!isset($_SESSION['comparison_results_square'])) {
 
         <?php
         if (isset($_POST['submit'])) {
-            // Get input values
-            $alternatif_square = $_POST['alternatif_square'];
-            $kriteria_square = $_POST['kriteria_square'];
-            $comparison_value_square = $_POST['comparison_square'];
-            $kriteria_square2 = $_POST['kriteria_square2'];
+            // Check if alternatif_square is set
+            if (isset($_POST['alternatif_square'])) {
+                // Get input values
+                $alternatif_square = $_POST['alternatif_square'];
+                $kriteria_square = $_POST['kriteria_square'];
+                $comparison_value_square = $_POST['comparison_square'];
+                $kriteria_square2 = $_POST['kriteria_square2'];
 
-            // Retrieve comparison results from session
-            $comparison_results_square = $_SESSION['comparison_results_square'];
+                // Retrieve comparison_square results from session
+                $comparison_results_square = $_SESSION['comparison_results_square'];
 
-            // Check if the comparison result for this combination of alternative1 and alternative2 already exists
-            $exists = false;
-            foreach ($comparison_results_square as $key_square => $result_square) {
-                if ($result_square['kriteria_square'] == $kriteria_square && $result_square['kriteria_square2'] == $kriteria_square2) {
-                    $exists = true;
-                    // Update the comparison value
-                    $comparison_results_square[$key_square][$alternatif_square] = $comparison_value_square;
-                    break;
+                // Check if the comparison_square result_square for this combination of kriteria_square and kriteria_square2 already exists
+                // Jika kriteria_square dan kriteria_square2 sama, set nilai perbandingannya menjadi 1
+                if ($kriteria_square === $kriteria_square2) {
+                    $comparison_value_square = 1;
                 }
+
+                // Check if the comparison_square result_square for this combination of kriteria_square and kriteria_square2 already exists
+                $exists = false;
+                foreach ($comparison_results_square as $key_square => $result_square) {
+                    if ($result_square['kriteria_square'] == $kriteria_square && $result_square['kriteria_square2'] == $kriteria_square2) {
+                        $exists = true;
+                        // Update the comparison_square value
+                        $comparison_results_square[$key_square][$alternatif_square] = $comparison_value_square;
+                        break; // Break the loop after updating the comparison_square value
+                    }
+                }
+
+                // If the comparison_square result_square doesn't exist, add it to the comparison_square results array
+                if (!$exists) {
+                    $comparison_results_square[] = array(
+                        'kriteria_square' => $kriteria_square,
+                        'kriteria_square2' => $kriteria_square2,
+                        $alternatif_square => $comparison_value_square
+                    );
+                }
+
+
+                // Update the comparison_square results in the session
+                $_SESSION['comparison_results_square'] = $comparison_results_square;
+            } else {
+                // Action if alternatif_square is not defined
+                echo "Alternatif tidak terdefinisi.";
             }
 
-            // If the comparison result doesn't exist, add it to the comparison results array
-            if (!$exists) {
-                $comparison_results_square[] = array(
-                    'kriteria_square' => $kriteria_square,
-                    'kriteria_square2' => $kriteria_square2,
-                    $alternatif_square => $comparison_value_square
-                );
-            }
-
-
-            // Update the comparison results in the session
-            $_SESSION['comparison_results_square'] = $comparison_results_square;
-
-
-            echo "<h3>Comparison Results</h3>";
+            echo "<h3>Comparison_square Results</h3>";
             echo "<table border='1'>";
-            echo "<tr><th>Comparison</th>";
+            echo "<tr><th>Comparison_square</th>";
             foreach ($tenants_square as $tenant_square) {
                 echo "<th>$tenant_square</th>";
             }
-            echo "<th>Total</th></tr>";
 
-            // Initialize an array to store the total values for each mall
+            // Initialize an array to store the total values for each tenant
             $totalValuesSquare = array_fill_keys($tenants_square, 0);
 
-            // Loop through each mall for comparison results
+            // Loop through each tenant for comparison_square results
             foreach ($tenants_square as $tenant_square1) {
                 echo "<tr>";
                 echo "<td>$tenant_square1</td>";
@@ -217,7 +235,7 @@ if (!isset($_SESSION['comparison_results_square'])) {
 
                 foreach ($tenants_square as $tenant_square2) {
                     $comparisonValueSquare = null;
-                    $isInverseSquare = false; // Flag to check if the comparison is inverse
+                    $isInverseSquare = false; // Flag to check if the comparison_square is inverse
 
                     foreach ($comparison_results_square as $result_square) {
                         if (($result_square['kriteria_square'] == $tenant_square1 && $result_square['kriteria_square2'] == $tenant_square2)) {
@@ -232,208 +250,192 @@ if (!isset($_SESSION['comparison_results_square'])) {
 
                     if ($comparisonValueSquare !== null) {
                         if ($isInverseSquare) {
-                            echo "<td>" . number_format($comparisonValueSquare, 5, '.', '') . "</td>"; // Display inverse comparison value
+                            echo "<td>" . number_format($comparisonValueSquare, 5, '.', '') . "</td>"; // Display inverse comparison_square value
                         } else {
-                            echo "<td>" . number_format($comparisonValueSquare, 5, '.', '') . "</td>"; // Display comparison value
+                            echo "<td>" . number_format($comparisonValueSquare, 5, '.', '') . "</td>"; // Display comparison_square value
                         }
-                        $totalRowSquare += $comparisonValueSquare;
-                        $totalValuesSquare[$tenant_square1] += $comparisonValueSquare;
+                        $totalValuesSquare[$tenant_square2] += $comparisonValueSquare; // Fix here, use tenant_square2 as key_square for totalValuesSquare
+                    } else {
+                        echo "<td>-</td>";
+                    }
+                }
+            }
+
+            // Show the total row after looping through all tenants_square
+            echo "<tr><td>Total</td>";
+            $totalTotalSquare = 0;
+            foreach ($tenants_square as $tenant_square) {
+                $totalTotalSquare += $totalValuesSquare[$tenant_square];
+                echo "<td>" . number_format($totalValuesSquare[$tenant_square], 5, '.', '') . "</td>";
+            }
+            echo "</tr>";
+
+            echo "</table>";
+
+            echo "<h3>Normalized Comparison Results</h3>";
+            echo "<table border='1'>";
+            echo "<tr><th>Comparison</th>";
+            foreach ($tenants_square as $tenant_square) {
+                echo "<th>$tenant_square</th>";
+            }
+            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+
+            // Array to store column totals
+            $columnTotalsSquare = array_fill_keys($tenants_square, 0);
+
+            // Counting the number of tenants$tenants_square
+            $numMallsSquare = count($tenants_square);
+
+            // Initialize an array to store normalized row totals
+            $normalizedRowTotalsSquare = [];
+
+            // Loop through each ten$tenant_square for comparison results
+            foreach ($tenants_square as $tenant_square1) {
+                echo "<tr>";
+                echo "<td>$tenant_square1</td>";
+                $rowTotalSquare = 0; // Menyimpan total per baris
+
+                foreach ($tenants_square as $tenant_square2) {
+                    $comparisonValueSquare = null;
+
+                    foreach ($comparison_results_square as $result_square) {
+                        if (($result_square['kriteria_square'] == $tenant_square1 && $result_square['kriteria_square2'] == $tenant_square2)) {
+                            $comparisonValueSquare = $result_square[$alternatif_square];
+                            break;
+                        } elseif (($result_square['kriteria_square'] == $tenant_square2 && $result_square['kriteria_square2'] == $tenant_square1)) {
+                            $comparisonValueSquare = 1 / $result_square[$alternatif_square]; // Take the inverse
+                            break;
+                        }
+                    }
+
+                    if ($comparisonValueSquare !== null) {
+                        // Calculate the normalized value
+                        $normalizedValueSquare = $comparisonValueSquare / $totalValuesSquare[$tenant_square2];
+                        echo "<td>" . number_format($normalizedValueSquare, 5, '.', '') . "</td>";
+
+                        // Add to column totals
+                        $columnTotalsSquare[$tenant_square2] += $normalizedValueSquare;
+
+                        // Add to row total
+                        $rowTotalSquare += $normalizedValueSquare;
                     } else {
                         echo "<td>-</td>";
                     }
                 }
 
-                echo "<td>" . number_format($totalRowSquare, 5, '.', '') . "</td>"; // Display the total for this row
-                echo "</tr>";
+                // Calculate normalized row total
+                $normalizedRowTotalSquare = $rowTotalSquare / $numMallsSquare;
+                $normalizedRowTotalsSquare[$tenant_square1] = $normalizedRowTotalSquare; // Store normalized row total
+                echo "<td>" . number_format($normalizedRowTotalSquare, 5, '.', '') . "</td>";
             }
 
+            // Show the total row after looping through all tenants$tenants_square
+            echo "<tr><td>Total</td>";
+            foreach ($tenants_square as $tenant_square) {
+                echo "<td>" . number_format($columnTotalsSquare[$tenant_square], 5, '.', '') . "</td>";
+            }
 
+            // Calculate eigen value and display
+            $eigenValueSquare = array_sum($columnTotalsSquare) / $numMallsSquare;
+            echo "<td>" . number_format($eigenValueSquare, 5, '.', '') . "</td>";
+
+            echo "</tr>";
             echo "</table>";
 
-            // Display the divided comparison results
-            echo "<h3>Divided Comparison Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Criteria</th>";
-            foreach ($tenants_square as $tenant_square) {
-                echo "<th>$tenant_square</th>";
-            }
-            echo "<th>Total</th>"; // Add Total column header
-            echo "</tr>";
+            // Display normalized row totals
+            // echo "<h3>Normalized Row Totals</h3>";
+            // echo "<ul>";
+            // foreach ($normalizedRowTotalsSquare as $tenant_square => $rowTotalSquare) {
+            //     echo "<li><strong>$tenant_square:</strong> " . number_format($rowTotalSquare, 5, '.', '') . "</li>";
+            // }
+            // echo "</ul>";
 
-            // Display the divided comparison results
-            foreach ($tenants_square as $tenant_square) {
-                echo "<tr>";
-                echo "<td>$tenant_square</td>";
 
-                // Get the total for this row
-                $rowTotalSquare = $totalValuesSquare[$tenant_square];
+            // Simpan nilai normalized row totals dalam sesi
+            $_SESSION['normalized_row_totals_square'] = $normalizedRowTotalsSquare;
 
-                // Initialize the sum of divided values for this row
-                $dividedValuesSumSquare = 0;
-
-                foreach ($tenants_square as $tenant_square2) {
-                    // Get the current value in the table
-                    $currentValueSquare = 0;
-
-                    // Search for the corresponding value in the comparison results
-                    foreach ($comparison_results_square as $result_square) {
-                        if (($result_square['kriteria_square'] == $tenant_square && $result_square['kriteria_square2'] == $tenant_square2)) {
-                            $currentValueSquare = $result_square[$alternatif_square];
-                            break;
-                        } elseif (($result_square['kriteria_square'] == $tenant_square2 && $result_square['kriteria_square2'] == $tenant_square)) {
-                            // If inverse comparison found, set the current value as its inverse
-                            $currentValueSquare = 1 / $result_square[$alternatif_square];
-                            break;
-                        }
-                    }
-
-                    // Calculate the value divided by the row total
-                    $dividedValueSquare = 0;
-                    if ($rowTotalSquare != 0) {
-                        // Perform division only if row total is non-zero
-                        $dividedValueSquare = $currentValueSquare / $rowTotalSquare;
-                    }
-
-                    // Update the sum of divided values for this row
-                    $dividedValuesSumSquare += $dividedValueSquare;
-
-                    // Display the divided value
-                    echo "<td>" . number_format($dividedValueSquare, 5, '.', '') . "</td>";
-                }
-
-                // Display the sum of divided values for this row
-                echo "<td>" . $dividedValuesSumSquare . "</td>";
-                echo "</tr>";
-            }
-
-            // Menghitung jumlah elemen mall
-            $numTenantsSquare1 = count($tenants_square);
-
-            // Array untuk menyimpan total nilai per kolom
-            $totalPerColumnSquare = array_fill_keys($tenants_square, 0);
-
-            // Menghitung total nilai per kolom
-            foreach ($tenants_square as $tenant_square) {
-                foreach ($tenants_square as $tenant_square2) {
-                    // Menambahkan nilai pada kolom ke total kolom yang sesuai
-                    $rowTotalSquare = $totalValuesSquare[$tenant_square];
-                    foreach ($comparison_results_square as $result_square) {
-                        if (($result_square['kriteria_square'] == $tenant_square && $result_square['kriteria_square2'] == $tenant_square2)) {
-                            $currentValueSquare = $result_square[$alternatif_square] / $rowTotalSquare; // Dibagi dengan total baris
-                            $totalPerColumnSquare[$tenant_square2] += $currentValueSquare;
-                            break;
-                        } elseif (($result_square['kriteria_square'] == $tenant_square2 && $result_square['kriteria_square2'] == $tenant_square)) {
-                            $currentValueSquare = 1 / $result_square[$alternatif_square] / $rowTotalSquare; // Dibagi dengan total baris
-                            $totalPerColumnSquare[$tenant_square2] += $currentValueSquare;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // Membagi total nilai per kolom dengan jumlah elemen mall
-            foreach ($totalPerColumnSquare as $tenant_square => $totalSquare) {
-                $totalPerColumnSquare[$tenant_square] /= $numTenantsSquare1;
-            }
-
-            // Menghitung total dari hasil
-            $totalResultSquare = 0;
-            foreach ($totalPerColumnSquare as $totalSquare) {
-                $totalResultSquare += $totalSquare;
-            }
-
-            // Menampilkan total nilai per kolom
-            echo "<tr><th>Eigen Vector</th>";
-            foreach ($tenants_square as $tenant_square) {
-                // Display the eigenvector value
-                echo "<td>" . number_format($totalPerColumnSquare[$tenant_square], 5, '.', '') . "</td>";;
-            }
-            echo "<td>$totalResultSquare</td>"; // Menampilkan total dari hasil
-            echo "</tr>";
-
-            echo "</table>";
-
-            $_SESSION['eigenvector_seminyaksquare'] = $totalPerColumnSquare;
-
-            // Hitung Lambda Max
+            // Calculate Lambda Max
             $lambdaMaxSquare = 0;
-
-            // Pengulangan untuk setiap alternatif
             foreach ($tenants_square as $tenant_square) {
-                // Inisialisasi nilai hasil total untuk alternatif ini
-                $totalValueForTenantSquare = $totalValuesSquare[$tenant_square];
-
-                // Ambil nilai eigenvector untuk alternatif ini
-                $eigenvectorForTenantSquare = $totalPerColumnSquare[$tenant_square];
-
-                // Perkalian nilai total dengan nilai eigenvector dan tambahkan ke Lambda Max
-                $lambdaMaxSquare += $totalValueForTenantSquare * $eigenvectorForTenantSquare;
+                $lambdaMaxSquare += $totalValuesSquare[$tenant_square2] * $normalizedRowTotalSquare;
             }
 
-            echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxSquare, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxSquare, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall
-            $randomConsistencyIndexSquare = 0;
-            switch ($numTenantsSquare1) {
+            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+            $randomConsistencyIndexSquare  = 0;
+            switch ($numMallsSquare) {
                 case 1:
-                    $randomConsistencyIndexSquare = 0;
+                    $randomConsistencyIndexSquare  = 0;
                     break;
                 case 2:
-                    $randomConsistencyIndexSquare = 0;
+                    $randomConsistencyIndexSquare  = 0;
                     break;
                 case 3:
-                    $randomConsistencyIndexSquare = 0.58;
+                    $randomConsistencyIndexSquare  = 0.58;
                     break;
                 case 4:
-                    $randomConsistencyIndexSquare = 0.90;
+                    $randomConsistencyIndexSquare  = 0.90;
                     break;
                 case 5:
-                    $randomConsistencyIndexSquare = 1.12;
+                    $randomConsistencyIndexSquare  = 1.12;
                     break;
                 case 6:
-                    $randomConsistencyIndexSquare = 1.24;
+                    $randomConsistencyIndexSquare  = 1.24;
                     break;
                 case 7:
-                    $randomConsistencyIndexSquare = 1.32;
+                    $randomConsistencyIndexSquare  = 1.32;
                     break;
                 case 8:
-                    $randomConsistencyIndexSquare = 1.41;
+                    $randomConsistencyIndexSquare  = 1.41;
                     break;
                 case 9:
-                    $randomConsistencyIndexSquare = 1.45;
+                    $randomConsistencyIndexSquare  = 1.45;
                     break;
                 case 10:
-                    $randomConsistencyIndexSquare = 1.49;
+                    $randomConsistencyIndexSquare  = 1.49;
+                    break;
+                case 11:
+                    $randomConsistencyIndexSquare  = 1.51;
+                    break;
+                case 12:
+                    $randomConsistencyIndexSquare  = 1.48;
+                    break;
+                case 13:
+                    $randomConsistencyIndexSquare  = 1.56;
+                    break;
+                case 14:
+                    $randomConsistencyIndexSquare  = 1.57;
+                    break;
+                case 15:
+                    $randomConsistencyIndexSquare  = 1.59;
                     break;
                 default:
                     // Handle for more than 10 elements if needed
                     break;
             }
 
-            // Hitung Consistency Index (CI)
-            $consistencyIndexSquare = ($lambdaMaxSquare - $numTenantsSquare1) / ($numTenantsSquare1 - 1);
+            // Calculate Consistency Index (CI)
+            $CISquare = ($lambdaMaxSquare - $numMallsSquare) / ($numMallsSquare - 1);
 
-            // Hitung nilai konsistensi ratio (CR)
-            $consistencyRatioSquare = $consistencyIndexSquare / $randomConsistencyIndexSquare;
+
+            // Calculate Consistency Ratio (CR)
+            $CRSquare = $CISquare / $randomConsistencyIndexSquare; // You need to define RI according to your matrix size
 
             // Tampilkan hasil konsistensi
-            echo "<p>Nilai Consistency Index (CI): " . number_format($consistencyIndexSquare, 5, '.', '') . "</p>";
-            echo "<p>Nilai Random Consistency Index (RI) untuk $numTenantsSquare1 elemen: " . $randomConsistencyIndexSquare . "</p>";
-            echo "<p>Nilai Consistency Ratio (CR): " . number_format($consistencyRatioSquare, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Consistency Index (CI): " . number_format($CISquare, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsSquare elemen: " . $randomConsistencyIndexSquare . "</p>";
+            // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRSquare, 5, '.', '') . "</p>";
 
-            // Tambahkan kondisi untuk menentukan konsistensi
-            if ($consistencyRatioSquare < 0.1) {
-                echo "<p>Nilai Konsisten</p>";
+            // Check if consistency is acceptable
+            if ($CRSquare < 0.1) {
+                echo "<p>Consistency Ratio (CR) is acceptable </p>";
             } else {
-                echo "<p>Nilai Tidak Konsisten.</p>";
+                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
             }
         }
         ?>
-
-    </div>
-    </section>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

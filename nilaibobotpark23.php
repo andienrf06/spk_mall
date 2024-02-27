@@ -2,10 +2,11 @@
 session_start();
 
 // Initialize the $input_values array
-if (!isset($_SESSION['comparison_results_park'])) {
-    $_SESSION['comparison_results_park'] = [];
+if (!isset($_SESSION['comparison_results_park23'])) {
+    $_SESSION['comparison_results_park23'] = [];
 }
 
+$mallsToShow = $_SESSION['selected_malls'] ?? [];
 ?>
 
 <!DOCTYPE html>
@@ -29,13 +30,18 @@ if (!isset($_SESSION['comparison_results_park'])) {
                 <img src="img\logo.png" alt="Logo">
             </div>
 
-            <div class="navb-items d-none d-xl-flex">
-                <div class="item">
+            <div class="navb-items d-none d-xl-flex gap-3">
+
+                <div class="navb-items d-none d-xl-flex">
                     <a href="index.php">Beranda</a>
                 </div>
 
-                <div class="item">
+                <div class="navb-items d-none d-xl-flex">
                     <a href="search.php">Pencarian</a>
+                </div>
+
+                <div class="navb-items d-none d-xl-flex">
+                    <a href="pilihmall.php">Pilih Mall</a>
                 </div>
 
                 <div class="item dropdown">
@@ -103,36 +109,38 @@ if (!isset($_SESSION['comparison_results_park'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-4 mt-4">Nilai Bobot Kriteria</h2>
+                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Kriteria Terhadap Alternatif Park 23</h2>
             </div>
         </div>
 
         <form method="post">
             <div class="row mb-3">
                 <div class="col">
-                    <label for="alternatif">Alternative:</label>
-                    <input type="text" name="alternatif_park" class="form-control" value="A04 - Park 23" readonly>
+                    <label for="alternatif">Alternatif:</label>
+                    <input type="text" name="alternatif_park23" class="form-control" value="A04 - Park 23" readonly>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col">
-                    <select name="kriteria_park" class="form-select">
+                    <select name="kriteria_park23" class="form-select">
                         <?php
-                        $tenants_park = [
-                            "Location",
-                            "Price",
-                            "Competitor",
+                        $tenants_park23 = [
+                            "Lokasi",
+                            "Harga",
+                            "Pesaing",
                         ];
 
-                        foreach ($tenants_park as $tenant_park) {
-                            echo "<option value=\"$tenant_park\">$tenant_park</option>";
+                        foreach ($tenants_park23 as $tenant_park23) {
+                            $selected = in_array($tenant_park23, $mallsToShow) ? 'selected' : ''; // Menandai mal yang sudah dipilih sebelumnya
+                            echo "<option value=\"$tenant_park23\" $selected>$tenant_park23</option>";
                         }
+
                         ?>
                     </select>
                 </div>
 
                 <div class="col">
-                    <select name="comparison_park" class="form-select">
+                    <select name="comparison_park23" class="form-select">
                         <option value="1">1 - Kedua elemen sama pentingnya</option>
                         <option value="3">3 - Elemen yang satu sedikit lebih penting daripada elemen yang lainnya</option>
                         <option value="5">5 - Elemen yang satu lebih penting daripada elemen lainnya</option>
@@ -146,10 +154,10 @@ if (!isset($_SESSION['comparison_results_park'])) {
                 </div>
 
                 <div class="col">
-                    <select name="kriteria_park2" class="form-select">
+                    <select name="kriteria_park232" class="form-select">
                         <?php
-                        foreach ($tenants_park as $tenant_park) {
-                            echo "<option value=\"$tenant_park\">$tenant_park</option>";
+                        foreach ($tenants_park23 as $tenant_park23) {
+                            echo "<option value=\"$tenant_park23\">$tenant_park23</option>";
                         }
                         ?>
                     </select>
@@ -164,276 +172,269 @@ if (!isset($_SESSION['comparison_results_park'])) {
 
         <?php
         if (isset($_POST['submit'])) {
-            // Get input values
-            $alternatif_park = $_POST['alternatif_park'];
-            $kriteria_park = $_POST['kriteria_park'];
-            $comparison_value_park = $_POST['comparison_park'];
-            $kriteria_park2 = $_POST['kriteria_park2'];
+            // Check if alternatif_park23 is set
+            if (isset($_POST['alternatif_park23'])) {
+                // Get input values
+                $alternatif_park23 = $_POST['alternatif_park23'];
+                $kriteria_park23 = $_POST['kriteria_park23'];
+                $comparison_value_park23 = $_POST['comparison_park23'];
+                $kriteria_park232 = $_POST['kriteria_park232'];
 
-            // Retrieve comparison results from session
-            $comparison_results_park = $_SESSION['comparison_results_park'];
+                // Retrieve comparison_park23 results from session
+                $comparison_results_park23 = $_SESSION['comparison_results_park23'];
 
-            // Check if the comparison result for this combination of alternative1 and alternative2 already exists
-            $exists = false;
-            foreach ($comparison_results_park as $key_park => $result_park) {
-                if ($result_park['kriteria_park'] == $kriteria_park && $result_park['kriteria_park2'] == $kriteria_park2) {
-                    $exists = true;
-                    // Update the comparison value
-                    $comparison_results_park[$key_park][$alternatif_park] = $comparison_value_park;
-                    break;
+                // Check if the comparison_park23 result_park23 for this combination of kriteria_park23 and kriteria_park232 already exists
+                // Jika kriteria_park23 dan kriteria_park232 sama, set nilai perbandingannya menjadi 1
+                if ($kriteria_park23 === $kriteria_park232) {
+                    $comparison_value_park23 = 1;
                 }
+
+                // Check if the comparison_park23 result_park23 for this combination of kriteria_park23 and kriteria_park232 already exists
+                $exists = false;
+                foreach ($comparison_results_park23 as $key_park23 => $result_park23) {
+                    if ($result_park23['kriteria_park23'] == $kriteria_park23 && $result_park23['kriteria_park232'] == $kriteria_park232) {
+                        $exists = true;
+                        // Update the comparison_park23 value
+                        $comparison_results_park23[$key_park23][$alternatif_park23] = $comparison_value_park23;
+                        break; // Break the loop after updating the comparison_park23 value
+                    }
+                }
+
+                // If the comparison_park23 result_park23 doesn't exist, add it to the comparison_park23 results array
+                if (!$exists) {
+                    $comparison_results_park23[] = array(
+                        'kriteria_park23' => $kriteria_park23,
+                        'kriteria_park232' => $kriteria_park232,
+                        $alternatif_park23 => $comparison_value_park23
+                    );
+                }
+
+
+                // Update the comparison_park23 results in the session
+                $_SESSION['comparison_results_park23'] = $comparison_results_park23;
+            } else {
+                // Action if alternatif_park23 is not defined
+                echo "Alternatif tidak terdefinisi.";
             }
 
-            // If the comparison result doesn't exist, add it to the comparison results array
-            if (!$exists) {
-                $comparison_results_park[] = array(
-                    'kriteria_park' => $kriteria_park,
-                    'kriteria_park2' => $kriteria_park2,
-                    $alternatif_park => $comparison_value_park
-                );
-            }
-
-
-            // Update the comparison results in the session
-            $_SESSION['comparison_results_park'] = $comparison_results_park;
-
-
-            echo "<h3>Comparison Results</h3>";
+            echo "<h3>Comparison_park23 Results</h3>";
             echo "<table border='1'>";
-            echo "<tr><th>Comparison</th>";
-            foreach ($tenants_park as $tenant_park) {
-                echo "<th>$tenant_park</th>";
+            echo "<tr><th>Comparison_park23</th>";
+            foreach ($tenants_park23 as $tenant_park23) {
+                echo "<th>$tenant_park23</th>";
             }
-            echo "<th>Total</th></tr>";
 
-            // Initialize an array to store the total values for each mall
-            $totalValuesPark = array_fill_keys($tenants_park, 0);
+            // Initialize an array to store the total values for each tenant
+            $totalValuesPark23 = array_fill_keys($tenants_park23, 0);
 
-            // Loop through each mall for comparison results
-            foreach ($tenants_park as $tenant_park1) {
+            // Loop through each tenant for comparison_park23 results
+            foreach ($tenants_park23 as $tenant_park231) {
                 echo "<tr>";
-                echo "<td>$tenant_park1</td>";
-                $totalRowPark = 0; // Total for this row
+                echo "<td>$tenant_park231</td>";
+                $totalRowPark23 = 0; // Total for this row
 
-                foreach ($tenants_park as $tenant_park2) {
-                    $comparisonValuePark = null;
-                    $isInversePark = false; // Flag to check if the comparison is inverse
+                foreach ($tenants_park23 as $tenant_park232) {
+                    $comparisonValuePark23 = null;
+                    $isInversePark23 = false; // Flag to check if the comparison_park23 is inverse
 
-                    foreach ($comparison_results_park as $result_park) {
-                        if (($result_park['kriteria_park'] == $tenant_park1 && $result_park['kriteria_park2'] == $tenant_park2)) {
-                            $comparisonValuePark = $result_park[$alternatif_park];
+                    foreach ($comparison_results_park23 as $result_park23) {
+                        if (($result_park23['kriteria_park23'] == $tenant_park231 && $result_park23['kriteria_park232'] == $tenant_park232)) {
+                            $comparisonValuePark23 = $result_park23[$alternatif_park23];
                             break;
-                        } elseif (($result_park['kriteria_park'] == $tenant_park2 && $result_park['kriteria_park2'] == $tenant_park1)) {
-                            $comparisonValuePark = 1 / $result_park[$alternatif_park]; // Take the inverse
-                            $isInversePark = true;
+                        } elseif (($result_park23['kriteria_park23'] == $tenant_park232 && $result_park23['kriteria_park232'] == $tenant_park231)) {
+                            $comparisonValuePark23 = 1 / $result_park23[$alternatif_park23]; // Take the inverse
+                            $isInversePark23 = true;
                             break;
                         }
                     }
 
-                    if ($comparisonValuePark !== null) {
-                        if ($isInversePark) {
-                            echo "<td>" . number_format($comparisonValuePark, 5, '.', '') . "</td>"; // Display inverse comparison value
+                    if ($comparisonValuePark23 !== null) {
+                        if ($isInversePark23) {
+                            echo "<td>" . number_format($comparisonValuePark23, 5, '.', '') . "</td>"; // Display inverse comparison_park23 value
                         } else {
-                            echo "<td>" . number_format($comparisonValuePark, 5, '.', '') . "</td>"; // Display comparison value
+                            echo "<td>" . number_format($comparisonValuePark23, 5, '.', '') . "</td>"; // Display comparison_park23 value
                         }
-                        $totalRowPark += $comparisonValuePark;
-                        $totalValuesPark[$tenant_park1] += $comparisonValuePark;
+                        $totalValuesPark23[$tenant_park232] += $comparisonValuePark23; // Fix here, use tenant_park232 as key_park23 for totalValuesPark23
+                    } else {
+                        echo "<td>-</td>";
+                    }
+                }
+            }
+
+            // Show the total row after looping through all tenants_park23$tenants_park23
+            echo "<tr><td>Total</td>";
+            $totalTotalPark23 = 0;
+            foreach ($tenants_park23 as $tenant_park23) {
+                $totalTotalPark23 += $totalValuesPark23[$tenant_park23];
+                echo "<td>" . number_format($totalValuesPark23[$tenant_park23], 5, '.', '') . "</td>";
+            }
+            echo "</tr>";
+
+            echo "</table>";
+
+            echo "<h3>Normalized Comparison Results</h3>";
+            echo "<table border='1'>";
+            echo "<tr><th>Comparison</th>";
+            foreach ($tenants_park23 as $tenant_park23) {
+                echo "<th>$tenant_park23</th>";
+            }
+            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+
+            // Array to store column totals
+            $columnTotalsPark23 = array_fill_keys($tenants_park23, 0);
+
+            // Counting the number of tenants$tenants_park23
+            $numMallsPark23 = count($tenants_park23);
+
+            // Initialize an array to store normalized row totals
+            $normalizedRowTotalsPark23 = [];
+
+            // Loop through each ten$tenant_park23 for comparison results
+            foreach ($tenants_park23 as $tenant_park231) {
+                echo "<tr>";
+                echo "<td>$tenant_park231</td>";
+                $rowTotalPark23 = 0; // Menyimpan total per baris
+
+                foreach ($tenants_park23 as $tenant_park232) {
+                    $comparisonValuePark23 = null;
+
+                    foreach ($comparison_results_park23 as $result_park23) {
+                        if (($result_park23['kriteria_park23'] == $tenant_park231 && $result_park23['kriteria_park232'] == $tenant_park232)) {
+                            $comparisonValuePark23 = $result_park23[$alternatif_park23];
+                            break;
+                        } elseif (($result_park23['kriteria_park23'] == $tenant_park232 && $result_park23['kriteria_park232'] == $tenant_park231)) {
+                            $comparisonValuePark23 = 1 / $result_park23[$alternatif_park23]; // Take the inverse
+                            break;
+                        }
+                    }
+
+                    if ($comparisonValuePark23 !== null) {
+                        // Calculate the normalized value
+                        $normalizedValuePark23 = $comparisonValuePark23 / $totalValuesPark23[$tenant_park232];
+                        echo "<td>" . number_format($normalizedValuePark23, 5, '.', '') . "</td>";
+
+                        // Add to column totals
+                        $columnTotalsPark23[$tenant_park232] += $normalizedValuePark23;
+
+                        // Add to row total
+                        $rowTotalPark23 += $normalizedValuePark23;
                     } else {
                         echo "<td>-</td>";
                     }
                 }
 
-                echo "<td>" . number_format($totalRowPark, 5, '.', '') . "</td>"; // Display the total for this row
-                echo "</tr>";
+                // Calculate normalized row total
+                $normalizedRowTotalPark23 = $rowTotalPark23 / $numMallsPark23;
+                $normalizedRowTotalsPark23[$tenant_park231] = $normalizedRowTotalPark23; // Store normalized row total
+                echo "<td>" . number_format($normalizedRowTotalPark23, 5, '.', '') . "</td>";
             }
 
+            // Show the total row after looping through all tenants$tenants_park23
+            echo "<tr><td>Total</td>";
+            foreach ($tenants_park23 as $tenant_park23) {
+                echo "<td>" . number_format($columnTotalsPark23[$tenant_park23], 5, '.', '') . "</td>";
+            }
 
+            // Calculate eigen value and display
+            $eigenValuePark23 = array_sum($columnTotalsPark23) / $numMallsPark23;
+            echo "<td>" . number_format($eigenValuePark23, 5, '.', '') . "</td>";
+
+            echo "</tr>";
             echo "</table>";
 
-            // Display the divided comparison results
-            echo "<h3>Divided Comparison Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Criteria</th>";
-            foreach ($tenants_park as $tenant_park) {
-                echo "<th>$tenant_park</th>";
+            // Display normalized row totals
+            // echo "<h3>Normalized Row Totals</h3>";
+            // echo "<ul>";
+            // foreach ($normalizedRowTotalsPark23 as $tenant_park23 => $rowTotalPark23) {
+            //     echo "<li><strong>$tenant_park23:</strong> " . number_format($rowTotalPark23, 5, '.', '') . "</li>";
+            // }
+            // echo "</ul>";
+
+
+            // Simpan nilai normalized row totals dalam sesi
+            $_SESSION['normalized_row_totals_park23'] = $normalizedRowTotalsPark23;
+
+            // Calculate Lambda Max
+            $lambdaMaxPark23 = 0;
+            foreach ($tenants_park23 as $tenant_park23) {
+                $lambdaMaxPark23 += $totalValuesPark23[$tenant_park232] * $normalizedRowTotalPark23;
             }
-            echo "<th>Total</th>"; // Add Total column header
-            echo "</tr>";
+            // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxPark23, 5, '.', '') . "</p>";
 
-            // Display the divided comparison results
-            foreach ($tenants_park as $tenant_park) {
-                echo "<tr>";
-                echo "<td>$tenant_park</td>";
-
-                // Get the total for this row
-                $rowTotalPark = $totalValuesPark[$tenant_park];
-
-                // Initialize the sum of divided values for this row
-                $dividedValuesSumPark = 0;
-
-                foreach ($tenants_park as $tenant_park2) {
-                    // Get the current value in the table
-                    $currentValuePark = 0;
-
-                    // Search for the corresponding value in the comparison results
-                    foreach ($comparison_results_park as $result_park) {
-                        if (($result_park['kriteria_park'] == $tenant_park && $result_park['kriteria_park2'] == $tenant_park2)) {
-                            $currentValuePark = $result_park[$alternatif_park];
-                            break;
-                        } elseif (($result_park['kriteria_park'] == $tenant_park2 && $result_park['kriteria_park2'] == $tenant_park)) {
-                            // If inverse comparison found, set the current value as its inverse
-                            $currentValuePark = 1 / $result_park[$alternatif_park];
-                            break;
-                        }
-                    }
-
-                    // Calculate the value divided by the row total
-                    $dividedValuePark = 0;
-                    if ($rowTotalPark != 0) {
-                        // Perform division only if row total is non-zero
-                        $dividedValuePark = $currentValuePark / $rowTotalPark;
-                    }
-
-                    // Update the sum of divided values for this row
-                    $dividedValuesSumPark += $dividedValuePark;
-
-                    // Display the divided value
-                    echo "<td>" . number_format($dividedValuePark, 5, '.', '') . "</td>";
-                }
-
-                // Display the sum of divided values for this row
-                echo "<td>" . $dividedValuesSumPark . "</td>";
-                echo "</tr>";
-            }
-
-            // Menghitung jumlah elemen mall
-            $numTenantsPark1 = count($tenants_park);
-
-            // Array untuk menyimpan total nilai per kolom
-            $totalPerColumnPark = array_fill_keys($tenants_park, 0);
-
-            // Menghitung total nilai per kolom
-            foreach ($tenants_park as $tenant_park) {
-                foreach ($tenants_park as $tenant_park2) {
-                    // Menambahkan nilai pada kolom ke total kolom yang sesuai
-                    $rowTotalPark = $totalValuesPark[$tenant_park];
-                    foreach ($comparison_results_park as $result_park) {
-                        if (($result_park['kriteria_park'] == $tenant_park && $result_park['kriteria_park2'] == $tenant_park2)) {
-                            $currentValuePark = $result_park[$alternatif_park] / $rowTotalPark; // Dibagi dengan total baris
-                            $totalPerColumnPark[$tenant_park2] += $currentValuePark;
-                            break;
-                        } elseif (($result_park['kriteria_park'] == $tenant_park2 && $result_park['kriteria_park2'] == $tenant_park)) {
-                            $currentValuePark = 1 / $result_park[$alternatif_park] / $rowTotalPark; // Dibagi dengan total baris
-                            $totalPerColumnPark[$tenant_park2] += $currentValuePark;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // Membagi total nilai per kolom dengan jumlah elemen mall
-            foreach ($totalPerColumnPark as $tenant_park => $totalPark) {
-                $totalPerColumnPark[$tenant_park] /= $numTenantsPark1;
-            }
-
-            // Menghitung total dari hasil
-            $totalResultPark = 0;
-            foreach ($totalPerColumnPark as $totalPark) {
-                $totalResultPark += $totalPark;
-            }
-
-            // Menampilkan total nilai per kolom
-            echo "<tr><th>Eigen Vector</th>";
-            foreach ($tenants_park as $tenant_park) {
-                // Display the eigenvector value
-                echo "<td>" . number_format($totalPerColumnPark[$tenant_park], 5, '.', '') . "</td>";;
-            }
-            echo "<td>$totalResultPark</td>"; // Menampilkan total dari hasil
-            echo "</tr>";
-
-            echo "</table>";
-
-            $_SESSION['eigenvector_park23'] = $totalPerColumnPark;
-
-            // Hitung Lambda Max
-            $lambdaMaxPark = 0;
-
-            // Pengulangan untuk setiap alternatif
-            foreach ($tenants_park as $tenant_park) {
-                // Inisialisasi nilai hasil total untuk alternatif ini
-                $totalValueForTenantPark = $totalValuesPark[$tenant_park];
-
-                // Ambil nilai eigenvector untuk alternatif ini
-                $eigenvectorForTenantPark = $totalPerColumnPark[$tenant_park];
-
-                // Perkalian nilai total dengan nilai eigenvector dan tambahkan ke Lambda Max
-                $lambdaMaxPark += $totalValueForTenantPark * $eigenvectorForTenantPark;
-            }
-
-            echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxPark, 5, '.', '') . "</p>";
-
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall
-            $randomConsistencyIndexPark = 0;
-            switch ($numTenantsPark1) {
+            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+            $randomConsistencyIndexPark23  = 0;
+            switch ($numMallsPark23) {
                 case 1:
-                    $randomConsistencyIndexPark = 0;
+                    $randomConsistencyIndexPark23  = 0;
                     break;
                 case 2:
-                    $randomConsistencyIndexPark = 0;
+                    $randomConsistencyIndexPark23  = 0;
                     break;
                 case 3:
-                    $randomConsistencyIndexPark = 0.58;
+                    $randomConsistencyIndexPark23  = 0.58;
                     break;
                 case 4:
-                    $randomConsistencyIndexPark = 0.90;
+                    $randomConsistencyIndexPark23  = 0.90;
                     break;
                 case 5:
-                    $randomConsistencyIndexPark = 1.12;
+                    $randomConsistencyIndexPark23  = 1.12;
                     break;
                 case 6:
-                    $randomConsistencyIndexPark = 1.24;
+                    $randomConsistencyIndexPark23  = 1.24;
                     break;
                 case 7:
-                    $randomConsistencyIndexPark = 1.32;
+                    $randomConsistencyIndexPark23  = 1.32;
                     break;
                 case 8:
-                    $randomConsistencyIndexPark = 1.41;
+                    $randomConsistencyIndexPark23  = 1.41;
                     break;
                 case 9:
-                    $randomConsistencyIndexPark = 1.45;
+                    $randomConsistencyIndexPark23  = 1.45;
                     break;
                 case 10:
-                    $randomConsistencyIndexPark = 1.49;
+                    $randomConsistencyIndexPark23  = 1.49;
+                    break;
+                case 11:
+                    $randomConsistencyIndexPark23  = 1.51;
+                    break;
+                case 12:
+                    $randomConsistencyIndexPark23  = 1.48;
+                    break;
+                case 13:
+                    $randomConsistencyIndexPark23  = 1.56;
+                    break;
+                case 14:
+                    $randomConsistencyIndexPark23  = 1.57;
+                    break;
+                case 15:
+                    $randomConsistencyIndexPark23  = 1.59;
                     break;
                 default:
                     // Handle for more than 10 elements if needed
                     break;
             }
 
-            // Hitung Consistency Index (CI)
-            $consistencyIndexPark = ($lambdaMaxPark - $numTenantsPark1) / ($numTenantsPark1 - 1);
+            // Calculate Consistency Index (CI)
+            $CIPark23 = ($lambdaMaxPark23 - $numMallsPark23) / ($numMallsPark23 - 1);
 
-            // Hitung nilai konsistensi ratio (CR)
-            $consistencyRatioPark = $consistencyIndexPark / $randomConsistencyIndexPark;
+
+            // Calculate Consistency Ratio (CR)
+            $CRPark23 = $CIPark23 / $randomConsistencyIndexPark23; // You need to define RI according to your matrix size
 
             // Tampilkan hasil konsistensi
-            echo "<p>Nilai Consistency Index (CI): " . number_format($consistencyIndexPark, 5, '.', '') . "</p>";
-            echo "<p>Nilai Random Consistency Index (RI) untuk $numTenantsPark1 elemen: " . $randomConsistencyIndexPark . "</p>";
-            echo "<p>Nilai Consistency Ratio (CR): " . number_format($consistencyRatioPark, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Consistency Index (CI): " . number_format($CIPark23, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsPark23 elemen: " . $randomConsistencyIndexPark23 . "</p>";
+            // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRPark23, 5, '.', '') . "</p>";
 
-            // Tambahkan kondisi untuk menentukan konsistensi
-            if ($consistencyRatioPark < 0.1) {
-                echo "<p>Nilai Konsisten</p>";
+            // Check if consistency is acceptable
+            if ($CRPark23 < 0.1) {
+                echo "<p>Consistency Ratio (CR) is acceptable </p>";
             } else {
-                echo "<p>Nilai Tidak Konsisten.</p>";
+                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
             }
         }
         ?>
-
-    </div>
-    </section>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

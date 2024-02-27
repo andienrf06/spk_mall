@@ -6,6 +6,7 @@ if (!isset($_SESSION['comparison_results_mbg'])) {
     $_SESSION['comparison_results_mbg'] = [];
 }
 
+$mallsToShow = $_SESSION['selected_malls'] ?? [];
 ?>
 
 <!DOCTYPE html>
@@ -29,13 +30,18 @@ if (!isset($_SESSION['comparison_results_mbg'])) {
                 <img src="img\logo.png" alt="Logo">
             </div>
 
-            <div class="navb-items d-none d-xl-flex">
-                <div class="item">
+            <div class="navb-items d-none d-xl-flex gap-3">
+
+                <div class="navb-items d-none d-xl-flex">
                     <a href="index.php">Beranda</a>
                 </div>
 
-                <div class="item">
+                <div class="navb-items d-none d-xl-flex">
                     <a href="search.php">Pencarian</a>
+                </div>
+
+                <div class="navb-items d-none d-xl-flex">
+                    <a href="pilihmall.php">Pilih Mall</a>
                 </div>
 
                 <div class="item dropdown">
@@ -103,14 +109,14 @@ if (!isset($_SESSION['comparison_results_mbg'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-4 mt-4">Nilai Bobot Kriteria</h2>
+                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Kriteria Terhadap Alternatif Mall Bali Galeria</h2>
             </div>
         </div>
 
         <form method="post">
             <div class="row mb-3">
                 <div class="col">
-                    <label for="alternatif">Alternative:</label>
+                    <label for="alternatif">Alternatif:</label>
                     <input type="text" name="alternatif_mbg" class="form-control" value="A05 - Mall Bali Galeria" readonly>
                 </div>
             </div>
@@ -119,14 +125,16 @@ if (!isset($_SESSION['comparison_results_mbg'])) {
                     <select name="kriteria_mbg" class="form-select">
                         <?php
                         $tenants_mbg = [
-                            "Location",
-                            "Price",
-                            "Competitor",
+                            "Lokasi",
+                            "Harga",
+                            "Pesaing",
                         ];
 
                         foreach ($tenants_mbg as $tenant_mbg) {
-                            echo "<option value=\"$tenant_mbg\">$tenant_mbg</option>";
+                            $selected = in_array($tenant_mbg, $mallsToShow) ? 'selected' : ''; // Menandai mal yang sudah dipilih sebelumnya
+                            echo "<option value=\"$tenant_mbg\" $selected>$tenant_mbg</option>";
                         }
+
                         ?>
                     </select>
                 </div>
@@ -164,52 +172,62 @@ if (!isset($_SESSION['comparison_results_mbg'])) {
 
         <?php
         if (isset($_POST['submit'])) {
-            // Get input values
-            $alternatif_mbg = $_POST['alternatif_mbg'];
-            $kriteria_mbg = $_POST['kriteria_mbg'];
-            $comparison_value_mbg = $_POST['comparison_mbg'];
-            $kriteria_mbg2 = $_POST['kriteria_mbg2'];
+            // Check if alternatif_mbg is set
+            if (isset($_POST['alternatif_mbg'])) {
+                // Get input values
+                $alternatif_mbg = $_POST['alternatif_mbg'];
+                $kriteria_mbg = $_POST['kriteria_mbg'];
+                $comparison_value_mbg = $_POST['comparison_mbg'];
+                $kriteria_mbg2 = $_POST['kriteria_mbg2'];
 
-            // Retrieve comparison results from session
-            $comparison_results_mbg = $_SESSION['comparison_results_mbg'];
+                // Retrieve comparison_mbg results from session
+                $comparison_results_mbg = $_SESSION['comparison_results_mbg'];
 
-            // Check if the comparison result for this combination of alternative1 and alternative2 already exists
-            $exists = false;
-            foreach ($comparison_results_mbg as $key_mbg => $result_mbg) {
-                if ($result_mbg['kriteria_mbg'] == $kriteria_mbg && $result_mbg['kriteria_mbg2'] == $kriteria_mbg2) {
-                    $exists = true;
-                    // Update the comparison value
-                    $comparison_results_mbg[$key_mbg][$alternatif_mbg] = $comparison_value_mbg;
-                    break;
+                // Check if the comparison_mbg result_mbg for this combination of kriteria_mbg and kriteria_mbg2 already exists
+                // Jika kriteria_mbg dan kriteria_mbg2 sama, set nilai perbandingannya menjadi 1
+                if ($kriteria_mbg === $kriteria_mbg2) {
+                    $comparison_value_mbg = 1;
                 }
+
+                // Check if the comparison_mbg result_mbg for this combination of kriteria_mbg and kriteria_mbg2 already exists
+                $exists = false;
+                foreach ($comparison_results_mbg as $key_mbg => $result_mbg) {
+                    if ($result_mbg['kriteria_mbg'] == $kriteria_mbg && $result_mbg['kriteria_mbg2'] == $kriteria_mbg2) {
+                        $exists = true;
+                        // Update the comparison_mbg value
+                        $comparison_results_mbg[$key_mbg][$alternatif_mbg] = $comparison_value_mbg;
+                        break; // Break the loop after updating the comparison_mbg value
+                    }
+                }
+
+                // If the comparison_mbg result_mbg doesn't exist, add it to the comparison_mbg results array
+                if (!$exists) {
+                    $comparison_results_mbg[] = array(
+                        'kriteria_mbg' => $kriteria_mbg,
+                        'kriteria_mbg2' => $kriteria_mbg2,
+                        $alternatif_mbg => $comparison_value_mbg
+                    );
+                }
+
+
+                // Update the comparison_mbg results in the session
+                $_SESSION['comparison_results_mbg'] = $comparison_results_mbg;
+            } else {
+                // Action if alternatif_mbg is not defined
+                echo "Alternatif tidak terdefinisi.";
             }
 
-            // If the comparison result doesn't exist, add it to the comparison results array
-            if (!$exists) {
-                $comparison_results_mbg[] = array(
-                    'kriteria_mbg' => $kriteria_mbg,
-                    'kriteria_mbg2' => $kriteria_mbg2,
-                    $alternatif_mbg => $comparison_value_mbg
-                );
-            }
-
-
-            // Update the comparison results in the session
-            $_SESSION['comparison_results_mbg'] = $comparison_results_mbg;
-
-
-            echo "<h3>Comparison Results</h3>";
+            echo "<h3>Comparison_mbg Results</h3>";
             echo "<table border='1'>";
-            echo "<tr><th>Comparison</th>";
+            echo "<tr><th>Comparison_mbg</th>";
             foreach ($tenants_mbg as $tenant_mbg) {
                 echo "<th>$tenant_mbg</th>";
             }
-            echo "<th>Total</th></tr>";
 
-            // Initialize an array to store the total values for each mall
+            // Initialize an array to store the total values for each tenant
             $totalValuesMbg = array_fill_keys($tenants_mbg, 0);
 
-            // Loop through each mall for comparison results
+            // Loop through each tenant for comparison_mbg results
             foreach ($tenants_mbg as $tenant_mbg1) {
                 echo "<tr>";
                 echo "<td>$tenant_mbg1</td>";
@@ -217,7 +235,7 @@ if (!isset($_SESSION['comparison_results_mbg'])) {
 
                 foreach ($tenants_mbg as $tenant_mbg2) {
                     $comparisonValueMbg = null;
-                    $isInverseMbg = false; // Flag to check if the comparison is inverse
+                    $isInverseMbg = false; // Flag to check if the comparison_mbg is inverse
 
                     foreach ($comparison_results_mbg as $result_mbg) {
                         if (($result_mbg['kriteria_mbg'] == $tenant_mbg1 && $result_mbg['kriteria_mbg2'] == $tenant_mbg2)) {
@@ -232,208 +250,192 @@ if (!isset($_SESSION['comparison_results_mbg'])) {
 
                     if ($comparisonValueMbg !== null) {
                         if ($isInverseMbg) {
-                            echo "<td>" . number_format($comparisonValueMbg, 5, '.', '') . "</td>"; // Display inverse comparison value
+                            echo "<td>" . number_format($comparisonValueMbg, 5, '.', '') . "</td>"; // Display inverse comparison_mbg value
                         } else {
-                            echo "<td>" . number_format($comparisonValueMbg, 5, '.', '') . "</td>"; // Display comparison value
+                            echo "<td>" . number_format($comparisonValueMbg, 5, '.', '') . "</td>"; // Display comparison_mbg value
                         }
-                        $totalRowMbg += $comparisonValueMbg;
-                        $totalValuesMbg[$tenant_mbg1] += $comparisonValueMbg;
+                        $totalValuesMbg[$tenant_mbg2] += $comparisonValueMbg; // Fix here, use tenant_mbg2 as key_mbg for totalValuesMbg
+                    } else {
+                        echo "<td>-</td>";
+                    }
+                }
+            }
+
+            // Show the total row after looping through all tenants_mbg
+            echo "<tr><td>Total</td>";
+            $totalTotalMbg = 0;
+            foreach ($tenants_mbg as $tenant_mbg) {
+                $totalTotalMbg += $totalValuesMbg[$tenant_mbg];
+                echo "<td>" . number_format($totalValuesMbg[$tenant_mbg], 5, '.', '') . "</td>";
+            }
+            echo "</tr>";
+
+            echo "</table>";
+
+            echo "<h3>Normalized Comparison Results</h3>";
+            echo "<table border='1'>";
+            echo "<tr><th>Comparison</th>";
+            foreach ($tenants_mbg as $tenant_mbg) {
+                echo "<th>$tenant_mbg</th>";
+            }
+            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+
+            // Array to store column totals
+            $columnTotalsMbg = array_fill_keys($tenants_mbg, 0);
+
+            // Counting the number of tenants$tenants_mbg
+            $numMallsMbg = count($tenants_mbg);
+
+            // Initialize an array to store normalized row totals
+            $normalizedRowTotalsMbg = [];
+
+            // Loop through each ten$tenant_mbg for comparison results
+            foreach ($tenants_mbg as $tenant_mbg1) {
+                echo "<tr>";
+                echo "<td>$tenant_mbg1</td>";
+                $rowTotalMbg = 0; // Menyimpan total per baris
+
+                foreach ($tenants_mbg as $tenant_mbg2) {
+                    $comparisonValueMbg = null;
+
+                    foreach ($comparison_results_mbg as $result_mbg) {
+                        if (($result_mbg['kriteria_mbg'] == $tenant_mbg1 && $result_mbg['kriteria_mbg2'] == $tenant_mbg2)) {
+                            $comparisonValueMbg = $result_mbg[$alternatif_mbg];
+                            break;
+                        } elseif (($result_mbg['kriteria_mbg'] == $tenant_mbg2 && $result_mbg['kriteria_mbg2'] == $tenant_mbg1)) {
+                            $comparisonValueMbg = 1 / $result_mbg[$alternatif_mbg]; // Take the inverse
+                            break;
+                        }
+                    }
+
+                    if ($comparisonValueMbg !== null) {
+                        // Calculate the normalized value
+                        $normalizedValueMbg = $comparisonValueMbg / $totalValuesMbg[$tenant_mbg2];
+                        echo "<td>" . number_format($normalizedValueMbg, 5, '.', '') . "</td>";
+
+                        // Add to column totals
+                        $columnTotalsMbg[$tenant_mbg2] += $normalizedValueMbg;
+
+                        // Add to row total
+                        $rowTotalMbg += $normalizedValueMbg;
                     } else {
                         echo "<td>-</td>";
                     }
                 }
 
-                echo "<td>" . number_format($totalRowMbg, 5, '.', '') . "</td>"; // Display the total for this row
-                echo "</tr>";
+                // Calculate normalized row total
+                $normalizedRowTotalMbg = $rowTotalMbg / $numMallsMbg;
+                $normalizedRowTotalsMbg[$tenant_mbg1] = $normalizedRowTotalMbg; // Store normalized row total
+                echo "<td>" . number_format($normalizedRowTotalMbg, 5, '.', '') . "</td>";
             }
 
+            // Show the total row after looping through all tenants$tenants_mbg
+            echo "<tr><td>Total</td>";
+            foreach ($tenants_mbg as $tenant_mbg) {
+                echo "<td>" . number_format($columnTotalsMbg[$tenant_mbg], 5, '.', '') . "</td>";
+            }
 
+            // Calculate eigen value and display
+            $eigenValueMbg = array_sum($columnTotalsMbg) / $numMallsMbg;
+            echo "<td>" . number_format($eigenValueMbg, 5, '.', '') . "</td>";
+
+            echo "</tr>";
             echo "</table>";
 
-            // Display the divided comparison results
-            echo "<h3>Divided Comparison Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Criteria</th>";
-            foreach ($tenants_mbg as $tenant_mbg) {
-                echo "<th>$tenant_mbg</th>";
-            }
-            echo "<th>Total</th>"; // Add Total column header
-            echo "</tr>";
+            // Display normalized row totals
+            // echo "<h3>Normalized Row Totals</h3>";
+            // echo "<ul>";
+            // foreach ($normalizedRowTotalsMbg as $tenant_mbg => $rowTotalMbg) {
+            //     echo "<li><strong>$tenant_mbg:</strong> " . number_format($rowTotalMbg, 5, '.', '') . "</li>";
+            // }
+            // echo "</ul>";
 
-            // Display the divided comparison results
-            foreach ($tenants_mbg as $tenant_mbg) {
-                echo "<tr>";
-                echo "<td>$tenant_mbg</td>";
 
-                // Get the total for this row
-                $rowTotalMbg = $totalValuesMbg[$tenant_mbg];
+            // Simpan nilai normalized row totals dalam sesi
+            $_SESSION['normalized_row_totals_mbg'] = $normalizedRowTotalsMbg;
 
-                // Initialize the sum of divided values for this row
-                $dividedValuesSumMbg = 0;
-
-                foreach ($tenants_mbg as $tenant_mbg2) {
-                    // Get the current value in the table
-                    $currentValueMbg = 0;
-
-                    // Search for the corresponding value in the comparison results
-                    foreach ($comparison_results_mbg as $result_mbg) {
-                        if (($result_mbg['kriteria_mbg'] == $tenant_mbg && $result_mbg['kriteria_mbg2'] == $tenant_mbg2)) {
-                            $currentValueMbg = $result_mbg[$alternatif_mbg];
-                            break;
-                        } elseif (($result_mbg['kriteria_mbg'] == $tenant_mbg2 && $result_mbg['kriteria_mbg2'] == $tenant_mbg)) {
-                            // If inverse comparison found, set the current value as its inverse
-                            $currentValueMbg = 1 / $result_mbg[$alternatif_mbg];
-                            break;
-                        }
-                    }
-
-                    // Calculate the value divided by the row total
-                    $dividedValueMbg = 0;
-                    if ($rowTotalMbg != 0) {
-                        // Perform division only if row total is non-zero
-                        $dividedValueMbg = $currentValueMbg / $rowTotalMbg;
-                    }
-
-                    // Update the sum of divided values for this row
-                    $dividedValuesSumMbg += $dividedValueMbg;
-
-                    // Display the divided value
-                    echo "<td>" . number_format($dividedValueMbg, 5, '.', '') . "</td>";
-                }
-
-                // Display the sum of divided values for this row
-                echo "<td>" . $dividedValuesSumMbg . "</td>";
-                echo "</tr>";
-            }
-
-            // Menghitung jumlah elemen mall
-            $numTenantsMbg1 = count($tenants_mbg);
-
-            // Array untuk menyimpan total nilai per kolom
-            $totalPerColumnMbg = array_fill_keys($tenants_mbg, 0);
-
-            // Menghitung total nilai per kolom
-            foreach ($tenants_mbg as $tenant_mbg) {
-                foreach ($tenants_mbg as $tenant_mbg2) {
-                    // Menambahkan nilai pada kolom ke total kolom yang sesuai
-                    $rowTotalMbg = $totalValuesMbg[$tenant_mbg];
-                    foreach ($comparison_results_mbg as $result_mbg) {
-                        if (($result_mbg['kriteria_mbg'] == $tenant_mbg && $result_mbg['kriteria_mbg2'] == $tenant_mbg2)) {
-                            $currentValueMbg = $result_mbg[$alternatif_mbg] / $rowTotalMbg; // Dibagi dengan total baris
-                            $totalPerColumnMbg[$tenant_mbg2] += $currentValueMbg;
-                            break;
-                        } elseif (($result_mbg['kriteria_mbg'] == $tenant_mbg2 && $result_mbg['kriteria_mbg2'] == $tenant_mbg)) {
-                            $currentValueMbg = 1 / $result_mbg[$alternatif_mbg] / $rowTotalMbg; // Dibagi dengan total baris
-                            $totalPerColumnMbg[$tenant_mbg2] += $currentValueMbg;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // Membagi total nilai per kolom dengan jumlah elemen mall
-            foreach ($totalPerColumnMbg as $tenant_mbg => $totalMbg) {
-                $totalPerColumnMbg[$tenant_mbg] /= $numTenantsMbg1;
-            }
-
-            // Menghitung total dari hasil
-            $totalResultMbg = 0;
-            foreach ($totalPerColumnMbg as $totalMbg) {
-                $totalResultMbg += $totalMbg;
-            }
-
-            // Menampilkan total nilai per kolom
-            echo "<tr><th>Eigen Vector</th>";
-            foreach ($tenants_mbg as $tenant_mbg) {
-                // Display the eigenvector value
-                echo "<td>" . number_format($totalPerColumnMbg[$tenant_mbg], 5, '.', '') . "</td>";;
-            }
-            echo "<td>$totalResultMbg</td>"; // Menampilkan total dari hasil
-            echo "</tr>";
-
-            echo "</table>";
-
-            $_SESSION['eigenvector_mbg'] = $totalPerColumnMbg;
-
-            // Hitung Lambda Max
+            // Calculate Lambda Max
             $lambdaMaxMbg = 0;
-
-            // Pengulangan untuk setiap alternatif
             foreach ($tenants_mbg as $tenant_mbg) {
-                // Inisialisasi nilai hasil total untuk alternatif ini
-                $totalValueForTenantMbg = $totalValuesMbg[$tenant_mbg];
-
-                // Ambil nilai eigenvector untuk alternatif ini
-                $eigenvectorForTenantMbg = $totalPerColumnMbg[$tenant_mbg];
-
-                // Perkalian nilai total dengan nilai eigenvector dan tambahkan ke Lambda Max
-                $lambdaMaxMbg += $totalValueForTenantMbg * $eigenvectorForTenantMbg;
+                $lambdaMaxMbg += $totalValuesMbg[$tenant_mbg2] * $normalizedRowTotalMbg;
             }
 
-            echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxMbg, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxMbg, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall
-            $randomConsistencyIndexMbg = 0;
-            switch ($numTenantsMbg1) {
+            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+            $randomConsistencyIndexMbg  = 0;
+            switch ($numMallsMbg) {
                 case 1:
-                    $randomConsistencyIndexMbg = 0;
+                    $randomConsistencyIndexMbg  = 0;
                     break;
                 case 2:
-                    $randomConsistencyIndexMbg = 0;
+                    $randomConsistencyIndexMbg  = 0;
                     break;
                 case 3:
-                    $randomConsistencyIndexMbg = 0.58;
+                    $randomConsistencyIndexMbg  = 0.58;
                     break;
                 case 4:
-                    $randomConsistencyIndexMbg = 0.90;
+                    $randomConsistencyIndexMbg  = 0.90;
                     break;
                 case 5:
-                    $randomConsistencyIndexMbg = 1.12;
+                    $randomConsistencyIndexMbg  = 1.12;
                     break;
                 case 6:
-                    $randomConsistencyIndexMbg = 1.24;
+                    $randomConsistencyIndexMbg  = 1.24;
                     break;
                 case 7:
-                    $randomConsistencyIndexMbg = 1.32;
+                    $randomConsistencyIndexMbg  = 1.32;
                     break;
                 case 8:
-                    $randomConsistencyIndexMbg = 1.41;
+                    $randomConsistencyIndexMbg  = 1.41;
                     break;
                 case 9:
-                    $randomConsistencyIndexMbg = 1.45;
+                    $randomConsistencyIndexMbg  = 1.45;
                     break;
                 case 10:
-                    $randomConsistencyIndexMbg = 1.49;
+                    $randomConsistencyIndexMbg  = 1.49;
+                    break;
+                case 11:
+                    $randomConsistencyIndexMbg  = 1.51;
+                    break;
+                case 12:
+                    $randomConsistencyIndexMbg  = 1.48;
+                    break;
+                case 13:
+                    $randomConsistencyIndexMbg  = 1.56;
+                    break;
+                case 14:
+                    $randomConsistencyIndexMbg  = 1.57;
+                    break;
+                case 15:
+                    $randomConsistencyIndexMbg  = 1.59;
                     break;
                 default:
                     // Handle for more than 10 elements if needed
                     break;
             }
 
-            // Hitung Consistency Index (CI)
-            $consistencyIndexMbg = ($lambdaMaxMbg - $numTenantsMbg1) / ($numTenantsMbg1 - 1);
+            // Calculate Consistency Index (CI)
+            $CIMbg = ($lambdaMaxMbg - $numMallsMbg) / ($numMallsMbg - 1);
 
-            // Hitung nilai konsistensi ratio (CR)
-            $consistencyRatioMbg = $consistencyIndexMbg / $randomConsistencyIndexMbg;
+
+            // Calculate Consistency Ratio (CR)
+            $CRMbg = $CIMbg / $randomConsistencyIndexMbg; // You need to define RI according to your matrix size
 
             // Tampilkan hasil konsistensi
-            echo "<p>Nilai Consistency Index (CI): " . number_format($consistencyIndexMbg, 5, '.', '') . "</p>";
-            echo "<p>Nilai Random Consistency Index (RI) untuk $numTenantsMbg1 elemen: " . $randomConsistencyIndexMbg . "</p>";
-            echo "<p>Nilai Consistency Ratio (CR): " . number_format($consistencyRatioMbg, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Consistency Index (CI): " . number_format($CIMbg, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsMbg elemen: " . $randomConsistencyIndexMbg . "</p>";
+            // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRMbg, 5, '.', '') . "</p>";
 
-            // Tambahkan kondisi untuk menentukan konsistensi
-            if ($consistencyRatioMbg < 0.1) {
-                echo "<p>Nilai Konsisten</p>";
+            // Check if consistency is acceptable
+            if ($CRMbg < 0.1) {
+                echo "<p>Consistency Ratio (CR) is acceptable </p>";
             } else {
-                echo "<p>Nilai Tidak Konsisten.</p>";
+                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
             }
         }
         ?>
-
-    </div>
-    </section>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

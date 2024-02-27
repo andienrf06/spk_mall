@@ -6,6 +6,7 @@ if (!isset($_SESSION['comparison_results_lippokuta'])) {
     $_SESSION['comparison_results_lippokuta'] = [];
 }
 
+$mallsToShow = $_SESSION['selected_malls'] ?? [];
 ?>
 
 <!DOCTYPE html>
@@ -29,13 +30,18 @@ if (!isset($_SESSION['comparison_results_lippokuta'])) {
                 <img src="img\logo.png" alt="Logo">
             </div>
 
-            <div class="navb-items d-none d-xl-flex">
-                <div class="item">
+            <div class="navb-items d-none d-xl-flex gap-3">
+
+                <div class="navb-items d-none d-xl-flex">
                     <a href="index.php">Beranda</a>
                 </div>
 
-                <div class="item">
+                <div class="navb-items d-none d-xl-flex">
                     <a href="search.php">Pencarian</a>
+                </div>
+
+                <div class="navb-items d-none d-xl-flex">
+                    <a href="pilihmall.php">Pilih Mall</a>
                 </div>
 
                 <div class="item dropdown">
@@ -103,14 +109,14 @@ if (!isset($_SESSION['comparison_results_lippokuta'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-4 mt-4">Nilai Bobot Kriteria</h2>
+                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Kriteria Terhadap Alternatif Lippo Mall Kuta</h2>
             </div>
         </div>
 
         <form method="post">
             <div class="row mb-3">
                 <div class="col">
-                    <label for="alternatif">Alternative:</label>
+                    <label for="alternatif">Alternatif:</label>
                     <input type="text" name="alternatif_lippokuta" class="form-control" value="A06 - Lippo Mall Kuta" readonly>
                 </div>
             </div>
@@ -119,14 +125,16 @@ if (!isset($_SESSION['comparison_results_lippokuta'])) {
                     <select name="kriteria_lippokuta" class="form-select">
                         <?php
                         $tenants_lippokuta = [
-                            "Location",
-                            "Price",
-                            "Competitor",
+                            "Lokasi",
+                            "Harga",
+                            "Pesaing",
                         ];
 
                         foreach ($tenants_lippokuta as $tenant_lippokuta) {
-                            echo "<option value=\"$tenant_lippokuta\">$tenant_lippokuta</option>";
+                            $selected = in_array($tenant_lippokuta, $mallsToShow) ? 'selected' : ''; // Menandai mal yang sudah dipilih sebelumnya
+                            echo "<option value=\"$tenant_lippokuta\" $selected>$tenant_lippokuta</option>";
                         }
+
                         ?>
                     </select>
                 </div>
@@ -164,52 +172,62 @@ if (!isset($_SESSION['comparison_results_lippokuta'])) {
 
         <?php
         if (isset($_POST['submit'])) {
-            // Get input values
-            $alternatif_lippokuta = $_POST['alternatif_lippokuta'];
-            $kriteria_lippokuta = $_POST['kriteria_lippokuta'];
-            $comparison_value_lippokuta = $_POST['comparison_lippokuta'];
-            $kriteria_lippokuta2 = $_POST['kriteria_lippokuta2'];
+            // Check if alternatif_lippokuta is set
+            if (isset($_POST['alternatif_lippokuta'])) {
+                // Get input values
+                $alternatif_lippokuta = $_POST['alternatif_lippokuta'];
+                $kriteria_lippokuta = $_POST['kriteria_lippokuta'];
+                $comparison_value_lippokuta = $_POST['comparison_lippokuta'];
+                $kriteria_lippokuta2 = $_POST['kriteria_lippokuta2'];
 
-            // Retrieve comparison results from session
-            $comparison_results_lippokuta = $_SESSION['comparison_results_lippokuta'];
+                // Retrieve comparison_lippokuta results from session
+                $comparison_results_lippokuta = $_SESSION['comparison_results_lippokuta'];
 
-            // Check if the comparison result for this combination of alternative1 and alternative2 already exists
-            $exists = false;
-            foreach ($comparison_results_lippokuta as $key_lippokuta => $result_lippokuta) {
-                if ($result_lippokuta['kriteria_lippokuta'] == $kriteria_lippokuta && $result_lippokuta['kriteria_lippokuta2'] == $kriteria_lippokuta2) {
-                    $exists = true;
-                    // Update the comparison value
-                    $comparison_results_lippokuta[$key_lippokuta][$alternatif_lippokuta] = $comparison_value_lippokuta;
-                    break;
+                // Check if the comparison_lippokuta result_lippokuta for this combination of kriteria_lippokuta and kriteria_lippokuta2 already exists
+                // Jika kriteria_lippokuta dan kriteria_lippokuta2 sama, set nilai perbandingannya menjadi 1
+                if ($kriteria_lippokuta === $kriteria_lippokuta2) {
+                    $comparison_value_lippokuta = 1;
                 }
+
+                // Check if the comparison_lippokuta result_lippokuta for this combination of kriteria_lippokuta and kriteria_lippokuta2 already exists
+                $exists = false;
+                foreach ($comparison_results_lippokuta as $key_lippokuta => $result_lippokuta) {
+                    if ($result_lippokuta['kriteria_lippokuta'] == $kriteria_lippokuta && $result_lippokuta['kriteria_lippokuta2'] == $kriteria_lippokuta2) {
+                        $exists = true;
+                        // Update the comparison_lippokuta value
+                        $comparison_results_lippokuta[$key_lippokuta][$alternatif_lippokuta] = $comparison_value_lippokuta;
+                        break; // Break the loop after updating the comparison_lippokuta value
+                    }
+                }
+
+                // If the comparison_lippokuta result_lippokuta doesn't exist, add it to the comparison_lippokuta results array
+                if (!$exists) {
+                    $comparison_results_lippokuta[] = array(
+                        'kriteria_lippokuta' => $kriteria_lippokuta,
+                        'kriteria_lippokuta2' => $kriteria_lippokuta2,
+                        $alternatif_lippokuta => $comparison_value_lippokuta
+                    );
+                }
+
+
+                // Update the comparison_lippokuta results in the session
+                $_SESSION['comparison_results_lippokuta'] = $comparison_results_lippokuta;
+            } else {
+                // Action if alternatif_lippokuta is not defined
+                echo "Alternatif tidak terdefinisi.";
             }
 
-            // If the comparison result doesn't exist, add it to the comparison results array
-            if (!$exists) {
-                $comparison_results_lippokuta[] = array(
-                    'kriteria_lippokuta' => $kriteria_lippokuta,
-                    'kriteria_lippokuta2' => $kriteria_lippokuta2,
-                    $alternatif_lippokuta => $comparison_value_lippokuta
-                );
-            }
-
-
-            // Update the comparison results in the session
-            $_SESSION['comparison_results_lippokuta'] = $comparison_results_lippokuta;
-
-
-            echo "<h3>Comparison Results</h3>";
+            echo "<h3>Comparison_lippokuta Results</h3>";
             echo "<table border='1'>";
-            echo "<tr><th>Comparison</th>";
+            echo "<tr><th>Comparison_lippokuta</th>";
             foreach ($tenants_lippokuta as $tenant_lippokuta) {
                 echo "<th>$tenant_lippokuta</th>";
             }
-            echo "<th>Total</th></tr>";
 
-            // Initialize an array to store the total values for each mall
+            // Initialize an array to store the total values for each tenant
             $totalValuesLippoKuta = array_fill_keys($tenants_lippokuta, 0);
 
-            // Loop through each mall for comparison results
+            // Loop through each tenant for comparison_lippokuta results
             foreach ($tenants_lippokuta as $tenant_lippokuta1) {
                 echo "<tr>";
                 echo "<td>$tenant_lippokuta1</td>";
@@ -217,7 +235,7 @@ if (!isset($_SESSION['comparison_results_lippokuta'])) {
 
                 foreach ($tenants_lippokuta as $tenant_lippokuta2) {
                     $comparisonValueLippoKuta = null;
-                    $isInverseLippoKuta = false; // Flag to check if the comparison is inverse
+                    $isInverseLippoKuta = false; // Flag to check if the comparison_lippokuta is inverse
 
                     foreach ($comparison_results_lippokuta as $result_lippokuta) {
                         if (($result_lippokuta['kriteria_lippokuta'] == $tenant_lippokuta1 && $result_lippokuta['kriteria_lippokuta2'] == $tenant_lippokuta2)) {
@@ -232,208 +250,192 @@ if (!isset($_SESSION['comparison_results_lippokuta'])) {
 
                     if ($comparisonValueLippoKuta !== null) {
                         if ($isInverseLippoKuta) {
-                            echo "<td>" . number_format($comparisonValueLippoKuta, 5, '.', '') . "</td>"; // Display inverse comparison value
+                            echo "<td>" . number_format($comparisonValueLippoKuta, 5, '.', '') . "</td>"; // Display inverse comparison_lippokuta value
                         } else {
-                            echo "<td>" . number_format($comparisonValueLippoKuta, 5, '.', '') . "</td>"; // Display comparison value
+                            echo "<td>" . number_format($comparisonValueLippoKuta, 5, '.', '') . "</td>"; // Display comparison_lippokuta value
                         }
-                        $totalRowLippoKuta += $comparisonValueLippoKuta;
-                        $totalValuesLippoKuta[$tenant_lippokuta1] += $comparisonValueLippoKuta;
+                        $totalValuesLippoKuta[$tenant_lippokuta2] += $comparisonValueLippoKuta; // Fix here, use tenant_lippokuta2 as key_mlippokutafor totalValuesLippoKuta
+                    } else {
+                        echo "<td>-</td>";
+                    }
+                }
+            }
+
+            // Show the total row after looping through all tenants_lippokuta
+            echo "<tr><td>Total</td>";
+            $totalTotalLippoKuta = 0;
+            foreach ($tenants_lippokuta as $tenant_lippokuta) {
+                $totalTotalLippoKuta += $totalValuesLippoKuta[$tenant_lippokuta];
+                echo "<td>" . number_format($totalValuesLippoKuta[$tenant_lippokuta], 5, '.', '') . "</td>";
+            }
+            echo "</tr>";
+
+            echo "</table>";
+
+            echo "<h3>Normalized Comparison Results</h3>";
+            echo "<table border='1'>";
+            echo "<tr><th>Comparison</th>";
+            foreach ($tenants_lippokuta as $tenant_lippokuta) {
+                echo "<th>$tenant_lippokuta</th>";
+            }
+            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+
+            // Array to store column totals
+            $columnTotalsLippoKuta = array_fill_keys($tenants_lippokuta, 0);
+
+            // Counting the number of tenants$tenants_lippokuta
+            $numMallsLippoKuta = count($tenants_lippokuta);
+
+            // Initialize an array to store normalized row totals
+            $normalizedRowTotalsLippoKuta = [];
+
+            // Loop through each ten$tenant_lippokuta for comparison results
+            foreach ($tenants_lippokuta as $tenant_lippokuta1) {
+                echo "<tr>";
+                echo "<td>$tenant_lippokuta1</td>";
+                $rowTotalLippoKuta = 0; // Menyimpan total per baris
+
+                foreach ($tenants_lippokuta as $tenant_lippokuta2) {
+                    $comparisonValueLippoKuta = null;
+
+                    foreach ($comparison_results_lippokuta as $result_lippokuta) {
+                        if (($result_lippokuta['kriteria_lippokuta'] == $tenant_lippokuta1 && $result_lippokuta['kriteria_lippokuta2'] == $tenant_lippokuta2)) {
+                            $comparisonValueLippoKuta = $result_lippokuta[$alternatif_lippokuta];
+                            break;
+                        } elseif (($result_lippokuta['kriteria_lippokuta'] == $tenant_lippokuta2 && $result_lippokuta['kriteria_lippokuta2'] == $tenant_lippokuta1)) {
+                            $comparisonValueLippoKuta = 1 / $result_lippokuta[$alternatif_lippokuta]; // Take the inverse
+                            break;
+                        }
+                    }
+
+                    if ($comparisonValueLippoKuta !== null) {
+                        // Calculate the normalized value
+                        $normalizedValueLippoKuta = $comparisonValueLippoKuta / $totalValuesLippoKuta[$tenant_lippokuta2];
+                        echo "<td>" . number_format($normalizedValueLippoKuta, 5, '.', '') . "</td>";
+
+                        // Add to column totals
+                        $columnTotalsLippoKuta[$tenant_lippokuta2] += $normalizedValueLippoKuta;
+
+                        // Add to row total
+                        $rowTotalLippoKuta += $normalizedValueLippoKuta;
                     } else {
                         echo "<td>-</td>";
                     }
                 }
 
-                echo "<td>" . number_format($totalRowLippoKuta, 5, '.', '') . "</td>"; // Display the total for this row
-                echo "</tr>";
+                // Calculate normalized row total
+                $normalizedRowTotalLippoKuta = $rowTotalLippoKuta / $numMallsLippoKuta;
+                $normalizedRowTotalsLippoKuta[$tenant_lippokuta1] = $normalizedRowTotalLippoKuta; // Store normalized row total
+                echo "<td>" . number_format($normalizedRowTotalLippoKuta, 5, '.', '') . "</td>";
             }
 
+            // Show the total row after looping through all tenants$tenants_lippokuta
+            echo "<tr><td>Total</td>";
+            foreach ($tenants_lippokuta as $tenant_lippokuta) {
+                echo "<td>" . number_format($columnTotalsLippoKuta[$tenant_lippokuta], 5, '.', '') . "</td>";
+            }
 
+            // Calculate eigen value and display
+            $eigenValuLippoKuta = array_sum($columnTotalsLippoKuta) / $numMallsLippoKuta;
+            echo "<td>" . number_format($eigenValuLippoKuta, 5, '.', '') . "</td>";
+
+            echo "</tr>";
             echo "</table>";
 
-            // Display the divided comparison results
-            echo "<h3>Divided Comparison Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Criteria</th>";
-            foreach ($tenants_lippokuta as $tenant_lippokuta) {
-                echo "<th>$tenant_lippokuta</th>";
-            }
-            echo "<th>Total</th>"; // Add Total column header
-            echo "</tr>";
+            // Display normalized row totals
+            // echo "<h3>Normalized Row Totals</h3>";
+            // echo "<ul>";
+            // foreach ($normalizedRowTotalsLippoKuta as $tenant_lippokuta => $rowTotalLippoKuta) {
+            //     echo "<li><strong>$tenant_lippokuta:</strong> " . number_format($rowTotalLippoKuta, 5, '.', '') . "</li>";
+            // }
+            // echo "</ul>";
 
-            // Display the divided comparison results
-            foreach ($tenants_lippokuta as $tenant_lippokuta) {
-                echo "<tr>";
-                echo "<td>$tenant_lippokuta</td>";
 
-                // Get the total for this row
-                $rowTotalLippoKuta = $totalValuesLippoKuta[$tenant_lippokuta];
+            // Simpan nilai normalized row totals dalam sesi
+            $_SESSION['normalized_row_totals_lippokuta'] = $normalizedRowTotalsLippoKuta;
 
-                // Initialize the sum of divided values for this row
-                $dividedValuesSumLippoKuta = 0;
-
-                foreach ($tenants_lippokuta as $tenant_lippokuta2) {
-                    // Get the current value in the table
-                    $currentValueLippoKuta = 0;
-
-                    // Search for the corresponding value in the comparison results
-                    foreach ($comparison_results_lippokuta as $result_lippokuta) {
-                        if (($result_lippokuta['kriteria_lippokuta'] == $tenant_lippokuta && $result_lippokuta['kriteria_lippokuta2'] == $tenant_lippokuta2)) {
-                            $currentValueLippoKuta = $result_lippokuta[$alternatif_lippokuta];
-                            break;
-                        } elseif (($result_lippokuta['kriteria_lippokuta'] == $tenant_lippokuta2 && $result_lippokuta['kriteria_lippokuta2'] == $tenant_lippokuta)) {
-                            // If inverse comparison found, set the current value as its inverse
-                            $currentValueLippoKuta = 1 / $result_lippokuta[$alternatif_lippokuta];
-                            break;
-                        }
-                    }
-
-                    // Calculate the value divided by the row total
-                    $dividedValueLippoKuta = 0;
-                    if ($rowTotalLippoKuta != 0) {
-                        // Perform division only if row total is non-zero
-                        $dividedValueLippoKuta = $currentValueLippoKuta / $rowTotalLippoKuta;
-                    }
-
-                    // Update the sum of divided values for this row
-                    $dividedValuesSumLippoKuta += $dividedValueLippoKuta;
-
-                    // Display the divided value
-                    echo "<td>" . number_format($dividedValueLippoKuta, 5, '.', '') . "</td>";
-                }
-
-                // Display the sum of divided values for this row
-                echo "<td>" . $dividedValuesSumLippoKuta . "</td>";
-                echo "</tr>";
-            }
-
-            // Menghitung jumlah elemen mall
-            $numTenantsLippoKuta1 = count($tenants_lippokuta);
-
-            // Array untuk menyimpan total nilai per kolom
-            $totalPerColumnLippoKuta = array_fill_keys($tenants_lippokuta, 0);
-
-            // Menghitung total nilai per kolom
-            foreach ($tenants_lippokuta as $tenant_lippokuta) {
-                foreach ($tenants_lippokuta as $tenant_lippokuta2) {
-                    // Menambahkan nilai pada kolom ke total kolom yang sesuai
-                    $rowTotalLippoKuta = $totalValuesLippoKuta[$tenant_lippokuta];
-                    foreach ($comparison_results_lippokuta as $result_lippokuta) {
-                        if (($result_lippokuta['kriteria_lippokuta'] == $tenant_lippokuta && $result_lippokuta['kriteria_lippokuta2'] == $tenant_lippokuta2)) {
-                            $currentValueLippoKuta = $result_lippokuta[$alternatif_lippokuta] / $rowTotalLippoKuta; // Dibagi dengan total baris
-                            $totalPerColumnLippoKuta[$tenant_lippokuta2] += $currentValueLippoKuta;
-                            break;
-                        } elseif (($result_lippokuta['kriteria_lippokuta'] == $tenant_lippokuta2 && $result_lippokuta['kriteria_lippokuta2'] == $tenant_lippokuta)) {
-                            $currentValueLippoKuta = 1 / $result_lippokuta[$alternatif_lippokuta] / $rowTotalLippoKuta; // Dibagi dengan total baris
-                            $totalPerColumnLippoKuta[$tenant_lippokuta2] += $currentValueLippoKuta;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // Membagi total nilai per kolom dengan jumlah elemen mall
-            foreach ($totalPerColumnLippoKuta as $tenant_lippokuta => $totalLippoKuta) {
-                $totalPerColumnLippoKuta[$tenant_lippokuta] /= $numTenantsLippoKuta1;
-            }
-
-            // Menghitung total dari hasil
-            $totalResultLippoKuta = 0;
-            foreach ($totalPerColumnLippoKuta as $totalLippoKuta) {
-                $totalResultLippoKuta += $totalLippoKuta;
-            }
-
-            // Menampilkan total nilai per kolom
-            echo "<tr><th>Eigen Vector</th>";
-            foreach ($tenants_lippokuta as $tenant_lippokuta) {
-                // Display the eigenvector value
-                echo "<td>" . number_format($totalPerColumnLippoKuta[$tenant_lippokuta], 5, '.', '') . "</td>";;
-            }
-            echo "<td>$totalResultLippoKuta</td>"; // Menampilkan total dari hasil
-            echo "</tr>";
-
-            echo "</table>";
-
-            $_SESSION['eigenvector_lippokuta'] = $totalPerColumnLippoKuta;
-
-            // Hitung Lambda Max
+            // Calculate Lambda Max
             $lambdaMaxLippoKuta = 0;
-
-            // Pengulangan untuk setiap alternatif
             foreach ($tenants_lippokuta as $tenant_lippokuta) {
-                // Inisialisasi nilai hasil total untuk alternatif ini
-                $totalValueForTenantLippoKuta = $totalValuesLippoKuta[$tenant_lippokuta];
-
-                // Ambil nilai eigenvector untuk alternatif ini
-                $eigenvectorForTenantLippoKuta = $totalPerColumnLippoKuta[$tenant_lippokuta];
-
-                // Perkalian nilai total dengan nilai eigenvector dan tambahkan ke Lambda Max
-                $lambdaMaxLippoKuta += $totalValueForTenantLippoKuta * $eigenvectorForTenantLippoKuta;
+                $lambdaMaxLippoKuta += $totalValuesLippoKuta[$tenant_lippokuta2] * $normalizedRowTotalLippoKuta;
             }
 
-            echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxLippoKuta, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxLippoKuta, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall
-            $randomConsistencyIndexLippoKuta = 0;
-            switch ($numTenantsLippoKuta1) {
+            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+            $randomConsistencyIndexLippoKuta  = 0;
+            switch ($numMallsLippoKuta) {
                 case 1:
-                    $randomConsistencyIndexLippoKuta = 0;
+                    $randomConsistencyIndexLippoKuta  = 0;
                     break;
                 case 2:
-                    $randomConsistencyIndexLippoKuta = 0;
+                    $randomConsistencyIndexLippoKuta  = 0;
                     break;
                 case 3:
-                    $randomConsistencyIndexLippoKuta = 0.58;
+                    $randomConsistencyIndexLippoKuta  = 0.58;
                     break;
                 case 4:
-                    $randomConsistencyIndexLippoKuta = 0.90;
+                    $randomConsistencyIndexLippoKuta  = 0.90;
                     break;
                 case 5:
-                    $randomConsistencyIndexLippoKuta = 1.12;
+                    $randomConsistencyIndexLippoKuta  = 1.12;
                     break;
                 case 6:
-                    $randomConsistencyIndexLippoKuta = 1.24;
+                    $randomConsistencyIndexLippoKuta  = 1.24;
                     break;
                 case 7:
-                    $randomConsistencyIndexLippoKuta = 1.32;
+                    $randomConsistencyIndexLippoKuta  = 1.32;
                     break;
                 case 8:
-                    $randomConsistencyIndexLippoKuta = 1.41;
+                    $randomConsistencyIndexLippoKuta  = 1.41;
                     break;
                 case 9:
-                    $randomConsistencyIndexLippoKuta = 1.45;
+                    $randomConsistencyIndexLippoKuta  = 1.45;
                     break;
                 case 10:
-                    $randomConsistencyIndexLippoKuta = 1.49;
+                    $randomConsistencyIndexLippoKuta  = 1.49;
+                    break;
+                case 11:
+                    $randomConsistencyIndexLippoKuta  = 1.51;
+                    break;
+                case 12:
+                    $randomConsistencyIndexLippoKuta  = 1.48;
+                    break;
+                case 13:
+                    $randomConsistencyIndexLippoKuta  = 1.56;
+                    break;
+                case 14:
+                    $randomConsistencyIndexLippoKuta  = 1.57;
+                    break;
+                case 15:
+                    $randomConsistencyIndexLippoKuta  = 1.59;
                     break;
                 default:
                     // Handle for more than 10 elements if needed
                     break;
             }
 
-            // Hitung Consistency Index (CI)
-            $consistencyIndexLippoKuta = ($lambdaMaxLippoKuta - $numTenantsLippoKuta1) / ($numTenantsLippoKuta1 - 1);
+            // Calculate Consistency Index (CI)
+            $CILippoKuta = ($lambdaMaxLippoKuta - $numMallsLippoKuta) / ($numMallsLippoKuta - 1);
 
-            // Hitung nilai konsistensi ratio (CR)
-            $consistencyRatioLippoKuta = $consistencyIndexLippoKuta / $randomConsistencyIndexLippoKuta;
+
+            // Calculate Consistency Ratio (CR)
+            $CRLippoKuta = $CILippoKuta / $randomConsistencyIndexLippoKuta; // You need to define RI according to your matrix size
 
             // Tampilkan hasil konsistensi
-            echo "<p>Nilai Consistency Index (CI): " . number_format($consistencyIndexLippoKuta, 5, '.', '') . "</p>";
-            echo "<p>Nilai Random Consistency Index (RI) untuk $numTenantsLippoKuta1 elemen: " . $randomConsistencyIndexLippoKuta . "</p>";
-            echo "<p>Nilai Consistency Ratio (CR): " . number_format($consistencyRatioLippoKuta, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Consistency Index (CI): " . number_format($CILippoKuta, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsLippoKuta elemen: " . $randomConsistencyIndexLippoKuta . "</p>";
+            // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRLippoKuta, 5, '.', '') . "</p>";
 
-            // Tambahkan kondisi untuk menentukan konsistensi
-            if ($consistencyRatioLippoKuta < 0.1) {
-                echo "<p>Nilai Konsisten</p>";
+            // Check if consistency is acceptable
+            if ($CRLippoKuta < 0.1) {
+                echo "<p>Consistency Ratio (CR) is acceptable </p>";
             } else {
-                echo "<p>Nilai Tidak Konsisten.</p>";
+                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
             }
         }
         ?>
-
-    </div>
-    </section>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
