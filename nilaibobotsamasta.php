@@ -9,6 +9,8 @@ if (!isset($_SESSION['comparison_results_samasta'])) {
 $mallsToShow = $_SESSION['selected_malls'] ?? [];
 ?>
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,10 +42,6 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                     <a href="search.php">Pencarian</a>
                 </div>
 
-                <div class="navb-items d-none d-xl-flex">
-                    <a href="pilihmall.php">Pilih Mall</a>
-                </div>
-
                 <div class="item dropdown">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Nilai Bobot Alternatif
@@ -64,16 +62,16 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         <a class="dropdown-item" href="nilaibobotsamasta.php">Berdasarkan Samasta Lifestyle Village</a>
                         <a class="dropdown-item" href="nilaibobotsidewalk.php">Berdasarkan Sidewalk Jimbaran</a>
                         <a class="dropdown-item" href="nilaibobotpark23.php">Berdasarkan Park 23</a>
-                        <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall Bali Galeria</a>
                         <a class="dropdown-item" href="nilaibobotlippokuta.php">Berdasarkan Lippo Mall Kuta</a>
+                        <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall</a>
+                        <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
+                        <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall Bali Galeria</a>
                         <a class="dropdown-item" href="nilaibobotlipposunset.php">Berdasarkan Lippo Plaza Sunset</a>
+                        <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
+                        <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
                         <a class="dropdown-item" href="nilaibobottsm.php">Berdasarkan Trans Studio Mall Bali</a>
                         <a class="dropdown-item" href="nilaibobotlevel.php">Berdasarkan Level21 Mall</a>
                         <a class="dropdown-item" href="nilaibobotplazarenon.php">Berdasarkan Lippo Plaza Renon</a>
-                        <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
-                        <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
-                        <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
-                        <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall</a>
                         <a class="dropdown-item" href="nilaibobotliving.php">Berdasarkan Living World Denpasar</a>
                         <a class="dropdown-item" href="nilaibobotramayana.php">Berdasarkan Ramayana Bali Mall</a>
                     </div>
@@ -84,7 +82,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         Rekomendasi
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Weighted Supermatrix</a>
+                        <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Nilai Bobot</a>
                         <a class="dropdown-item" href="hasilakhir.php">Hasil Rekomendasi</a>
                     </div>
                 </div>
@@ -170,6 +168,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             </div>
         </form>
 
+
         <?php
         if (isset($_POST['submit'])) {
             // Check if alternatif_samasta is set
@@ -215,17 +214,17 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 echo "Alternatif tidak terdefinisi.";
             }
 
-            echo "<h3>Comparison_samasta Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Comparison_samasta</th>";
+            echo "<h3>Hasil Perbandingan</h3>";
+            echo "<table class ='table table-striped'>";
+            echo "<tr><th>Kriteria</th>";
             foreach ($tenants_samasta as $tenant_samasta) {
                 echo "<th>$tenant_samasta</th>";
             }
 
-            // Initialize an array to store the total values for each tenant$tenant_samasta
+            // Initialize an array to store the total values for each tenant_samasta
             $totalValuesSamasta = array_fill_keys($tenants_samasta, 0);
 
-            // Loop through each tenant$tenant_samasta for comparison_samasta results
+            // Loop through each tenant_samasta for comparison_samasta results
             foreach ($tenants_samasta as $tenant_samasta1) {
                 echo "<tr>";
                 echo "<td>$tenant_samasta1</td>";
@@ -270,9 +269,10 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
 
             echo "</table>";
 
-            echo "<h3>Normalized Comparison Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Comparison</th>";
+
+            echo "<h3>Hasil Normalisasi Perbandingan</h3>";
+            echo "<table class ='table table-striped'>";
+            echo "<tr><th>Kriteria</th>";
             foreach ($tenants_samasta as $tenant_samasta) {
                 echo "<th>$tenant_samasta</th>";
             }
@@ -281,7 +281,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Array to store column totals
             $columnTotalsSamasta = array_fill_keys($tenants_samasta, 0);
 
-            // Counting the number of tenants$tenants_samasta
+            // Counting the number of tenants_samasta
             $numMallsSamasta = count($tenants_samasta);
 
             // Initialize an array to store normalized row totals
@@ -327,7 +327,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 echo "<td>" . number_format($normalizedRowTotalSamasta, 5, '.', '') . "</td>";
             }
 
-            // Show the total row after looping through all tenants$tenants_samasta
+            // Show the total row after looping through all tenants_samasta
             echo "<tr><td>Total</td>";
             foreach ($tenants_samasta as $tenant_samasta) {
                 echo "<td>" . number_format($columnTotalsSamasta[$tenant_samasta], 5, '.', '') . "</td>";
@@ -352,15 +352,19 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Simpan nilai normalized row totals dalam sesi
             $_SESSION['normalized_row_totals_samasta'] = $normalizedRowTotalsSamasta;
 
+
+            // echo "Nilai Eigen Vector BC: " . number_format($eigenVectorBC, 5, '.', '') . "<br>";
+
             // Calculate Lambda Max
             $lambdaMaxSamasta = 0;
             foreach ($tenants_samasta as $tenant_samasta) {
-                $lambdaMaxSamasta += $totalValuesSamasta[$tenant_samasta2] * $normalizedRowTotalSamasta;
+                $lambdaMaxSamasta += $totalValuesSamasta[$tenant_samasta] * $normalizedRowTotalsSamasta[$tenant_samasta];
             }
+
 
             // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxSamasta, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant$tenant_samasta
+            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant_samasta
             $randomConsistencyIndexSamasta  = 0;
             switch ($numMallsSamasta) {
                 case 1:
@@ -427,9 +431,9 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
 
             // Check if consistency is acceptable
             if ($CRSamasta < 0.1) {
-                echo "<p>Consistency Ratio (CR) is acceptable </p>";
+                echo "<p><strong>Konsistensi Rasio (CR) Bernilai Konsisten </strong></p>";
             } else {
-                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
+                echo "<p><strong>Konsistensi Rasio (CR) Tidak Bernilai Konsisten </strong></p>";
             }
         }
         ?>

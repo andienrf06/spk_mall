@@ -43,7 +43,7 @@ if ($data) {
             echo "<p>Ukuran Gerai: " . $row['ukuranGerai'] . "</p>";
             echo "<p>Kategori Gerai: " . $row['kategoriGerai'] . "</p>";
             echo "<p>Harga Gerai: " . $row['hargaGerai'] . "</p>";
-            echo "<p>Range Harga: " . $row['rangeHarga'] . "</p>";
+            // echo "<p>Range Harga: " . $row['rangeHarga'] . "</p>";
             echo "<p>Jumlah Pesaing: " . $row['jumlahPesaing'] . "</p>";
 
             // Tidak perlu lanjutkan loop karena data sudah ditemukan
@@ -53,7 +53,7 @@ if ($data) {
 
     // Jika data Gerai Bali Collection (1) tidak ditemukan, tampilkan pesan
     if (!$geraiBaliCollectionFound) {
-        echo "<p>Data untuk Gerai Bali Collection (1) tidak ditemukan.</p>";
+        echo "<p>Data untuk Gerai Ramayana Bali Mall (2) tidak ditemukan.</p>";
     }
 } else {
     echo "<p>Data tidak ditemukan.</p>";

@@ -29,11 +29,11 @@ $data = sparql_get(
 // Check if data is retrieved successfully
 // Check if data is retrieved successfully
 if ($data) {
-    $geraiBaliCollectionFound = false; // Inisialisasi flag untuk menandai apakah data Gerai Bali Collection (1) ditemukan
+    $geraiBaliCollectionFound = false; // Inisialisasi flag untuk menandai apakah data Gerai Discovery Shopping Mall (6) ditemukan
     foreach ($data as $row) {
         // Check apakah nama gerai adalah Gerai Bali Collection (1)
         if ($row['namaGerai'] == 'Gerai Discovery Shopping Mall (6)') {
-            // Tandai bahwa data Gerai Bali Collection (1) ditemukan
+            // Tandai bahwa data Gerai Discovery Shopping Mall (6) ditemukan
             $geraiBaliCollectionFound = true;
 
             // Tampilkan detail data untuk Gerai Bali Collection (1)
@@ -43,7 +43,7 @@ if ($data) {
             echo "<p>Ukuran Gerai: " . $row['ukuranGerai'] . "</p>";
             echo "<p>Kategori Gerai: " . $row['kategoriGerai'] . "</p>";
             echo "<p>Harga Gerai: " . $row['hargaGerai'] . "</p>";
-            echo "<p>Range Harga: " . $row['rangeHarga'] . "</p>";
+            // echo "<p>Range Harga: " . $row['rangeHarga'] . "</p>";
             echo "<p>Jumlah Pesaing: " . $row['jumlahPesaing'] . "</p>";
 
             // Tidak perlu lanjutkan loop karena data sudah ditemukan
@@ -51,9 +51,9 @@ if ($data) {
         }
     }
 
-    // Jika data Gerai Bali Collection (1) tidak ditemukan, tampilkan pesan
+    // Jika data Gerai Discovery Shopping Mall (6) tidak ditemukan, tampilkan pesan
     if (!$geraiBaliCollectionFound) {
-        echo "<p>Data untuk Gerai Bali Collection (1) tidak ditemukan.</p>";
+        echo "<p>Data untuk Gerai Discovery Shopping Mall (6) tidak ditemukan.</p>";
     }
 } else {
     echo "<p>Data tidak ditemukan.</p>";

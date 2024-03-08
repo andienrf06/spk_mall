@@ -14,10 +14,7 @@
 </head>
 
 <body>
-
-
     <header>
-
         <div class="container-fluid">
 
             <div class="navb-logo">
@@ -34,9 +31,9 @@
                     <a href="search.php">Pencarian</a>
                 </div>
 
-                <div class="navb-items d-none d-xl-flex">
+                <!-- <div class="navb-items d-none d-xl-flex">
                     <a href="pilihmall.php">Pilih Mall</a>
-                </div>
+                </div> -->
 
                 <div class="item dropdown">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -58,16 +55,16 @@
                         <a class="dropdown-item" href="nilaibobotsamasta.php">Berdasarkan Samasta Lifestyle Village</a>
                         <a class="dropdown-item" href="nilaibobotsidewalk.php">Berdasarkan Sidewalk Jimbaran</a>
                         <a class="dropdown-item" href="nilaibobotpark23.php">Berdasarkan Park 23</a>
-                        <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall Bali Galeria</a>
                         <a class="dropdown-item" href="nilaibobotlippokuta.php">Berdasarkan Lippo Mall Kuta</a>
+                        <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall</a>
+                        <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
+                        <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall Bali Galeria</a>
                         <a class="dropdown-item" href="nilaibobotlipposunset.php">Berdasarkan Lippo Plaza Sunset</a>
+                        <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
+                        <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
                         <a class="dropdown-item" href="nilaibobottsm.php">Berdasarkan Trans Studio Mall Bali</a>
                         <a class="dropdown-item" href="nilaibobotlevel.php">Berdasarkan Level21 Mall</a>
                         <a class="dropdown-item" href="nilaibobotplazarenon.php">Berdasarkan Lippo Plaza Renon</a>
-                        <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
-                        <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
-                        <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
-                        <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall</a>
                         <a class="dropdown-item" href="nilaibobotliving.php">Berdasarkan Living World Denpasar</a>
                         <a class="dropdown-item" href="nilaibobotramayana.php">Berdasarkan Ramayana Bali Mall</a>
                     </div>
@@ -78,7 +75,7 @@
                         Rekomendasi
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Weighted Supermatrix</a>
+                        <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Nilai Bobot</a>
                         <a class="dropdown-item" href="hasilakhir.php">Hasil Rekomendasi</a>
                     </div>
                 </div>
@@ -111,9 +108,9 @@
                                 <i class="fa-solid fa-bell-concierge"></i><a href="search.php">Pencarian</a>
                             </div>
 
-                            <div class="modal-line">
+                            <!-- <div class="modal-line">
                                 <i class="fa-solid fa-bell-concierge"></i><a href="pilihmall.php">Pilih Mall</a>
-                            </div>
+                            </div> -->
 
                             <div class="item dropdown">
                                 <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -135,16 +132,16 @@
                                     <a class="dropdown-item" href="nilaibobotsamasta.php">Berdasarkan Samasta Lifestyle Village</a>
                                     <a class="dropdown-item" href="nilaibobotsidewalk.php">Berdasarkan Sidewalk Jimbaran</a>
                                     <a class="dropdown-item" href="nilaibobotpark23.php">Berdasarkan Park 23</a>
-                                    <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall Bali Galeria</a>
                                     <a class="dropdown-item" href="nilaibobotlippokuta.php">Berdasarkan Lippo Mall Kuta</a>
+                                    <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall</a>
+                                    <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
+                                    <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall Bali Galeria</a>
                                     <a class="dropdown-item" href="nilaibobotlipposunset.php">Berdasarkan Lippo Plaza Sunset</a>
+                                    <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
+                                    <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
                                     <a class="dropdown-item" href="nilaibobottsm.php">Berdasarkan Trans Studio Mall Bali</a>
                                     <a class="dropdown-item" href="nilaibobotlevel.php">Berdasarkan Level21 Mall</a>
                                     <a class="dropdown-item" href="nilaibobotplazarenon.php">Berdasarkan Lippo Plaza Renon</a>
-                                    <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
-                                    <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
-                                    <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
-                                    <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall</a>
                                     <a class="dropdown-item" href="nilaibobotliving.php">Berdasarkan Living World Denpasar</a>
                                     <a class="dropdown-item" href="nilaibobotramayana.php">Berdasarkan Ramayana Bali Mall</a>
                                 </div>
@@ -155,7 +152,7 @@
                                     Rekomendasi
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                                    <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Weighted Supermatrix</a>
+                                    <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Nilai Bobot</a>
                                     <a class="dropdown-item" href="hasilakhir.php">Hasil Rekomendasi</a>
                                 </div>
                             </div>
@@ -181,7 +178,7 @@
                     <div class="row justify-content-between gy-8 mt-8">
                         <div class="col-lg-8 mx-auto">
                             <div class="portfolio-description">
-                                <h1 class="welcome-text">Welcome, </h1>
+                                <h1 class="welcome-text">Selamat Datang, </h1>
                                 <h2>Sistem Pendukung Keputusan Pusat Perbelanjaan Modern</h2>
                                 <p>
                                     Sistem ini membantu pengusaha bisnis menentukan gerai yang akan dipilih, diantara beberapa
@@ -189,30 +186,28 @@
                                     dan sebaliknya menggunakan metode Analytic Network Process (ANP).
                                 </p>
                                 <p>
-                                    Proses yang harus dilakukan untuk mendapatkan hasil keputusan, adalah sebagai berikut:
+                                    Terdapat beberapa ketentuan untuk menemukan hasil rekomendasi:
                                 </p>
                                 <p>
-                                    1. Memilih menu ANP
+                                    1. Langkah awal, anda harus masuk ke "Temukan Rekomendasi Tenant Disini!"
+                                    Jika sudah berada pada menu Nilai Bobot Alternatif, Anda hanya dapat memilih maksimal 2 dasar nilai yang digunakan
                                 </p>
                                 <p>
-                                    2. Memilih Sub Menu Seleksi Metode ANP
+                                    2. Setelah selesai menentukan Nilai Bobot Alternatif, Anda dapat pindah ke menu Nilai Bobot Kriteria dan memilih
+                                    mall yang sesuai dengan pemilihan mall sebelumnya
                                 </p>
                                 <p>
-                                    3. Memilih Perbandingan Alternatif dan menentukan bobot/skor
+                                    3. Terakhir, Anda dapat menemukan rekomendasi gerai jika telah memberikan nilai pada menu Nilai Bobot Alternatif dan Nilai Bobot Kriteria
+                                    serta menuju ke menu Rekomendasi
                                 </p>
-                                <p>
-                                    4. Memilih Perbandingan Kriteria dan menentukan bobot/skor
-                                </p>
-                                <p>
-                                    5. Memilih Hasil Seleksi
-                                </p>
+                                <div class="proses-text">
+                                    <p><a href="pilihmall.php" class="btn btn-primary">Temukan Rekomendasi Tenant Disini!</a></p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-
-
 
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js

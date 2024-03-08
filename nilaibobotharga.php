@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+// Initialize the $input_values array
+if (!isset($_SESSION['comparison_results_price'])) {
+    $_SESSION['comparison_results_price'] = [];
+}
+
 // Initialize selected mallsT$mallsToShowPrice
 $mallsToShowPrice = $_SESSION['selected_malls'] ?? [];
 
@@ -41,10 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                     <a href="search.php">Pencarian</a>
                 </div>
 
-                <div class="navb-items d-none d-xl-flex">
-                    <a href="pilihmall.php">Pilih Mall</a>
-                </div>
-
                 <div class="item dropdown">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Nilai Bobot Alternatif
@@ -65,18 +66,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                         <a class="dropdown-item" href="nilaibobotsamasta.php">Berdasarkan Samasta Lifestyle Village</a>
                         <a class="dropdown-item" href="nilaibobotsidewalk.php">Berdasarkan Sidewalk Jimbaran</a>
                         <a class="dropdown-item" href="nilaibobotpark23.php">Berdasarkan Park 23</a>
-                        <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall_price Bali Galeria</a>
-                        <a class="dropdown-item" href="nilaibobotlippokuta.php">Berdasarkan Lippo Mall_price Kuta</a>
+                        <a class="dropdown-item" href="nilaibobotlippokuta.php">Berdasarkan Lippo Mall Kuta</a>
+                        <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall</a>
+                        <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
+                        <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall Bali Galeria</a>
                         <a class="dropdown-item" href="nilaibobotlipposunset.php">Berdasarkan Lippo Plaza Sunset</a>
-                        <a class="dropdown-item" href="nilaibobottsm.php">Berdasarkan Trans Studio Mall_price Bali</a>
-                        <a class="dropdown-item" href="nilaibobotlevel.php">Berdasarkan Level21 Mall_price</a>
-                        <a class="dropdown-item" href="nilaibobotplazarenon.php">Berdasarkan Lippo Plaza Renon</a>
                         <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
                         <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
-                        <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
-                        <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall_price</a>
+                        <a class="dropdown-item" href="nilaibobottsm.php">Berdasarkan Trans Studio Mall Bali</a>
+                        <a class="dropdown-item" href="nilaibobotlevel.php">Berdasarkan Level21 Mall</a>
+                        <a class="dropdown-item" href="nilaibobotplazarenon.php">Berdasarkan Lippo Plaza Renon</a>
                         <a class="dropdown-item" href="nilaibobotliving.php">Berdasarkan Living World Denpasar</a>
-                        <a class="dropdown-item" href="nilaibobotramayana.php">Berdasarkan Ramayana Bali Mall_price</a>
+                        <a class="dropdown-item" href="nilaibobotramayana.php">Berdasarkan Ramayana Bali Mall</a>
                     </div>
                 </div>
 
@@ -85,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                         Rekomendasi
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Weighted Supermatrix</a>
+                        <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Nilai Bobot</a>
                         <a class="dropdown-item" href="hasilakhir.php">Hasil Rekomendasi</a>
                     </div>
                 </div>
@@ -211,9 +212,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                 echo "Kriteria tidak terdefinisi.";
             }
 
-            echo "<h3>Comparison_price Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Comparison_price</th>";
+            echo "<h3>Hasil Perbandingan</h3>";
+            echo "<table class ='table table-striped'>";
+            echo "<tr><th>Alternatif</th>";
             foreach ($mallsToShowPrice as $mall_price) {
                 echo "<th>$mall_price</th>";
             }
@@ -224,7 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             // Loop through each mall_price for comparison_price results
             foreach ($mallsToShowPrice as $mall_price1) {
                 echo "<tr>";
-                echo "<td>$mall_price1</td>";
+                echo "<th>$mall_price1</th>";
                 $totalRowPrice = 0; // Total for this row
 
                 foreach ($mallsToShowPrice as $mall_price2) {
@@ -256,7 +257,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             }
 
             // Show the total row after looping through all mallsT$mallsToShowPrice
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             $totalTotalPrice = 0;
             foreach ($mallsToShowPrice as $mall_price) {
                 $totalTotalPrice += $totalValuesPrice[$mall_price];
@@ -266,9 +267,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
             echo "</table>";
 
-            echo "<h3>Normalized Comparison_price Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Comparison_price</th>";
+            echo "<h3>Hasil Normalisasi Perbandingan</h3>";
+            echo "<table class ='table table-striped'>";
+            echo "<tr><th>Alternatif</th>";
             foreach ($mallsToShowPrice as $mall_price) {
                 echo "<th>$mall_price</th>";
             }
@@ -286,7 +287,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             // Loop through each mall_price for comparison_price results
             foreach ($mallsToShowPrice as $mall_price1) {
                 echo "<tr>";
-                echo "<td>$mall_price1</td>";
+                echo "<th>$mall_price1</th>";
                 $rowTotalPrice = 0; // Menyimpan total per baris
 
                 foreach ($mallsToShowPrice as $mall_price2) {
@@ -324,7 +325,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             }
 
             // Show the total row after looping through all mallsT$mallsToShowPrice
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             foreach ($mallsToShowPrice as $mall_price) {
                 echo "<td>" . number_format($columnTotalsPrice[$mall_price], 5, '.', '') . "</td>";
             }
@@ -351,7 +352,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             // Calculate Lambda Max
             $lambdaMaxPrice = 0;
             foreach ($mallsToShowPrice as $mall_price) {
-                $lambdaMaxPrice += $totalValuesPrice[$mall_price2] * $normalizedRowTotalPrice;
+                $lambdaMaxPrice += $totalValuesPrice[$mall_price] * $normalizedRowTotalsPrice[$mall_price];
             }
 
             // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall_price
@@ -416,9 +417,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
             // Check if consistency is acceptable
             if ($CRPrice < 0.1) {
-                echo "<p>Consistency Ratio (CR) is acceptable </p>";
+                echo "<p><strong>Konsistensi Rasio (CR) Bernilai Konsisten </strong></p>";
             } else {
-                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
+                echo "<p><strong>Konsistensi Rasio (CR) Tidak Bernilai Konsisten </strong></p>";
             }
         }
         ?>

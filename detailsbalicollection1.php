@@ -43,7 +43,7 @@ if ($data) {
             echo "<p>Ukuran Gerai: " . $row['ukuranGerai'] . "</p>";
             echo "<p>Kategori Gerai: " . $row['kategoriGerai'] . "</p>";
             echo "<p>Harga Gerai: " . $row['hargaGerai'] . "</p>";
-            echo "<p>Range Harga: " . $row['rangeHarga'] . "</p>";
+            // echo "<p>Range Harga: " . $row['rangeHarga'] . "</p>";
             echo "<p>Jumlah Pesaing: " . $row['jumlahPesaing'] . "</p>";
 
             // Tidak perlu lanjutkan loop karena data sudah ditemukan
