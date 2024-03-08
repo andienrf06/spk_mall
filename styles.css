@@ -276,8 +276,9 @@ header .mobile-toggler{
 
     color: #fefefe;
 }
-
-
+.pilih-text{
+    padding-top: 20px;
+}
 
 .section-1{
 
@@ -432,15 +433,3 @@ h3 {
     text-align: center; /* Menengahkan teks */
     font-size: 18px;
 }
-
-
-
-
-
-
-
-
-
-
-  
-  

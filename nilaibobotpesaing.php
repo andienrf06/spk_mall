@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+// Initialize the $input_values array
+if (!isset($_SESSION['comparison_results_competitor'])) {
+    $_SESSION['comparison_results_competitor'] = [];
+}
+
 // Initialize selected mallsT$mallsToShowCompetitor
 $mallsToShowCompetitor = $_SESSION['selected_malls'] ?? [];
 
@@ -41,10 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                     <a href="search.php">Pencarian</a>
                 </div>
 
-                <div class="navb-items d-none d-xl-flex">
-                    <a href="pilihmall.php">Pilih Mall</a>
-                </div>
-
                 <div class="item dropdown">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Nilai Bobot Alternatif
@@ -65,18 +66,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                         <a class="dropdown-item" href="nilaibobotsamasta.php">Berdasarkan Samasta Lifestyle Village</a>
                         <a class="dropdown-item" href="nilaibobotsidewalk.php">Berdasarkan Sidewalk Jimbaran</a>
                         <a class="dropdown-item" href="nilaibobotpark23.php">Berdasarkan Park 23</a>
-                        <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall_competitor Bali Galeria</a>
-                        <a class="dropdown-item" href="nilaibobotlippokuta.php">Berdasarkan Lippo Mall_competitor Kuta</a>
+                        <a class="dropdown-item" href="nilaibobotlippokuta.php">Berdasarkan Lippo Mall Kuta</a>
+                        <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall</a>
+                        <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
+                        <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall Bali Galeria</a>
                         <a class="dropdown-item" href="nilaibobotlipposunset.php">Berdasarkan Lippo Plaza Sunset</a>
-                        <a class="dropdown-item" href="nilaibobottsm.php">Berdasarkan Trans Studio Mall_competitor Bali</a>
-                        <a class="dropdown-item" href="nilaibobotlevel.php">Berdasarkan Level21 Mall_competitor</a>
-                        <a class="dropdown-item" href="nilaibobotplazarenon.php">Berdasarkan Lippo Plaza Renon</a>
                         <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
                         <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
-                        <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
-                        <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall_competitor</a>
+                        <a class="dropdown-item" href="nilaibobottsm.php">Berdasarkan Trans Studio Mall Bali</a>
+                        <a class="dropdown-item" href="nilaibobotlevel.php">Berdasarkan Level21 Mall</a>
+                        <a class="dropdown-item" href="nilaibobotplazarenon.php">Berdasarkan Lippo Plaza Renon</a>
                         <a class="dropdown-item" href="nilaibobotliving.php">Berdasarkan Living World Denpasar</a>
-                        <a class="dropdown-item" href="nilaibobotramayana.php">Berdasarkan Ramayana Bali Mall_competitor</a>
+                        <a class="dropdown-item" href="nilaibobotramayana.php">Berdasarkan Ramayana Bali Mall</a>
                     </div>
                 </div>
 
@@ -85,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                         Rekomendasi
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Weighted Supermatrix</a>
+                        <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Nilai Bobot</a>
                         <a class="dropdown-item" href="hasilakhir.php">Hasil Rekomendasi</a>
                     </div>
                 </div>
@@ -211,9 +212,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                 echo "Kriteria tidak terdefinisi.";
             }
 
-            echo "<h3>Comparison_competitor Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Comparison_competitor</th>";
+            echo "<h3>Hasil Perbandingan</h3>";
+            echo "<table class ='table table-striped'>";
+            echo "<tr><th>Alternatif</th>";
             foreach ($mallsToShowCompetitor as $mall_competitor) {
                 echo "<th>$mall_competitor</th>";
             }
@@ -224,7 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             // Loop through each mall_competitor for comparison_competitor results
             foreach ($mallsToShowCompetitor as $mall_competitor1) {
                 echo "<tr>";
-                echo "<td>$mall_competitor1</td>";
+                echo "<th>$mall_competitor1</th>";
                 $totalRowCompetitor = 0; // Total for this row
 
                 foreach ($mallsToShowCompetitor as $mall_competitor2) {
@@ -248,7 +249,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                         } else {
                             echo "<td>" . number_format($comparisonValueCompetitor, 5, '.', '') . "</td>"; // Display comparison_competitor value
                         }
-                        $totalValuesCompetitor[$mall_competitor2] += $comparisonValueCompetitor; // Fix here, use mall_competitor2 as key_competitor for totalValuesCompetitor
+                        $totalValuesCompetitor[$mall_competitor2] += $comparisonValueCompetitor; // Fix here, use mall_competitor2 as key_competitor for totalValuesCompetitor$totalValuesCompetitor
                     } else {
                         echo "<td>-</td>";
                     }
@@ -266,9 +267,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
             echo "</table>";
 
-            echo "<h3>Normalized Comparison_competitor Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Comparison_competitor</th>";
+            echo "<h3>Hasil Normalisasi Perbandingan</h3>";
+            echo "<table class ='table table-striped'>";
+            echo "<tr><th>Alternatif</th>";
             foreach ($mallsToShowCompetitor as $mall_competitor) {
                 echo "<th>$mall_competitor</th>";
             }
@@ -287,7 +288,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             foreach ($mallsToShowCompetitor as $mall_competitor1) {
                 echo "<tr>";
                 echo "<td>$mall_competitor1</td>";
-                $normalizedRowTotalsCompetitor = 0; // Menyimpan total per baris
+                $rowTotalCompetitor = 0; // Menyimpan total per baris
 
                 foreach ($mallsToShowCompetitor as $mall_competitor2) {
                     $comparisonValueCompetitor = null;
@@ -311,14 +312,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                         $columnTotalsCompetitor[$mall_competitor2] += $normalizedValueCompetitor;
 
                         // Add to row total
-                        $normalizedRowTotalsCompetitor += $normalizedValueCompetitor;
+                        $rowTotalCompetitor += $normalizedValueCompetitor;
                     } else {
                         echo "<td>-</td>";
                     }
                 }
 
                 // Calculate normalized row total
-                $normalizedRowTotalCompetitor = $normalizedRowTotalsCompetitor / $numMallsCompetitor;
+                $normalizedRowTotalCompetitor = $rowTotalCompetitor / $numMallsCompetitor;
                 $normalizedRowTotalsCompetitor[$mall_competitor1] = $normalizedRowTotalCompetitor; // Store normalized row total
                 echo "<td>" . number_format($normalizedRowTotalCompetitor, 5, '.', '') . "</td>";
             }
@@ -339,8 +340,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             // Display normalized row totals
             // echo "<h3>Normalized Row Totals</h3>";
             // echo "<ul>";
-            // foreach ($normalizedRowTotalsCompetitor as $mall_competitor => $normalizedRowTotalsCompetitor) {
-            //     echo "<li><strong>$mall_competitor:</strong> " . number_format($normalizedRowTotalsCompetitor, 5, '.', '') . "</li>";
+            // foreach ($normalizedRowTotalsCompetitor as $mall_competitor => $rowTotalCompetitor) {
+            //     echo "<li><strong>$mall_competitor:</strong> " . number_format($rowTotalCompetitor, 5, '.', '') . "</li>";
             // }
             // echo "</ul>";
 
@@ -351,8 +352,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             // Calculate Lambda Max
             $lambdaMaxCompetitor = 0;
             foreach ($mallsToShowCompetitor as $mall_competitor) {
-                $lambdaMaxCompetitor += $totalValuesCompetitor[$mall_competitor2] * $normalizedRowTotalCompetitor;
+                $lambdaMaxCompetitor += $totalValuesCompetitor[$mall_competitor] * $normalizedRowTotalsCompetitor[$mall_competitor];
             }
+
+            // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxCompetitor, 5, '.', '') . "</p>";
 
             // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall_competitor
             $randomConsistencyIndexCompetitor  = 0;
@@ -416,9 +419,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
             // Check if consistency is acceptable
             if ($CRCompetitor < 0.1) {
-                echo "<p>Consistency Ratio (CR) is acceptable </p>";
+                echo "<p><strong>Konsistensi Rasio (CR) Bernilai Konsisten </strong></p>";
             } else {
-                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
+                echo "<p><strong>Konsistensi Rasio (CR) Tidak Bernilai Konsisten </strong></p>";
             }
         }
         ?>

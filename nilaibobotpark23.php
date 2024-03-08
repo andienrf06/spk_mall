@@ -27,7 +27,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
     <header>
         <div class="container-fluid">
             <div class="navb-logo">
-                <img src="img\logo.png" alt="Logo">
+                <img src="img\ogo.png" alt="Logo">
             </div>
 
             <div class="navb-items d-none d-xl-flex gap-3">
@@ -38,10 +38,6 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
 
                 <div class="navb-items d-none d-xl-flex">
                     <a href="search.php">Pencarian</a>
-                </div>
-
-                <div class="navb-items d-none d-xl-flex">
-                    <a href="pilihmall.php">Pilih Mall</a>
                 </div>
 
                 <div class="item dropdown">
@@ -64,16 +60,16 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         <a class="dropdown-item" href="nilaibobotsamasta.php">Berdasarkan Samasta Lifestyle Village</a>
                         <a class="dropdown-item" href="nilaibobotsidewalk.php">Berdasarkan Sidewalk Jimbaran</a>
                         <a class="dropdown-item" href="nilaibobotpark23.php">Berdasarkan Park 23</a>
-                        <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall Bali Galeria</a>
                         <a class="dropdown-item" href="nilaibobotlippokuta.php">Berdasarkan Lippo Mall Kuta</a>
+                        <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall</a>
+                        <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
+                        <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall Bali Galeria</a>
                         <a class="dropdown-item" href="nilaibobotlipposunset.php">Berdasarkan Lippo Plaza Sunset</a>
+                        <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
+                        <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
                         <a class="dropdown-item" href="nilaibobottsm.php">Berdasarkan Trans Studio Mall Bali</a>
                         <a class="dropdown-item" href="nilaibobotlevel.php">Berdasarkan Level21 Mall</a>
                         <a class="dropdown-item" href="nilaibobotplazarenon.php">Berdasarkan Lippo Plaza Renon</a>
-                        <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
-                        <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
-                        <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
-                        <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall</a>
                         <a class="dropdown-item" href="nilaibobotliving.php">Berdasarkan Living World Denpasar</a>
                         <a class="dropdown-item" href="nilaibobotramayana.php">Berdasarkan Ramayana Bali Mall</a>
                     </div>
@@ -84,7 +80,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         Rekomendasi
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Weighted Supermatrix</a>
+                        <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Nilai Bobot</a>
                         <a class="dropdown-item" href="hasilakhir.php">Hasil Rekomendasi</a>
                     </div>
                 </div>
@@ -217,9 +213,9 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 echo "Alternatif tidak terdefinisi.";
             }
 
-            echo "<h3>Comparison_park23 Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Comparison_park23</th>";
+            echo "<h3>Hasil Perbandingan</h3>";
+            echo "<table class ='table table-striped'>";
+            echo "<tr><th>Kriteria</th>";
             foreach ($tenants_park23 as $tenant_park23) {
                 echo "<th>$tenant_park23</th>";
             }
@@ -272,9 +268,9 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
 
             echo "</table>";
 
-            echo "<h3>Normalized Comparison Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Comparison</th>";
+            echo "<h3>Hasil Normalisasi Perbandingan</h3>";
+            echo "<table class ='table table-striped'>";
+            echo "<tr><th>Krietria</th>";
             foreach ($tenants_park23 as $tenant_park23) {
                 echo "<th>$tenant_park23</th>";
             }
@@ -357,7 +353,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Calculate Lambda Max
             $lambdaMaxPark23 = 0;
             foreach ($tenants_park23 as $tenant_park23) {
-                $lambdaMaxPark23 += $totalValuesPark23[$tenant_park232] * $normalizedRowTotalPark23;
+                $lambdaMaxPark23 += $totalValuesPark23[$tenant_park23] * $normalizedRowTotalsPark23[$tenant_park23];
             }
             // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxPark23, 5, '.', '') . "</p>";
 
@@ -428,9 +424,9 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
 
             // Check if consistency is acceptable
             if ($CRPark23 < 0.1) {
-                echo "<p>Consistency Ratio (CR) is acceptable </p>";
+                echo "<p><strong>Konsistensi Rasio (CR) Bernilai Konsisten </strong></p>";
             } else {
-                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
+                echo "<p><strong>Konsistensi Rasio (CR) Tidak Bernilai Konsisten </strong></p>";
             }
         }
         ?>

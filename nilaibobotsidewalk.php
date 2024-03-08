@@ -5,9 +5,9 @@ session_start();
 if (!isset($_SESSION['comparison_results_sidewalk'])) {
     $_SESSION['comparison_results_sidewalk'] = [];
 }
-
-$mallsToShow = $_SESSION['selected_malls'] ?? [];
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,10 +40,6 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                     <a href="search.php">Pencarian</a>
                 </div>
 
-                <div class="navb-items d-none d-xl-flex">
-                    <a href="pilihmall.php">Pilih Mall</a>
-                </div>
-
                 <div class="item dropdown">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Nilai Bobot Alternatif
@@ -64,16 +60,16 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         <a class="dropdown-item" href="nilaibobotsamasta.php">Berdasarkan Samasta Lifestyle Village</a>
                         <a class="dropdown-item" href="nilaibobotsidewalk.php">Berdasarkan Sidewalk Jimbaran</a>
                         <a class="dropdown-item" href="nilaibobotpark23.php">Berdasarkan Park 23</a>
-                        <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall Bali Galeria</a>
                         <a class="dropdown-item" href="nilaibobotlippokuta.php">Berdasarkan Lippo Mall Kuta</a>
+                        <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall</a>
+                        <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
+                        <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall Bali Galeria</a>
                         <a class="dropdown-item" href="nilaibobotlipposunset.php">Berdasarkan Lippo Plaza Sunset</a>
+                        <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
+                        <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
                         <a class="dropdown-item" href="nilaibobottsm.php">Berdasarkan Trans Studio Mall Bali</a>
                         <a class="dropdown-item" href="nilaibobotlevel.php">Berdasarkan Level21 Mall</a>
                         <a class="dropdown-item" href="nilaibobotplazarenon.php">Berdasarkan Lippo Plaza Renon</a>
-                        <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
-                        <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
-                        <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
-                        <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall</a>
                         <a class="dropdown-item" href="nilaibobotliving.php">Berdasarkan Living World Denpasar</a>
                         <a class="dropdown-item" href="nilaibobotramayana.php">Berdasarkan Ramayana Bali Mall</a>
                     </div>
@@ -84,7 +80,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         Rekomendasi
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Weighted Supermatrix</a>
+                        <a class="dropdown-item" href="weightedsupermatriks.php">Hasil Nilai Bobot</a>
                         <a class="dropdown-item" href="hasilakhir.php">Hasil Rekomendasi</a>
                     </div>
                 </div>
@@ -109,7 +105,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Kriteria_sidewalk Terhadap Alternatif Mall Sidewalk Jimbaran</h2>
+                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Kriteria Terhadap Alternatif Sidewalk Jimbaran</h2>
             </div>
         </div>
 
@@ -129,9 +125,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                             "Harga",
                             "Pesaing",
                         ];
-
                         foreach ($tenants_sidewalk as $tenant_sidewalk) {
-                            $selected = in_array($tenant_sidewalk, $mallsToShow) ? 'selected' : ''; // Menandai mal yang sudah dipilih sebelumnya
                             echo "<option value=\"$tenant_sidewalk\" $selected>$tenant_sidewalk</option>";
                         }
 
@@ -169,6 +163,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 </div>
             </div>
         </form>
+
 
         <?php
         if (isset($_POST['submit'])) {
@@ -208,8 +203,6 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         $alternatif_sidewalk => $comparison_value_sidewalk
                     );
                 }
-
-
                 // Update the comparison_sidewalk results in the session
                 $_SESSION['comparison_results_sidewalk'] = $comparison_results_sidewalk;
             } else {
@@ -217,17 +210,17 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 echo "Alternatif tidak terdefinisi.";
             }
 
-            echo "<h3>Comparison_sidewalk Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Comparison_sidewalk</th>";
+            echo "<h3>Hasil Perbandingan</h3>";
+            echo "<table class ='table table-striped'>";
+            echo "<tr><th>Kriteria</th>";
             foreach ($tenants_sidewalk as $tenant_sidewalk) {
                 echo "<th>$tenant_sidewalk</th>";
             }
 
-            // Initialize an array to store the total values for each tenant$tenant_sidewalk
+            // Initialize an array to store the total values for each tenant_sidewalk
             $totalValuesSidewalk = array_fill_keys($tenants_sidewalk, 0);
 
-            // Loop through each tenant$tenant_sidewalk for comparison_sidewalk results
+            // Loop through each tenant_sidewalk for comparison_sidewalk results
             foreach ($tenants_sidewalk as $tenant_sidewalk1) {
                 echo "<tr>";
                 echo "<td>$tenant_sidewalk1</td>";
@@ -272,9 +265,10 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
 
             echo "</table>";
 
-            echo "<h3>Normalized Comparison Results</h3>";
-            echo "<table border='1'>";
-            echo "<tr><th>Comparison</th>";
+
+            echo "<h3>Hasil Normalisasi Perbandingan</h3>";
+            echo "<table class ='table table-striped'>";
+            echo "<tr><th>Kriteria</th>";
             foreach ($tenants_sidewalk as $tenant_sidewalk) {
                 echo "<th>$tenant_sidewalk</th>";
             }
@@ -283,7 +277,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Array to store column totals
             $columnTotalsSidewalk = array_fill_keys($tenants_sidewalk, 0);
 
-            // Counting the number of tenants$tenants_sidewalk
+            // Counting the number of tenants_sidewalk
             $numMallsSidewalk = count($tenants_sidewalk);
 
             // Initialize an array to store normalized row totals
@@ -329,7 +323,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 echo "<td>" . number_format($normalizedRowTotalSidewalk, 5, '.', '') . "</td>";
             }
 
-            // Show the total row after looping through all tenants$tenants_sidewalk
+            // Show the total row after looping through all tenants_sidewalk
             echo "<tr><td>Total</td>";
             foreach ($tenants_sidewalk as $tenant_sidewalk) {
                 echo "<td>" . number_format($columnTotalsSidewalk[$tenant_sidewalk], 5, '.', '') . "</td>";
@@ -354,15 +348,19 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Simpan nilai normalized row totals dalam sesi
             $_SESSION['normalized_row_totals_sidewalk'] = $normalizedRowTotalsSidewalk;
 
+
+            // echo "Nilai Eigen Vector BC: " . number_format($eigenVectorBC, 5, '.', '') . "<br>";
+
             // Calculate Lambda Max
             $lambdaMaxSidewalk = 0;
             foreach ($tenants_sidewalk as $tenant_sidewalk) {
-                $lambdaMaxSidewalk += $totalValuesSidewalk[$tenant_sidewalk2] * $normalizedRowTotalSidewalk;
+                $lambdaMaxSidewalk += $totalValuesSidewalk[$tenant_sidewalk] * $normalizedRowTotalsSidewalk[$tenant_sidewalk];
             }
+
 
             // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxSidewalk, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant$tenant_sidewalk
+            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant_sidewalk
             $randomConsistencyIndexSidewalk  = 0;
             switch ($numMallsSidewalk) {
                 case 1:
@@ -420,18 +418,18 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
 
 
             // Calculate Consistency Ratio (CR)
-            $CRSidewalk = $CISidewalk / $randomConsistencyIndexSidewalk; // You need to define RI according to your matrix size
+            $CRSidewal = $CISidewalk / $randomConsistencyIndexSidewalk; // You need to define RI according to your matrix size
 
             // Tampilkan hasil konsistensi
             // echo "<p>Nilai Consistency Index (CI): " . number_format($CISidewalk, 5, '.', '') . "</p>";
             // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsSidewalk elemen: " . $randomConsistencyIndexSidewalk . "</p>";
-            // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRSidewalk, 5, '.', '') . "</p>";
+            // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRSidewal, 5, '.', '') . "</p>";
 
             // Check if consistency is acceptable
-            if ($CRSidewalk < 0.1) {
-                echo "<p>Consistency Ratio (CR) is acceptable </p>";
+            if ($CRSidewal < 0.1) {
+                echo "<p><strong>Konsistensi Rasio (CR) Bernilai Konsisten </strong></p>";
             } else {
-                echo "<p>Consistency Ratio (CR) is not acceptable </p>";
+                echo "<p><strong>Konsistensi Rasio (CR) Tidak Bernilai Konsisten </strong></p>";
             }
         }
         ?>
