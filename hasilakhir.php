@@ -17,7 +17,7 @@ $weighted_supermatrix = array(
     ),
     array(
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        isset($_SESSION['normalized_row_totals_lokasi']['Sidewalk Jimbaran']) ? $_SESSION['normalized_row_totals_sidewalk']['Lokasi'] : 0,
+        isset($_SESSION['normalized_row_totals_lokasi']['Sidewalk Jimbaran']) ? $_SESSION['normalized_row_totals_lokasi']['Sidewalk Jimbaran'] : 0,
         isset($_SESSION['normalized_row_totals_harga']['Sidewalk Jimbaran']) ? $_SESSION['normalized_row_totals_harga']['Sidewalk Jimbaran'] : 0,
         isset($_SESSION['normalized_row_totals_pesaing']['Sidewalk Jimbaran']) ? $_SESSION['normalized_row_totals_pesaing']['Sidewalk Jimbaran'] : 0,
     ),
@@ -101,60 +101,60 @@ $weighted_supermatrix = array(
         isset($_SESSION['normalized_row_totals_pesaing']['Ramayana Bali Mall']) ? $_SESSION['normalized_row_totals_pesaing']['Ramayana Bali Mall'] : 0,
     ),
     array(
-        isset($_SESSION['normalized_row_totals_bc']['Lokasi']) ? $_SESSION['normalized_row_totals_bc']['Lokasi'] : 0,
-        isset($_SESSION['normalized_row_totals_samasta']['Lokasi']) ? $_SESSION['normalized_row_totals_samasta']['Lokasi'] : 0,
-        isset($_SESSION['normalized_row_totals_sidewalk']['Lokasi']) ? $_SESSION['normalized_row_totals_sidewalk']['Lokasi'] : 0,
-        isset($_SESSION['normalized_row_totals_park23']['Lokasi']) ? $_SESSION['normalized_row_totals_park23']['Lokasi'] : 0,
-        isset($_SESSION['normalized_row_totals_lippokuta']['Lokasi']) ? $_SESSION['normalized_row_totals_lippokuta']['Lokasi'] : 0,
-        isset($_SESSION['normalized_row_totals_discovery']['Lokasi']) ? $_SESSION['normalized_row_totals_discovery']['Lokasi'] : 0,
-        isset($_SESSION['normalized_row_totals_bw']['Lokasi']) ? $_SESSION['normalized_row_totals_bw']['Lokasi'] : 0,
-        isset($_SESSION['normalized_row_totals_mbg']['Lokasi']) ? $_SESSION['normalized_row_totals_mbg']['Lokasi'] : 0,
-        isset($_SESSION['normalized_row_totals_lipposunset']['Lokasi']) ? $_SESSION['normalized_row_totals_lipposunset']['Lokasi'] : 0,
-        isset($_SESSION['normalized_row_totals_village']['Lokasi']) ? $_SESSION['normalized_row_totals_village']['Lokasi'] : 0,
-        isset($_SESSION['normalized_row_totals_square']['Lokasi']) ? $_SESSION['normalized_row_totals_square']['Lokasi'] : 0,
-        isset($_SESSION['normalized_row_totals_tsm']['Lokasi']) ? $_SESSION['normalized_row_totals_tsm']['Lokasi'] : 0,
-        isset($_SESSION['normalized_row_totals_level']['Lokasi']) ? $_SESSION['normalized_row_totals_level']['Lokasi'] : 0,
-        isset($_SESSION['normalized_row_totals_plaza']['Lokasi']) ? $_SESSION['normalized_row_totals_plaza']['Lokasi'] : 0,
-        isset($_SESSION['normalized_row_totals_living']['Lokasi']) ? $_SESSION['normalized_row_totals_living']['Lokasi'] : 0,
-        isset($_SESSION['normalized_row_totals_ramayana']['Lokasi']) ? $_SESSION['normalized_row_totals_ramayana']['Lokasi'] : 0,
+        isset($_SESSION['normalized_row_totals_bc']['Ukuran Gerai']) ? $_SESSION['normalized_row_totals_bc']['Ukuran Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_samasta']['Ukuran Gerai']) ? $_SESSION['normalized_row_totals_samasta']['Ukuran Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_sidewalk']['Ukuran Gerai']) ? $_SESSION['normalized_row_totals_sidewalk']['Ukuran Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_park23']['Ukuran Gerai']) ? $_SESSION['normalized_row_totals_park23']['Ukuran Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_lippokuta']['Ukuran Gerai']) ? $_SESSION['normalized_row_totals_lippokuta']['Ukuran Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_discovery']['Ukuran Gerai']) ? $_SESSION['normalized_row_totals_discovery']['Ukuran Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_bw']['Ukuran Gerai']) ? $_SESSION['normalized_row_totals_bw']['Ukuran Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_mbg']['Ukuran Gerai']) ? $_SESSION['normalized_row_totals_mbg']['Ukuran Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_lipposunset']['Ukuran Gerai']) ? $_SESSION['normalized_row_totals_lipposunset']['Ukuran Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_village']['Ukuran Gerai']) ? $_SESSION['normalized_row_totals_village']['Ukuran Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_square']['Ukuran Gerai']) ? $_SESSION['normalized_row_totals_square']['Ukuran Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_tsm']['Ukuran Gerai']) ? $_SESSION['normalized_row_totals_tsm']['Ukuran Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_level']['Ukuran Gerai']) ? $_SESSION['normalized_row_totals_level']['Ukuran Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_plaza']['Ukuran Gerai']) ? $_SESSION['normalized_row_totals_plaza']['Ukuran Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_living']['Ukuran Gerai']) ? $_SESSION['normalized_row_totals_living']['Ukuran Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_ramayana']['Ukuran Gerai']) ? $_SESSION['normalized_row_totals_ramayana']['Ukuran Gerai'] : 0,
         0, 0, 0,
     ),
     array(
-        isset($_SESSION['normalized_row_totals_bc']['Harga']) ? $_SESSION['normalized_row_totals_bc']['Harga'] : 0,
-        isset($_SESSION['normalized_row_totals_samasta']['Harga']) ? $_SESSION['normalized_row_totals_samasta']['Harga'] : 0,
-        isset($_SESSION['normalized_row_totals_sidewalk']['Harga']) ? $_SESSION['normalized_row_totals_sidewalk']['Harga'] : 0,
-        isset($_SESSION['normalized_row_totals_park23']['Harga']) ? $_SESSION['normalized_row_totals_park23']['Harga'] : 0,
-        isset($_SESSION['normalized_row_totals_lippokuta']['Harga']) ? $_SESSION['normalized_row_totals_lippokuta']['Harga'] : 0,
-        isset($_SESSION['normalized_row_totals_discovery']['Harga']) ? $_SESSION['normalized_row_totals_discovery']['Harga'] : 0,
-        isset($_SESSION['normalized_row_totals_bw']['Harga']) ? $_SESSION['normalized_row_totals_bw']['Harga'] : 0,
-        isset($_SESSION['normalized_row_totals_mbg']['Harga']) ? $_SESSION['normalized_row_totals_mbg']['Harga'] : 0,
-        isset($_SESSION['normalized_row_totals_lipposunset']['Harga']) ? $_SESSION['normalized_row_totals_lipposunset']['Harga'] : 0,
-        isset($_SESSION['normalized_row_totals_village']['Harga']) ? $_SESSION['normalized_row_totals_village']['Harga'] : 0,
-        isset($_SESSION['normalized_row_totals_square']['Harga']) ? $_SESSION['normalized_row_totals_square']['Harga'] : 0,
-        isset($_SESSION['normalized_row_totals_tsm']['Harga']) ? $_SESSION['normalized_row_totals_tsm']['Harga'] : 0,
-        isset($_SESSION['normalized_row_totals_level']['Harga']) ? $_SESSION['normalized_row_totals_level']['Harga'] : 0,
-        isset($_SESSION['normalized_row_totals_plaza']['Harga']) ? $_SESSION['normalized_row_totals_plaza']['Harga'] : 0,
-        isset($_SESSION['normalized_row_totals_living']['Harga']) ? $_SESSION['normalized_row_totals_living']['Harga'] : 0,
-        isset($_SESSION['normalized_row_totals_ramayana']['Harga']) ? $_SESSION['normalized_row_totals_ramayana']['Harga'] : 0,
+        isset($_SESSION['normalized_row_totals_bc']['Harga Gerai']) ? $_SESSION['normalized_row_totals_bc']['Harga Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_samasta']['Harga Gerai']) ? $_SESSION['normalized_row_totals_samasta']['Harga Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_sidewalk']['Harga Gerai']) ? $_SESSION['normalized_row_totals_sidewalk']['Harga Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_park23']['Harga Gerai']) ? $_SESSION['normalized_row_totals_park23']['Harga Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_lippokuta']['Harga Gerai']) ? $_SESSION['normalized_row_totals_lippokuta']['Harga Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_discovery']['Harga Gerai']) ? $_SESSION['normalized_row_totals_discovery']['Harga Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_bw']['Harga Gerai']) ? $_SESSION['normalized_row_totals_bw']['Harga Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_mbg']['Harga Gerai']) ? $_SESSION['normalized_row_totals_mbg']['Harga Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_lipposunset']['Harga Gerai']) ? $_SESSION['normalized_row_totals_lipposunset']['Harga Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_village']['Harga Gerai']) ? $_SESSION['normalized_row_totals_village']['Harga Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_square']['Harga Gerai']) ? $_SESSION['normalized_row_totals_square']['Harga Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_tsm']['Harga Gerai']) ? $_SESSION['normalized_row_totals_tsm']['Harga Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_level']['Harga Gerai']) ? $_SESSION['normalized_row_totals_level']['Harga Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_plaza']['Harga Gerai']) ? $_SESSION['normalized_row_totals_plaza']['Harga Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_living']['Harga Gerai']) ? $_SESSION['normalized_row_totals_living']['Harga Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_ramayana']['Harga Gerai']) ? $_SESSION['normalized_row_totals_ramayana']['Harga Gerai'] : 0,
         0, 0, 0,
     ),
     array(
-        isset($_SESSION['normalized_row_totals_bc']['Pesaing']) ? $_SESSION['normalized_row_totals_bc']['Pesaing'] : 0,
-        isset($_SESSION['normalized_row_totals_samasta']['Pesaing']) ? $_SESSION['normalized_row_totals_samasta']['Pesaing'] : 0,
-        isset($_SESSION['normalized_row_totals_sidewalk']['Pesaing']) ? $_SESSION['normalized_row_totals_sidewalk']['Pesaing'] : 0,
-        isset($_SESSION['normalized_row_totals_park23']['Pesaing']) ? $_SESSION['normalized_row_totals_park23']['Pesaing'] : 0,
-        isset($_SESSION['normalized_row_totals_lippokuta']['Pesaing']) ? $_SESSION['normalized_row_totals_lippokuta']['Pesaing'] : 0,
-        isset($_SESSION['normalized_row_totals_discovery']['Pesaing']) ? $_SESSION['normalized_row_totals_discovery']['Pesaing'] : 0,
-        isset($_SESSION['normalized_row_totals_bw']['Pesaing']) ? $_SESSION['normalized_row_totals_bw']['Pesaing'] : 0,
-        isset($_SESSION['normalized_row_totals_mbg']['Pesaing']) ? $_SESSION['normalized_row_totals_mbg']['Pesaing'] : 0,
-        isset($_SESSION['normalized_row_totals_lipposunset']['Pesaing']) ? $_SESSION['normalized_row_totals_lipposunset']['Pesaing'] : 0,
-        isset($_SESSION['normalized_row_totals_village']['Pesaing']) ? $_SESSION['normalized_row_totals_village']['Pesaing'] : 0,
-        isset($_SESSION['normalized_row_totals_square']['Pesaing']) ? $_SESSION['normalized_row_totals_square']['Pesaing'] : 0,
-        isset($_SESSION['normalized_row_totals_tsm']['Pesaing']) ? $_SESSION['normalized_row_totals_tsm']['Pesaing'] : 0,
-        isset($_SESSION['normalized_row_totals_level']['Pesaing']) ? $_SESSION['normalized_row_totals_level']['Pesaing'] : 0,
-        isset($_SESSION['normalized_row_totals_plaza']['Pesaing']) ? $_SESSION['normalized_row_totals_plaza']['Pesaing'] : 0,
-        isset($_SESSION['normalized_row_totals_living']['Pesaing']) ? $_SESSION['normalized_row_totals_living']['Pesaing'] : 0,
-        isset($_SESSION['normalized_row_totals_ramayana']['Pesaing']) ? $_SESSION['normalized_row_totals_ramayana']['Pesaing'] : 0,
+        isset($_SESSION['normalized_row_totals_bc']['Jumlah Pesaing Gerai']) ? $_SESSION['normalized_row_totals_bc']['Jumlah Pesaing Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_samasta']['Jumlah Pesaing Gerai']) ? $_SESSION['normalized_row_totals_samasta']['Jumlah Pesaing Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_sidewalk']['Jumlah Pesaing Gerai']) ? $_SESSION['normalized_row_totals_sidewalk']['Jumlah Pesaing Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_park23']['Jumlah Pesaing Gerai']) ? $_SESSION['normalized_row_totals_park23']['Jumlah Pesaing Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_lippokuta']['Jumlah Pesaing Gerai']) ? $_SESSION['normalized_row_totals_lippokuta']['Jumlah Pesaing Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_discovery']['Jumlah Pesaing Gerai']) ? $_SESSION['normalized_row_totals_discovery']['Jumlah Pesaing Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_bw']['Jumlah Pesaing Gerai']) ? $_SESSION['normalized_row_totals_bw']['Jumlah Pesaing Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_mbg']['Jumlah Pesaing Gerai']) ? $_SESSION['normalized_row_totals_mbg']['Jumlah Pesaing Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_lipposunset']['Jumlah Pesaing Gerai']) ? $_SESSION['normalized_row_totals_lipposunset']['Jumlah Pesaing Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_village']['Jumlah Pesaing Gerai']) ? $_SESSION['normalized_row_totals_village']['Jumlah Pesaing Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_square']['Jumlah Pesaing Gerai']) ? $_SESSION['normalized_row_totals_square']['Jumlah Pesaing Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_tsm']['Jumlah Pesaing Gerai']) ? $_SESSION['normalized_row_totals_tsm']['Jumlah Pesaing Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_level']['Jumlah Pesaing Gerai']) ? $_SESSION['normalized_row_totals_level']['Jumlah Pesaing Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_plaza']['Jumlah Pesaing Gerai']) ? $_SESSION['normalized_row_totals_plaza']['Jumlah Pesaing Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_living']['Jumlah Pesaing Gerai']) ? $_SESSION['normalized_row_totals_living']['Jumlah Pesaing Gerai'] : 0,
+        isset($_SESSION['normalized_row_totals_ramayana']['Jumlah Pesaing Gerai']) ? $_SESSION['normalized_row_totals_ramayana']['Jumlah Pesaing Gerai'] : 0,
         0, 0, 0,
     ),
 );
@@ -247,7 +247,7 @@ for ($iteration = 0; $iteration < $maxIterations; $iteration++) {
                         Nilai Bobot Alternatif
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Ukuran</a>
                         <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
                         <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                     </div>
@@ -307,7 +307,7 @@ for ($iteration = 0; $iteration < $maxIterations; $iteration++) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-4 mt-4">Hasil Rekomendasi</h2>
+                <h2 class="mb-4 mt-4">Hasil Limiting Supermatrix</h2>
             </div>
         </div>
 
@@ -318,7 +318,7 @@ for ($iteration = 0; $iteration < $maxIterations; $iteration++) {
                         <th></th> <!-- Kolom kosong di pojok kiri atas -->
                         <?php
                         // Menampilkan label kolom
-                        $rowLabels = array('A01', 'A02', 'A03', 'A04', 'A05', 'A06', 'A07', 'A08', 'A09', 'A10', 'A11', 'A12', 'A13', 'A14', 'A15', 'A16', 'K1', 'K2', 'K3');
+                        $rowLabels = array('A01', 'A02', 'A03', 'A04', 'A05', 'A06', 'A07', 'A08', 'A09', 'A10', 'A11', 'A12', 'A13', 'A14', 'A15', 'A16', 'K01', 'K02', 'K3');
                         foreach ($rowLabels as $label) {
                             echo "<th>$label</th>";
                         }
@@ -332,7 +332,7 @@ for ($iteration = 0; $iteration < $maxIterations; $iteration++) {
                         echo "<tr>";
                         echo "<th>" . $rowLabels[$rowIndex] . "</th>"; // Label baris
                         foreach ($row as $value) {
-                            printf("<td>%d</td>", intval($value));
+                            printf("<td>%.6f</td>", $value);
                         }
                         echo "</tr>";
                     }
@@ -359,7 +359,7 @@ for ($iteration = 0; $iteration < $maxIterations; $iteration++) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-3 mt-4">Hasil Perangkingan Pusat Perbelanjaan Modern</h2>
+                <h2 class="mb-3 mt-4">Hasil Rekomendasi Pusat Perbelanjaan Modern</h2>
             </div>
         </div>
 
@@ -368,8 +368,8 @@ for ($iteration = 0; $iteration < $maxIterations; $iteration++) {
                 <thead>
                     <tr>
                         <th>Peringkat</th>
-                        <th>Kode Mall</th>
-                        <th>Nama Mall</th>
+                        <th>Kode Pusat Perbelanjaan Modern</th>
+                        <th>Nama Pusat Perbelanjaan Modern</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -416,7 +416,7 @@ for ($iteration = 0; $iteration < $maxIterations; $iteration++) {
                                 $mallName = 'Trans Studio Mall Bali';
                                 break;
                             case 'A13':
-                                $mallName = 'Level21 Mal';
+                                $mallName = 'Level21 Mall';
                                 break;
                             case 'A14':
                                 $mallName = 'Lippo Plaza Renon';

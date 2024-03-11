@@ -45,7 +45,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         Nilai Bobot Alternatif
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Ukuran</a>
                         <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
                         <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                     </div>
@@ -121,9 +121,9 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                     <select name="kriteria_lipposunset" class="form-select">
                         <?php
                         $tenants_lipposunset = [
-                            "Lokasi",
-                            "Harga",
-                            "Pesaing",
+                            "Ukuran Gerai",
+                            "Harga Gerai",
+                            "Jumlah Pesaing Gerai"
                         ];
 
                         foreach ($tenants_lipposunset as $tenant_lipposunset) {
@@ -226,7 +226,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Loop through each tenant for comparison_lipposunset results
             foreach ($tenants_lipposunset as $tenant_lipposunset1) {
                 echo "<tr>";
-                echo "<td>$tenant_lipposunset1</td>";
+                echo "<th>$tenant_lipposunset1</th>";
                 $totalRowLippoSunset = 0; // Total for this row
 
                 foreach ($tenants_lipposunset as $tenant_lipposunset2) {
@@ -258,11 +258,11 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             }
 
             // Show the total row after looping through all tenants_lipposunset
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             $totalTotalLippoSunset = 0;
             foreach ($tenants_lipposunset as $tenant_lipposunset) {
                 $totalTotalLippoSunset += $totalValuesLippoSunset[$tenant_lipposunset];
-                echo "<td>" . number_format($totalValuesLippoSunset[$tenant_lipposunset], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($totalValuesLippoSunset[$tenant_lipposunset], 5, '.', '') . "</th>";
             }
             echo "</tr>";
 
@@ -288,7 +288,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Loop through each ten$tenant_lipposunset for comparison results
             foreach ($tenants_lipposunset as $tenant_lipposunset1) {
                 echo "<tr>";
-                echo "<td>$tenant_lipposunset1</td>";
+                echo "<th>$tenant_lipposunset1</th>";
                 $rowTotalLippoSunset = 0; // Menyimpan total per baris
 
                 foreach ($tenants_lipposunset as $tenant_lipposunset2) {
@@ -326,14 +326,14 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             }
 
             // Show the total row after looping through all tenants$tenants_lipposunset
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             foreach ($tenants_lipposunset as $tenant_lipposunset) {
-                echo "<td>" . number_format($columnTotalsLippoSunset[$tenant_lipposunset], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($columnTotalsLippoSunset[$tenant_lipposunset], 5, '.', '') . "</th>";
             }
 
             // Calculate eigen value and display
             $eigenValueLippoSunset = array_sum($columnTotalsLippoSunset) / $numMallsLippoSunset;
-            echo "<td>" . number_format($eigenValueLippoSunset, 5, '.', '') . "</td>";
+            echo "<th>" . number_format($eigenValueLippoSunset, 5, '.', '') . "</th>";
 
             echo "</tr>";
             echo "</table>";

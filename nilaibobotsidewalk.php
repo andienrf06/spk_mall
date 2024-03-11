@@ -45,7 +45,7 @@ if (!isset($_SESSION['comparison_results_sidewalk'])) {
                         Nilai Bobot Alternatif
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Ukuran</a>
                         <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
                         <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                     </div>
@@ -121,9 +121,9 @@ if (!isset($_SESSION['comparison_results_sidewalk'])) {
                     <select name="kriteria_sidewalk" class="form-select">
                         <?php
                         $tenants_sidewalk = [
-                            "Lokasi",
-                            "Harga",
-                            "Pesaing",
+                            "Ukuran Gerai",
+                            "Harga Gerai",
+                            "Jumlah Pesaing Gerai"
                         ];
                         foreach ($tenants_sidewalk as $tenant_sidewalk) {
                             echo "<option value=\"$tenant_sidewalk\" $selected>$tenant_sidewalk</option>";
@@ -223,7 +223,7 @@ if (!isset($_SESSION['comparison_results_sidewalk'])) {
             // Loop through each tenant_sidewalk for comparison_sidewalk results
             foreach ($tenants_sidewalk as $tenant_sidewalk1) {
                 echo "<tr>";
-                echo "<td>$tenant_sidewalk1</td>";
+                echo "<th>$tenant_sidewalk1</th>";
                 $totalRowSidewalk = 0; // Total for this row
 
                 foreach ($tenants_sidewalk as $tenant_sidewalk2) {
@@ -255,11 +255,11 @@ if (!isset($_SESSION['comparison_results_sidewalk'])) {
             }
 
             // Show the total row after looping through all tenants_sidewalk
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             $totalTotalSidewalk = 0;
             foreach ($tenants_sidewalk as $tenant_sidewalk) {
                 $totalTotalSidewalk += $totalValuesSidewalk[$tenant_sidewalk];
-                echo "<td>" . number_format($totalValuesSidewalk[$tenant_sidewalk], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($totalValuesSidewalk[$tenant_sidewalk], 5, '.', '') . "</th>";
             }
             echo "</tr>";
 
@@ -286,7 +286,7 @@ if (!isset($_SESSION['comparison_results_sidewalk'])) {
             // Loop through each ten$tenant_sidewalk for comparison results
             foreach ($tenants_sidewalk as $tenant_sidewalk1) {
                 echo "<tr>";
-                echo "<td>$tenant_sidewalk1</td>";
+                echo "<th>$tenant_sidewalk1</th>";
                 $rowTotalSidewalk = 0; // Menyimpan total per baris
 
                 foreach ($tenants_sidewalk as $tenant_sidewalk2) {
@@ -324,14 +324,14 @@ if (!isset($_SESSION['comparison_results_sidewalk'])) {
             }
 
             // Show the total row after looping through all tenants_sidewalk
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             foreach ($tenants_sidewalk as $tenant_sidewalk) {
-                echo "<td>" . number_format($columnTotalsSidewalk[$tenant_sidewalk], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($columnTotalsSidewalk[$tenant_sidewalk], 5, '.', '') . "</th>";
             }
 
             // Calculate eigen value and display
             $eigenValueSidewalk = array_sum($columnTotalsSidewalk) / $numMallsSidewalk;
-            echo "<td>" . number_format($eigenValueSidewalk, 5, '.', '') . "</td>";
+            echo "<th>" . number_format($eigenValueSidewalk, 5, '.', '') . "</th>";
 
             echo "</tr>";
             echo "</table>";

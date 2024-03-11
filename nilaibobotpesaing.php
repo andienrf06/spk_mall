@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                         Nilai Bobot Alternatif
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Ukuran</a>
                         <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
                         <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                     </div>
@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Alternatif Terhadap Kriteria Pesaing</h2>
+                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Alternatif Terhadap Kriteria Jumlah Pesaing Gerai</h2>
             </div>
         </div>
 
@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             <div class="row mb-3">
                 <div class="col">
                     <label for="criteria">Kriteria:</label>
-                    <input type="text" name="criteria_competitor" class="form-control" value="K03 - Pesaing" readonly>
+                    <input type="text" name="criteria_competitor" class="form-control" value="K03 - Jumlah Pesaing Gerai" readonly>
                 </div>
             </div>
             <div class="row mb-3">
@@ -257,11 +257,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             }
 
             // Show the total row after looping through all mallsT$mallsToShowCompetitor
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             $totalTotalCompetitor = 0;
             foreach ($mallsToShowCompetitor as $mall_competitor) {
                 $totalTotalCompetitor += $totalValuesCompetitor[$mall_competitor];
-                echo "<td>" . number_format($totalValuesCompetitor[$mall_competitor], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($totalValuesCompetitor[$mall_competitor], 5, '.', '') . "</th>";
             }
             echo "</tr>";
 
@@ -287,7 +287,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             // Loop through each mall_competitor for comparison_competitor results
             foreach ($mallsToShowCompetitor as $mall_competitor1) {
                 echo "<tr>";
-                echo "<td>$mall_competitor1</td>";
+                echo "<th>$mall_competitor1</th>";
                 $rowTotalCompetitor = 0; // Menyimpan total per baris
 
                 foreach ($mallsToShowCompetitor as $mall_competitor2) {
@@ -325,14 +325,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             }
 
             // Show the total row after looping through all mallsT$mallsToShowCompetitor
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             foreach ($mallsToShowCompetitor as $mall_competitor) {
-                echo "<td>" . number_format($columnTotalsCompetitor[$mall_competitor], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($columnTotalsCompetitor[$mall_competitor], 5, '.', '') . "</th>";
             }
 
             // Calculate eigen value and display
             $eigenValueCompetitor = array_sum($columnTotalsCompetitor) / $numMallsCompetitor;
-            echo "<td>" . number_format($eigenValueCompetitor, 5, '.', '') . "</td>";
+            echo "<th>" . number_format($eigenValueCompetitor, 5, '.', '') . "</th>";
 
             echo "</tr>";
             echo "</table>";

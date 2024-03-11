@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mall_selection'])) {
                         Nilai Bobot Alternatif
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Ukuran</a>
                         <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
                         <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                     </div>
@@ -225,7 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mall_selection'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1 class="pilih-text">Pilih Mall Yang Akan Dibandingkan Pada Nilai Bobot Alternatif </h1>
+                <h2 class="pilih-text">Pilih Pusat Perbelanjaan Modern</h2>
             </div>
         </div>
 
@@ -233,7 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mall_selection'])) {
             <table class="table table-striped">
                 <tr>
                     <th>Pilih</th>
-                    <th>Nama Mall</th>
+                    <th>Nama Pusat Perbelanjaan Modern</th>
                 </tr>
                 <?php foreach ($malls as $mall) : ?>
                     <tr>

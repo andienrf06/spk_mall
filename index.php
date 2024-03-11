@@ -40,7 +40,7 @@
                         Nilai Bobot Alternatif
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Ukuran</a>
                         <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
                         <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                     </div>
@@ -117,7 +117,7 @@
                                     Nilai Bobot Alternatif
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                                    <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                                    <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Ukuran</a>
                                     <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
                                     <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                                 </div>
@@ -189,12 +189,12 @@
                                     Terdapat beberapa ketentuan untuk menemukan hasil rekomendasi:
                                 </p>
                                 <p>
-                                    1. Langkah awal, anda harus masuk ke "Temukan Rekomendasi Tenant Disini!"
-                                    Jika sudah berada pada menu Nilai Bobot Alternatif, Anda hanya dapat memilih maksimal 2 dasar nilai yang digunakan
+                                    1. Silahkan klik "Temukan Rekomendasi Tenant Disini!"
+                                    Pilih pusat perbelanjaan modern yang akan dibandingkan dan kemudian Anda dapat mengarah ke menu Nilai Bobot Alternatif
                                 </p>
                                 <p>
                                     2. Setelah selesai menentukan Nilai Bobot Alternatif, Anda dapat pindah ke menu Nilai Bobot Kriteria dan memilih
-                                    mall yang sesuai dengan pemilihan mall sebelumnya
+                                    pusat perbelanjaan modern yang sesuai dengan pemilihan sebelumnya
                                 </p>
                                 <p>
                                     3. Terakhir, Anda dapat menemukan rekomendasi gerai jika telah memberikan nilai pada menu Nilai Bobot Alternatif dan Nilai Bobot Kriteria

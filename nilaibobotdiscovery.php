@@ -45,7 +45,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         Nilai Bobot Alternatif
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Ukuran</a>
                         <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
                         <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                     </div>
@@ -121,9 +121,9 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                     <select name="kriteria_discovery" class="form-select">
                         <?php
                         $tenants_discovery = [
-                            "Lokasi",
-                            "Harga",
-                            "Pesaing",
+                            "Ukuran Gerai",
+                            "Harga Gerai",
+                            "Jumlah Pesaing Gerai"
                         ];
 
                         foreach ($tenants_discovery as $tenant_discovery) {
@@ -226,7 +226,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Loop through each tenant for comparison_discovery results
             foreach ($tenants_discovery as $tenant_discovery1) {
                 echo "<tr>";
-                echo "<td>$tenant_discovery1</td>";
+                echo "<th>$tenant_discovery1</th>";
                 $totalRowDiscovery = 0; // Total for this row
 
                 foreach ($tenants_discovery as $tenant_discovery2) {
@@ -258,11 +258,11 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             }
 
             // Show the total row after looping through all tenants_discovery
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             $totalTotalDiscovery = 0;
             foreach ($tenants_discovery as $tenant_discovery) {
                 $totalTotalDiscovery += $totalValuesDiscovery[$tenant_discovery];
-                echo "<td>" . number_format($totalValuesDiscovery[$tenant_discovery], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($totalValuesDiscovery[$tenant_discovery], 5, '.', '') . "</th>";
             }
             echo "</tr>";
 
@@ -326,14 +326,14 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             }
 
             // Show the total row after looping through all tenants$tenants_discovery
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             foreach ($tenants_discovery as $tenant_discovery) {
-                echo "<td>" . number_format($columnTotalsDiscovery[$tenant_discovery], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($columnTotalsDiscovery[$tenant_discovery], 5, '.', '') . "</th>";
             }
 
             // Calculate eigen value and display
             $eigenValueDiscovery = array_sum($columnTotalsDiscovery) / $numMallsDiscovery;
-            echo "<td>" . number_format($eigenValueDiscovery, 5, '.', '') . "</td>";
+            echo "<th>" . number_format($eigenValueDiscovery, 5, '.', '') . "</th>";
 
             echo "</tr>";
             echo "</table>";
