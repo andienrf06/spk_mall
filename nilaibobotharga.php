@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                         Nilai Bobot Alternatif
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Ukuran</a>
                         <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
                         <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                     </div>
@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Alternatif Terhadap Kriteria Harga</h2>
+                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Alternatif Terhadap Kriteria Harga Gerai</h2>
             </div>
         </div>
 
@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             <div class="row mb-3">
                 <div class="col">
                     <label for="criteria">Kriteria:</label>
-                    <input type="text" name="criteria_price" class="form-control" value="K02 - Harga" readonly>
+                    <input type="text" name="criteria_price" class="form-control" value="K02 - Harga Gerai" readonly>
                 </div>
             </div>
             <div class="row mb-3">
@@ -261,7 +261,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             $totalTotalPrice = 0;
             foreach ($mallsToShowPrice as $mall_price) {
                 $totalTotalPrice += $totalValuesPrice[$mall_price];
-                echo "<td>" . number_format($totalValuesPrice[$mall_price], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($totalValuesPrice[$mall_price], 5, '.', '') . "</th>";
             }
             echo "</tr>";
 
@@ -327,12 +327,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             // Show the total row after looping through all mallsT$mallsToShowPrice
             echo "<tr><th>Total</th>";
             foreach ($mallsToShowPrice as $mall_price) {
-                echo "<td>" . number_format($columnTotalsPrice[$mall_price], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($columnTotalsPrice[$mall_price], 5, '.', '') . "</th>";
             }
 
             // Calculate eigen value and display
             $eigenValuePrice = array_sum($columnTotalsPrice) / $numMallsPrice;
-            echo "<td>" . number_format($eigenValuePrice, 5, '.', '') . "</td>";
+            echo "<th>" . number_format($eigenValuePrice, 5, '.', '') . "</th>";
 
             echo "</tr>";
             echo "</table>";

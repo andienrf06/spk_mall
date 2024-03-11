@@ -45,7 +45,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         Nilai Bobot Alternatif
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Ukuran</a>
                         <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
                         <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                     </div>
@@ -121,9 +121,9 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                     <select name="kriteria_lippokuta" class="form-select">
                         <?php
                         $tenants_lippokuta = [
-                            "Lokasi",
-                            "Harga",
-                            "Pesaing",
+                            "Ukuran Gerai",
+                            "Harga Gerai",
+                            "Jumlah Pesaing Gerai"
                         ];
 
                         foreach ($tenants_lippokuta as $tenant_lippokuta) {
@@ -226,7 +226,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Loop through each tenant for comparison_lippokuta results
             foreach ($tenants_lippokuta as $tenant_lippokuta1) {
                 echo "<tr>";
-                echo "<td>$tenant_lippokuta1</td>";
+                echo "<th>$tenant_lippokuta1</th>";
                 $totalRowLippoKuta = 0; // Total for this row
 
                 foreach ($tenants_lippokuta as $tenant_lippokuta2) {
@@ -258,11 +258,11 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             }
 
             // Show the total row after looping through all tenants_lippokuta
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             $totalTotalLippoKuta = 0;
             foreach ($tenants_lippokuta as $tenant_lippokuta) {
                 $totalTotalLippoKuta += $totalValuesLippoKuta[$tenant_lippokuta];
-                echo "<td>" . number_format($totalValuesLippoKuta[$tenant_lippokuta], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($totalValuesLippoKuta[$tenant_lippokuta], 5, '.', '') . "</th>";
             }
             echo "</tr>";
 
@@ -288,7 +288,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Loop through each ten$tenant_lippokuta for comparison results
             foreach ($tenants_lippokuta as $tenant_lippokuta1) {
                 echo "<tr>";
-                echo "<td>$tenant_lippokuta1</td>";
+                echo "<th>$tenant_lippokuta1</th>";
                 $rowTotalLippoKuta = 0; // Menyimpan total per baris
 
                 foreach ($tenants_lippokuta as $tenant_lippokuta2) {
@@ -326,14 +326,14 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             }
 
             // Show the total row after looping through all tenants$tenants_lippokuta
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             foreach ($tenants_lippokuta as $tenant_lippokuta) {
-                echo "<td>" . number_format($columnTotalsLippoKuta[$tenant_lippokuta], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($columnTotalsLippoKuta[$tenant_lippokuta], 5, '.', '') . "</th>";
             }
 
             // Calculate eigen value and display
             $eigenValuLippoKuta = array_sum($columnTotalsLippoKuta) / $numMallsLippoKuta;
-            echo "<td>" . number_format($eigenValuLippoKuta, 5, '.', '') . "</td>";
+            echo "<th>" . number_format($eigenValuLippoKuta, 5, '.', '') . "</th>";
 
             echo "</tr>";
             echo "</table>";

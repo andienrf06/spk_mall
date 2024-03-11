@@ -47,7 +47,7 @@
                             Nilai Bobot Alternatif
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                            <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                            <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Ukuran</a>
                             <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
                             <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                         </div>
@@ -123,9 +123,9 @@
                         <select name="kriteria" class="form-select">
                             <?php
                             $tenants = [
-                                "Lokasi",
-                                "Harga",
-                                "Pesaing",
+                                "Ukuran Gerai",
+                                "Harga Gerai",
+                                "Jumlah Pesaing Gerai",
                             ];
 
                             foreach ($tenants as $tenant) {
@@ -227,7 +227,7 @@
                 // Loop through each tenant for comparison_bc results
                 foreach ($tenants as $tenant1) {
                     echo "<tr>";
-                    echo "<td>$tenant1</td>";
+                    echo "<th>$tenant1</th>";
                     $totalRowBC = 0; // Total for this row
 
                     foreach ($tenants as $tenant2) {
@@ -259,11 +259,11 @@
                 }
 
                 // Show the total row after looping through all tenants
-                echo "<tr><td>Total</td>";
+                echo "<tr><th>Total</th>";
                 $totalTotalBC = 0;
                 foreach ($tenants as $tenant) {
                     $totalTotalBC += $totalValuesBC[$tenant];
-                    echo "<td>" . number_format($totalValuesBC[$tenant], 5, '.', '') . "</td>";
+                    echo "<th>" . number_format($totalValuesBC[$tenant], 5, '.', '') . "</th>";
                 }
                 echo "</tr>";
 
@@ -290,7 +290,7 @@
                 // Loop through each ten$tenant for comparison results
                 foreach ($tenants as $tenant1) {
                     echo "<tr>";
-                    echo "<td>$tenant1</td>";
+                    echo "<th>$tenant1</th>";
                     $rowTotalBc = 0; // Menyimpan total per baris
 
                     foreach ($tenants as $tenant2) {
@@ -328,14 +328,14 @@
                 }
 
                 // Show the total row after looping through all tenants
-                echo "<tr><td>Total</td>";
+                echo "<tr><th>Total</th>";
                 foreach ($tenants as $tenant) {
-                    echo "<td>" . number_format($columnTotalsBc[$tenant], 5, '.', '') . "</td>";
+                    echo "<th>" . number_format($columnTotalsBc[$tenant], 5, '.', '') . "</th>";
                 }
 
                 // Calculate eigen value and display
                 $eigenValueBc = array_sum($columnTotalsBc) / $numMallsBc;
-                echo "<td>" . number_format($eigenValueBc, 5, '.', '') . "</td>";
+                echo "<th>" . number_format($eigenValueBc, 5, '.', '') . "</th>";
 
                 echo "</tr>";
                 echo "</table>";

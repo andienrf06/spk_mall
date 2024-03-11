@@ -34,16 +34,12 @@ session_start();
                     <a href="search.php">Pencarian</a>
                 </div>
 
-                <div class="navb-items d-none d-xl-flex">
-                    <a href="pilihmall.php">Pilih Mall</a>
-                </div>
-
                 <div class="item dropdown">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownRekomendasi" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Nilai Bobot Alternatif
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Ukuran</a>
                         <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
                         <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                     </div>
@@ -116,7 +112,7 @@ session_start();
                                     Nilai Bobot Alternatif
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                                    <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                                    <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Ukuran</a>
                                     <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
                                     <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                                 </div>
@@ -559,66 +555,66 @@ session_start();
                         </tr>
                         <tr>
                             <th>K01</th>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_bc']['Lokasi']) ? number_format($_SESSION['normalized_row_totals_bc']['Lokasi'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_samasta']['Lokasi']) ? number_format($_SESSION['normalized_row_totals_samasta']['Lokasi'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_sidewalk']['Lokasi']) ? number_format($_SESSION['normalized_row_totals_sidewalk']['Lokasi'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_park23']['Lokasi']) ? number_format($_SESSION['normalized_row_totals_park23']['Lokasi'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_lippokuta']['Lokasi']) ? number_format($_SESSION['normalized_row_totals_lippokuta']['Lokasi'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_discovery']['Lokasi']) ? number_format($_SESSION['normalized_row_totals_discovery']['Lokasi'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_bw']['Lokasi']) ? number_format($_SESSION['normalized_row_totals_bw']['Lokasi'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_mbg']['Lokasi']) ? number_format($_SESSION['normalized_row_totals_mbg']['Lokasi'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_lipposunset']['Lokasi']) ? number_format($_SESSION['normalized_row_totals_lipposunset']['Lokasi'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_village']['Lokasi']) ? number_format($_SESSION['normalized_row_totals_village']['Lokasi'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_square']['Lokasi']) ? number_format($_SESSION['normalized_row_totals_square']['Lokasi'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_tsm']['Lokasi']) ? number_format($_SESSION['normalized_row_totals_tsm']['Lokasi'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_level']['Lokasi']) ? number_format($_SESSION['normalized_row_totals_level']['Lokasi'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_plaza']['Lokasi']) ? number_format($_SESSION['normalized_row_totals_plaza']['Lokasi'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_living']['Lokasi']) ? number_format($_SESSION['normalized_row_totals_living']['Lokasi'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_ramayana']['Lokasi']) ? number_format($_SESSION['normalized_row_totals_ramayana']['Lokasi'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_bc']['Ukuran Gerai']) ? number_format($_SESSION['normalized_row_totals_bc']['Ukuran Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_samasta']['Ukuran Gerai']) ? number_format($_SESSION['normalized_row_totals_samasta']['Ukuran Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_sidewalk']['Ukuran Gerai']) ? number_format($_SESSION['normalized_row_totals_sidewalk']['Ukuran Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_park23']['Ukuran Gerai']) ? number_format($_SESSION['normalized_row_totals_park23']['Ukuran Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_lippokuta']['Ukuran Gerai']) ? number_format($_SESSION['normalized_row_totals_lippokuta']['Ukuran Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_discovery']['Ukuran Gerai']) ? number_format($_SESSION['normalized_row_totals_discovery']['Ukuran Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_bw']['Ukuran Gerai']) ? number_format($_SESSION['normalized_row_totals_bw']['Ukuran Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_mbg']['Ukuran Gerai']) ? number_format($_SESSION['normalized_row_totals_mbg']['Ukuran Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_lipposunset']['Ukuran Gerai']) ? number_format($_SESSION['normalized_row_totals_lipposunset']['Ukuran Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_village']['Ukuran Gerai']) ? number_format($_SESSION['normalized_row_totals_village']['Ukuran Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_square']['Ukuran Gerai']) ? number_format($_SESSION['normalized_row_totals_square']['Ukuran Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_tsm']['Ukuran Gerai']) ? number_format($_SESSION['normalized_row_totals_tsm']['Ukuran Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_level']['Ukuran Gerai']) ? number_format($_SESSION['normalized_row_totals_level']['Ukuran Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_plaza']['Ukuran Gerai']) ? number_format($_SESSION['normalized_row_totals_plaza']['Ukuran Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_living']['Ukuran Gerai']) ? number_format($_SESSION['normalized_row_totals_living']['Ukuran Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_ramayana']['Ukuran Gerai']) ? number_format($_SESSION['normalized_row_totals_ramayana']['Ukuran Gerai'], 5, '.', '') : '0'; ?></td>
                             <td>0</td>
                             <td>0</td>
                             <td>0</td>
                         </tr>
                         <tr>
                             <th>K02</th>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_bc']['Harga']) ? number_format($_SESSION['normalized_row_totals_bc']['Harga'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_samasta']['Harga']) ? number_format($_SESSION['normalized_row_totals_samasta']['Harga'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_sidewalk']['Harga']) ? number_format($_SESSION['normalized_row_totals_sidewalk']['Harga'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_park23']['Harga']) ? number_format($_SESSION['normalized_row_totals_park23']['Harga'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_lippokuta']['Harga']) ? number_format($_SESSION['normalized_row_totals_lippokuta']['Harga'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_discovery']['Harga']) ? number_format($_SESSION['normalized_row_totals_discovery']['Harga'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_bw']['Harga']) ? number_format($_SESSION['normalized_row_totals_bw']['Harga'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_mbg']['Harga']) ? number_format($_SESSION['normalized_row_totals_mbg']['Harga'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_lipposunset']['Harga']) ? number_format($_SESSION['normalized_row_totals_lipposunset']['Harga'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_village']['Harga']) ? number_format($_SESSION['normalized_row_totals_village']['Harga'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_square']['Harga']) ? number_format($_SESSION['normalized_row_totals_square']['Harga'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_tsm']['Harga']) ? number_format($_SESSION['normalized_row_totals_tsm']['Harga'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_level']['Harga']) ? number_format($_SESSION['normalized_row_totals_level']['Harga'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_plaza']['Harga']) ? number_format($_SESSION['normalized_row_totals_plaza']['Harga'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_living']['Harga']) ? number_format($_SESSION['normalized_row_totals_living']['Harga'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_ramayana']['Harga']) ? number_format($_SESSION['normalized_row_totals_ramayana']['Harga'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_bc']['Harga Gerai']) ? number_format($_SESSION['normalized_row_totals_bc']['Harga Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_samasta']['Harga Gerai']) ? number_format($_SESSION['normalized_row_totals_samasta']['Harga Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_sidewalk']['Harga Gerai']) ? number_format($_SESSION['normalized_row_totals_sidewalk']['Harga Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_park23']['Harga Gerai']) ? number_format($_SESSION['normalized_row_totals_park23']['Harga Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_lippokuta']['Harga Gerai']) ? number_format($_SESSION['normalized_row_totals_lippokuta']['Harga Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_discovery']['Harga Gerai']) ? number_format($_SESSION['normalized_row_totals_discovery']['Harga Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_bw']['Harga Gerai']) ? number_format($_SESSION['normalized_row_totals_bw']['Harga Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_mbg']['Harga Gerai']) ? number_format($_SESSION['normalized_row_totals_mbg']['Harga Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_lipposunset']['Harga Gerai']) ? number_format($_SESSION['normalized_row_totals_lipposunset']['Harga Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_village']['Harga Gerai']) ? number_format($_SESSION['normalized_row_totals_village']['Harga Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_square']['Harga Gerai']) ? number_format($_SESSION['normalized_row_totals_square']['Harga Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_tsm']['Harga Gerai']) ? number_format($_SESSION['normalized_row_totals_tsm']['Harga Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_level']['Harga Gerai']) ? number_format($_SESSION['normalized_row_totals_level']['Harga Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_plaza']['Harga Gerai']) ? number_format($_SESSION['normalized_row_totals_plaza']['Harga Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_living']['Harga Gerai']) ? number_format($_SESSION['normalized_row_totals_living']['Harga Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_ramayana']['Harga Gerai']) ? number_format($_SESSION['normalized_row_totals_ramayana']['Harga Gerai'], 5, '.', '') : '0'; ?></td>
                             <td>0</td>
                             <td>0</td>
                             <td>0</td>
                         </tr>
                         <tr>
                             <th>K03</th>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_bc']['Pesaing']) ? number_format($_SESSION['normalized_row_totals_bc']['Pesaing'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_samasta']['Pesaing']) ? number_format($_SESSION['normalized_row_totals_samasta']['Pesaing'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_sidewalk']['Pesaing']) ? number_format($_SESSION['normalized_row_totals_sidewalk']['Pesaing'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_park23']['Pesaing']) ? number_format($_SESSION['normalized_row_totals_park23']['Pesaing'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_lippokuta']['Pesaing']) ? number_format($_SESSION['normalized_row_totals_lippokuta']['Pesaing'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_discovery']['Pesaing']) ? number_format($_SESSION['normalized_row_totals_discovery']['Pesaing'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_bw']['Pesaing']) ? number_format($_SESSION['normalized_row_totals_bw']['Pesaing'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_mbg']['Pesaing']) ? number_format($_SESSION['normalized_row_totals_mbg']['Pesaing'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_lipposunset']['Pesaing']) ? number_format($_SESSION['normalized_row_totals_lipposunset']['Pesaing'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_village']['Pesaing']) ? number_format($_SESSION['normalized_row_totals_village']['Pesaing'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_square']['Pesaing']) ? number_format($_SESSION['normalized_row_totals_square']['Pesaing'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_tsm']['Pesaing']) ? number_format($_SESSION['normalized_row_totals_tsm']['Pesaing'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_level']['Pesaing']) ? number_format($_SESSION['normalized_row_totals_level']['Pesaing'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_plaza']['Pesaing']) ? number_format($_SESSION['normalized_row_totals_plaza']['Pesaing'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_living']['Pesaing']) ? number_format($_SESSION['normalized_row_totals_living']['Pesaing'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_ramayana']['Pesaing']) ? number_format($_SESSION['normalized_row_totals_ramayana']['Pesaing'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_bc']['Jumlah Pesaing Gerai']) ? number_format($_SESSION['normalized_row_totals_bc']['Jumlah Pesaing Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_samasta']['Jumlah Pesaing Gerai']) ? number_format($_SESSION['normalized_row_totals_samasta']['Jumlah Pesaing Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_sidewalk']['Jumlah Pesaing Gerai']) ? number_format($_SESSION['normalized_row_totals_sidewalk']['Jumlah Pesaing Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_park23']['Jumlah Pesaing Gerai']) ? number_format($_SESSION['normalized_row_totals_park23']['Jumlah Pesaing Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_lippokuta']['Jumlah Pesaing Gerai']) ? number_format($_SESSION['normalized_row_totals_lippokuta']['Jumlah Pesaing Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_discovery']['Jumlah Pesaing Gerai']) ? number_format($_SESSION['normalized_row_totals_discovery']['Jumlah Pesaing Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_bw']['Jumlah Pesaing Gerai']) ? number_format($_SESSION['normalized_row_totals_bw']['Jumlah Pesaing Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_mbg']['Jumlah Pesaing Gerai']) ? number_format($_SESSION['normalized_row_totals_mbg']['Jumlah Pesaing Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_lipposunset']['Jumlah Pesaing Gerai']) ? number_format($_SESSION['normalized_row_totals_lipposunset']['Jumlah Pesaing Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_village']['Jumlah Pesaing Gerai']) ? number_format($_SESSION['normalized_row_totals_village']['Jumlah Pesaing Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_square']['Jumlah Pesaing Gerai']) ? number_format($_SESSION['normalized_row_totals_square']['Jumlah Pesaing Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_tsm']['Jumlah Pesaing Gerai']) ? number_format($_SESSION['normalized_row_totals_tsm']['Jumlah Pesaing Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_level']['Jumlah Pesaing Gerai']) ? number_format($_SESSION['normalized_row_totals_level']['Jumlah Pesaing Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_plaza']['Jumlah Pesaing Gerai']) ? number_format($_SESSION['normalized_row_totals_plaza']['Jumlah Pesaing Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_living']['Jumlah Pesaing Gerai']) ? number_format($_SESSION['normalized_row_totals_living']['Jumlah Pesaing Gerai'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_ramayana']['Jumlah Pesaing Gerai']) ? number_format($_SESSION['normalized_row_totals_ramayana']['Jumlah Pesaing Gerai'], 5, '.', '') : '0'; ?></td>
                             <td>0</td>
                             <td>0</td>
                             <td>0</td>

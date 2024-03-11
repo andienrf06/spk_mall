@@ -47,7 +47,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         Nilai Bobot Alternatif
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Ukuran</a>
                         <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
                         <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                     </div>
@@ -123,9 +123,9 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                     <select name="kriteria_samasta" class="form-select">
                         <?php
                         $tenants_samasta = [
-                            "Lokasi",
-                            "Harga",
-                            "Pesaing",
+                            "Ukuran Gerai",
+                            "Harga Gerai",
+                            "Jumlah Pesaing Gerai"
                         ];
 
                         foreach ($tenants_samasta as $tenant_samasta) {
@@ -227,7 +227,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Loop through each tenant_samasta for comparison_samasta results
             foreach ($tenants_samasta as $tenant_samasta1) {
                 echo "<tr>";
-                echo "<td>$tenant_samasta1</td>";
+                echo "<th>$tenant_samasta1</th>";
                 $totalRowSamasta = 0; // Total for this row
 
                 foreach ($tenants_samasta as $tenant_samasta2) {
@@ -259,11 +259,11 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             }
 
             // Show the total row after looping through all tenants_samasta
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             $totalTotalSamasta = 0;
             foreach ($tenants_samasta as $tenant_samasta) {
                 $totalTotalSamasta += $totalValuesSamasta[$tenant_samasta];
-                echo "<td>" . number_format($totalValuesSamasta[$tenant_samasta], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($totalValuesSamasta[$tenant_samasta], 5, '.', '') . "</th>";
             }
             echo "</tr>";
 
@@ -290,7 +290,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Loop through each ten$tenant_samasta for comparison results
             foreach ($tenants_samasta as $tenant_samasta1) {
                 echo "<tr>";
-                echo "<td>$tenant_samasta1</td>";
+                echo "<th>$tenant_samasta1</th>";
                 $rowTotalSamasta = 0; // Menyimpan total per baris
 
                 foreach ($tenants_samasta as $tenant_samasta2) {
@@ -328,14 +328,14 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             }
 
             // Show the total row after looping through all tenants_samasta
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             foreach ($tenants_samasta as $tenant_samasta) {
-                echo "<td>" . number_format($columnTotalsSamasta[$tenant_samasta], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($columnTotalsSamasta[$tenant_samasta], 5, '.', '') . "</th>";
             }
 
             // Calculate eigen value and display
             $eigenValueSamasta = array_sum($columnTotalsSamasta) / $numMallsSamasta;
-            echo "<td>" . number_format($eigenValueSamasta, 5, '.', '') . "</td>";
+            echo "<th>" . number_format($eigenValueSamasta, 5, '.', '') . "</th>";
 
             echo "</tr>";
             echo "</table>";

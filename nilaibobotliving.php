@@ -45,7 +45,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         Nilai Bobot Alternatif
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Ukuran</a>
                         <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
                         <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                     </div>
@@ -121,9 +121,9 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                     <select name="kriteria_living" class="form-select">
                         <?php
                         $tenants_living = [
-                            "Lokasi",
-                            "Harga",
-                            "Pesaing",
+                            "Ukuran Gerai",
+                            "Harga Gerai",
+                            "Jumlah Pesaing Gerai"
                         ];
 
                         foreach ($tenants_living as $tenant_living) {
@@ -226,7 +226,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Loop through each tenant for comparison_living results
             foreach ($tenants_living as $tenant_living1) {
                 echo "<tr>";
-                echo "<td>$tenant_living1</td>";
+                echo "<th>$tenant_living1</th>";
                 $totalRowLiving = 0; // Total for this row
 
                 foreach ($tenants_living as $tenant_living2) {
@@ -258,11 +258,11 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             }
 
             // Show the total row after looping through all tenants_living
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             $totalTotalLiving = 0;
             foreach ($tenants_living as $tenant_living) {
                 $totalTotalLiving += $totalValuesLiving[$tenant_living];
-                echo "<td>" . number_format($totalValuesLiving[$tenant_living], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($totalValuesLiving[$tenant_living], 5, '.', '') . "</th>";
             }
             echo "</tr>";
 
@@ -288,7 +288,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Loop through each ten$tenant_living for comparison results
             foreach ($tenants_living as $tenant_living1) {
                 echo "<tr>";
-                echo "<td>$tenant_living1</td>";
+                echo "<th>$tenant_living1</th>";
                 $rowTotalLiving = 0; // Menyimpan total per baris
 
                 foreach ($tenants_living as $tenant_living2) {
@@ -326,14 +326,14 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             }
 
             // Show the total row after looping through all tenants$tenants_living
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             foreach ($tenants_living as $tenant_living) {
-                echo "<td>" . number_format($columnTotalsLiving[$tenant_living], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($columnTotalsLiving[$tenant_living], 5, '.', '') . "</th>";
             }
 
             // Calculate eigen value and display
             $eigenValueLiving = array_sum($columnTotalsLiving) / $numMallsLiving;
-            echo "<td>" . number_format($eigenValueLiving, 5, '.', '') . "</td>";
+            echo "<th>" . number_format($eigenValueLiving, 5, '.', '') . "</th>";
 
             echo "</tr>";
             echo "</table>";

@@ -36,7 +36,7 @@
                         Nilai Bobot Alternatif
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Ukuran</a>
                         <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
                         <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                     </div>
@@ -116,7 +116,7 @@
                                     Nilai Bobot Alternatif
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                                    <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                                    <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Ukuran</a>
                                     <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
                                     <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                                 </div>
@@ -194,7 +194,7 @@
                     ?range   d:range_harga_gerai    ?rangeHarga.
                     ?mall    d:isKriteriaBy         ?pesaing.
                     ?pesaing d:jumlah_pesaing_gerai ?jumlahPesaing.
-                FILTER (regex (?namaMall, '$test', 'i') || regex (?kabupatenKota, '$test', 'i'))
+                FILTER (regex (?namaMall, '$test', 'i') || regex (?kabupatenKota, '$test', 'i') || regex (?kategoriGerai, '$test', 'i'))
                 }"
         );
     } else {
@@ -217,14 +217,13 @@
             ?range   d:range_harga_gerai    ?rangeHarga.
             ?mall    d:isKriteriaBy         ?pesaing.
             ?pesaing d:jumlah_pesaing_gerai ?jumlahPesaing.
-            FILTER (regex (?namaMall, '$test', 'i') || regex (?kabupatenKota, '$test', 'i'))
+            FILTER (regex (?namaMall, '$test', 'i') || regex (?kabupatenKota, '$test', 'i') || regex (?kategoriGerai, '$test', 'i'))
         }"
         );
     }
     if (!isset($data)) {
         print "<p>Error: " . sparql_error() . ": " . sparql_error() . "</p>";
     }
-
     ?>
 
     <section id="about">

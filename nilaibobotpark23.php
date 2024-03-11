@@ -27,7 +27,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
     <header>
         <div class="container-fluid">
             <div class="navb-logo">
-                <img src="img\ogo.png" alt="Logo">
+                <img src="img\logo.png" alt="Logo">
             </div>
 
             <div class="navb-items d-none d-xl-flex gap-3">
@@ -45,7 +45,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         Nilai Bobot Alternatif
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Ukuran</a>
                         <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
                         <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                     </div>
@@ -121,9 +121,9 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                     <select name="kriteria_park23" class="form-select">
                         <?php
                         $tenants_park23 = [
-                            "Lokasi",
-                            "Harga",
-                            "Pesaing",
+                            "Ukuran Gerai",
+                            "Harga Gerai",
+                            "Jumlah Pesaing Gerai"
                         ];
 
                         foreach ($tenants_park23 as $tenant_park23) {
@@ -226,7 +226,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Loop through each tenant for comparison_park23 results
             foreach ($tenants_park23 as $tenant_park231) {
                 echo "<tr>";
-                echo "<td>$tenant_park231</td>";
+                echo "<th>$tenant_park231</th>";
                 $totalRowPark23 = 0; // Total for this row
 
                 foreach ($tenants_park23 as $tenant_park232) {
@@ -258,11 +258,11 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             }
 
             // Show the total row after looping through all tenants_park23$tenants_park23
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             $totalTotalPark23 = 0;
             foreach ($tenants_park23 as $tenant_park23) {
                 $totalTotalPark23 += $totalValuesPark23[$tenant_park23];
-                echo "<td>" . number_format($totalValuesPark23[$tenant_park23], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($totalValuesPark23[$tenant_park23], 5, '.', '') . "</th>";
             }
             echo "</tr>";
 
@@ -288,7 +288,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Loop through each ten$tenant_park23 for comparison results
             foreach ($tenants_park23 as $tenant_park231) {
                 echo "<tr>";
-                echo "<td>$tenant_park231</td>";
+                echo "<th>$tenant_park231</th>";
                 $rowTotalPark23 = 0; // Menyimpan total per baris
 
                 foreach ($tenants_park23 as $tenant_park232) {
@@ -326,14 +326,14 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             }
 
             // Show the total row after looping through all tenants$tenants_park23
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             foreach ($tenants_park23 as $tenant_park23) {
-                echo "<td>" . number_format($columnTotalsPark23[$tenant_park23], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($columnTotalsPark23[$tenant_park23], 5, '.', '') . "</th>";
             }
 
             // Calculate eigen value and display
             $eigenValuePark23 = array_sum($columnTotalsPark23) / $numMallsPark23;
-            echo "<td>" . number_format($eigenValuePark23, 5, '.', '') . "</td>";
+            echo "<th>" . number_format($eigenValuePark23, 5, '.', '') . "</th>";
 
             echo "</tr>";
             echo "</table>";

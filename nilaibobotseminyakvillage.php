@@ -45,7 +45,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         Nilai Bobot Alternatif
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
-                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Lokasi</a>
+                        <a class="dropdown-item" href="nilaibobotlokasi.php">Berdasarkan Ukuran</a>
                         <a class="dropdown-item" href="nilaibobotharga.php">Berdasarkan Harga</a>
                         <a class="dropdown-item" href="nilaibobotpesaing.php">Berdasarkan Pesaing</a>
                     </div>
@@ -121,9 +121,9 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                     <select name="kriteria_village" class="form-select">
                         <?php
                         $tenants_village = [
-                            "Lokasi",
-                            "Harga",
-                            "Pesaing",
+                            "Ukuran Gerai",
+                            "Harga Gerai",
+                            "Jumlah Pesaing Gerai"
                         ];
 
                         foreach ($tenants_village as $tenant_village) {
@@ -226,7 +226,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Loop through each tenant for comparison_village results
             foreach ($tenants_village as $tenant_village1) {
                 echo "<tr>";
-                echo "<td>$tenant_village1</td>";
+                echo "<th>$tenant_village1</th>";
                 $totalRowVillage = 0; // Total for this row
 
                 foreach ($tenants_village as $tenant_village2) {
@@ -258,11 +258,11 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             }
 
             // Show the total row after looping through all tenants_village
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             $totalTotalVillage = 0;
             foreach ($tenants_village as $tenant_village) {
                 $totalTotalVillage += $totalValuesVillage[$tenant_village];
-                echo "<td>" . number_format($totalValuesVillage[$tenant_village], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($totalValuesVillage[$tenant_village], 5, '.', '') . "</th>";
             }
             echo "</tr>";
 
@@ -288,7 +288,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Loop through each ten$tenant_village for comparison results
             foreach ($tenants_village as $tenant_village1) {
                 echo "<tr>";
-                echo "<td>$tenant_village1</td>";
+                echo "<th>$tenant_village1</th>";
                 $rowTotalVillage = 0; // Menyimpan total per baris
 
                 foreach ($tenants_village as $tenant_village2) {
@@ -326,14 +326,14 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             }
 
             // Show the total row after looping through all tenants$tenants_village
-            echo "<tr><td>Total</td>";
+            echo "<tr><th>Total</th>";
             foreach ($tenants_village as $tenant_village) {
-                echo "<td>" . number_format($columnTotalsVillage[$tenant_village], 5, '.', '') . "</td>";
+                echo "<th>" . number_format($columnTotalsVillage[$tenant_village], 5, '.', '') . "</th>";
             }
 
             // Calculate eigen value and display
             $eigenValueVillage = array_sum($columnTotalsVillage) / $numMallsVillage;
-            echo "<td>" . number_format($eigenValueVillage, 5, '.', '') . "</td>";
+            echo "<th>" . number_format($eigenValueVillage, 5, '.', '') . "</th>";
 
             echo "</tr>";
             echo "</table>";
