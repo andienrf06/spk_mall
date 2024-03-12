@@ -130,7 +130,6 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                             $selected = in_array($tenant_lipposunset, $mallsToShow) ? 'selected' : ''; // Menandai mal yang sudah dipilih sebelumnya
                             echo "<option value=\"$tenant_lipposunset\" $selected>$tenant_lipposunset</option>";
                         }
-
                         ?>
                     </select>
                 </div>
@@ -180,12 +179,6 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 $comparison_results_lipposunset = $_SESSION['comparison_results_lipposunset'];
 
                 // Check if the comparison_lipposunset result_lipposunset for this combination of kriteria_lipposunset and kriteria_lipposunset2 already exists
-                // Jika kriteria_lipposunset dan kriteria_lipposunset2 sama, set nilai perbandingannya menjadi 1
-                if ($kriteria_lipposunset === $kriteria_lipposunset2) {
-                    $comparison_value_lipposunset = 1;
-                }
-
-                // Check if the comparison_lipposunset result_lipposunset for this combination of kriteria_lipposunset and kriteria_lipposunset2 already exists
                 $exists = false;
                 foreach ($comparison_results_lipposunset as $key_lipposunset => $result_lipposunset) {
                     if ($result_lipposunset['kriteria_lipposunset'] == $kriteria_lipposunset && $result_lipposunset['kriteria_lipposunset2'] == $kriteria_lipposunset2) {
@@ -193,6 +186,13 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         // Update the comparison_lipposunset value
                         $comparison_results_lipposunset[$key_lipposunset][$alternatif_lipposunset] = $comparison_value_lipposunset;
                         break; // Break the loop after updating the comparison_lipposunset value
+                    } elseif ($result_lipposunset['kriteria_lipposunset'] == $kriteria_lipposunset2 && $result_lipposunset['kriteria_lipposunset2'] == $kriteria_lipposunset) {
+                        $exists = true;
+                        // Update the comparison value and its inverse
+                        $comparison_results_lipposunset[$key_lipposunset][$alternatif_lipposunset] = $comparison_value_lipposunset;
+                        // Update the inverse comparison value
+                        $comparison_results_lipposunset[$key_lipposunset][$alternatif_lipposunset] = 1 / $comparison_value_lipposunset;
+                        break; // Break the loop after updating the comparison value
                     }
                 }
 

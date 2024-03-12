@@ -161,7 +161,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             <div class="row mb-3">
                 <div class="col">
                     <input type="submit" name="submit" value="Save" class="btn btn-primary">
-                    <!-- <input type="button" name="reset" value="Reset" class="btn btn-secondary" onclick="resetForm()"> -->
                 </div>
             </div>
         </form>
@@ -180,18 +179,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                 $comparison_results = $_SESSION['comparison_results'];
 
                 // Check if the comparison result for this combination of alternative1 and alternative2 already exists
-                // Jika alternative1 dan alternative2 sama, set nilai perbandingannya menjadi 1
-                if ($alternative1 === $alternative2) {
-                    $comparison_value = 1;
-                }
-
-                // Check if the comparison result for this combination of alternative1 and alternative2 already exists
                 $exists = false;
                 foreach ($comparison_results as $key => $result) {
                     if ($result['alternative1'] == $alternative1 && $result['alternative2'] == $alternative2) {
                         $exists = true;
                         // Update the comparison value
                         $comparison_results[$key][$criteria] = $comparison_value;
+                        break; // Break the loop after updating the comparison value
+                    } elseif ($result['alternative1'] == $alternative2 && $result['alternative2'] == $alternative1) {
+                        $exists = true;
+                        // Update the comparison value and its inverse
+                        $comparison_results[$key][$criteria] = $comparison_value;
+                        // Update the inverse comparison value
+                        $comparison_results[$key][$criteria] = 1 / $comparison_value;
                         break; // Break the loop after updating the comparison value
                     }
                 }
@@ -426,22 +426,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             }
         }
         ?>
-
-        <!-- <script>
-            function resetForm() {
-                // Mengambil elemen formulir berdasarkan ID
-                var form = document.getElementById('comparisonForm');
-
-                // Reset pilihan dropdown ke opsi pertama
-                var selects = form.getElementsByTagName('select');
-                for (var i = 0; i < selects.length; i++) {
-                    selects[i].selectedIndex = 0;
-                }
-
-                // Melakukan reset pada formulir
-                form.reset();
-            }
-        </script> -->
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

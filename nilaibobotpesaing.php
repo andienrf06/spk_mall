@@ -12,7 +12,6 @@ $mallsToShowCompetitor = $_SESSION['selected_malls'] ?? [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     // Your form handling code here
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -192,6 +191,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                         // Update the comparison_competitor value
                         $comparison_results_competitor[$key_competitor][$criteria_competitor] = $comparison_value_competitor;
                         break; // Break the loop after updating the comparison_competitor value
+                    } elseif ($result_competitor['alternative_competitor1'] == $alternative_competitor2 && $result_competitor['alternative_competitor2'] == $alternative_competitor1) {
+                        $exists = true;
+                        // Update the comparison value and its inverse
+                        $comparison_results_competitor[$key_competitor][$criteria_competitor] = $comparison_value_competitor;
+                        // Update the inverse comparison value
+                        $comparison_results_competitor[$key_competitor][$criteria_competitor] = 1 / $comparison_value_competitor;
+                        break; // Break the loop after updating the comparison value
                     }
                 }
 

@@ -179,12 +179,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                 $comparison_results_price = $_SESSION['comparison_results_price'];
 
                 // Check if the comparison_price result_price for this combination of alternative_price1 and alternative_price2 already exists
-                // Jika alternative_price1 dan alternative_price2 sama, set nilai perbandingannya menjadi 1
-                if ($alternative_price1 === $alternative_price2) {
-                    $comparison_value_price = 1;
-                }
-
-                // Check if the comparison_price result_price for this combination of alternative_price1 and alternative_price2 already exists
                 $exists = false;
                 foreach ($comparison_results_price as $key_price => $result_price) {
                     if ($result_price['alternative_price1'] == $alternative_price1 && $result_price['alternative_price2'] == $alternative_price2) {
@@ -192,6 +186,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                         // Update the comparison_price value
                         $comparison_results_price[$key_price][$criteria_price] = $comparison_value_price;
                         break; // Break the loop after updating the comparison_price value
+                    } elseif ($result_price['alternative_price1'] == $alternative_price2 && $result_price['alternative_price2'] == $alternative_price1) {
+                        $exists = true;
+                        // Update the comparison value and its inverse
+                        $comparison_results_price[$key_price][$criteria_price] = $comparison_value_price;
+                        // Update the inverse comparison value
+                        $comparison_results_price[$key_price][$criteria_price] = 1 / $comparison_value_price;
+                        break; // Break the loop after updating the comparison value
                     }
                 }
 

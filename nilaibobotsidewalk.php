@@ -179,12 +179,6 @@ if (!isset($_SESSION['comparison_results_sidewalk'])) {
                 $comparison_results_sidewalk = $_SESSION['comparison_results_sidewalk'];
 
                 // Check if the comparison_sidewalk result_sidewalk for this combination of kriteria_sidewalk and kriteria_sidewalk2 already exists
-                // Jika kriteria_sidewalk dan kriteria_sidewalk2 sama, set nilai perbandingannya menjadi 1
-                if ($kriteria_sidewalk === $kriteria_sidewalk2) {
-                    $comparison_value_sidewalk = 1;
-                }
-
-                // Check if the comparison_sidewalk result_sidewalk for this combination of kriteria_sidewalk and kriteria_sidewalk2 already exists
                 $exists = false;
                 foreach ($comparison_results_sidewalk as $key_sidewalk => $result_sidewalk) {
                     if ($result_sidewalk['kriteria_sidewalk'] == $kriteria_sidewalk && $result_sidewalk['kriteria_sidewalk2'] == $kriteria_sidewalk2) {
@@ -192,6 +186,13 @@ if (!isset($_SESSION['comparison_results_sidewalk'])) {
                         // Update the comparison_sidewalk value
                         $comparison_results_sidewalk[$key_sidewalk][$alternatif_sidewalk] = $comparison_value_sidewalk;
                         break; // Break the loop after updating the comparison_sidewalk value
+                    } elseif ($result_sidewalk['kriteria_sidewalk'] == $kriteria_sidewalk2 && $result_sidewalk['kriteria_sidewalk2'] == $kriteria_sidewalk) {
+                        $exists = true;
+                        // Update the comparison value and its inverse
+                        $comparison_results_sidewalk[$key_sidewalk][$alternatif_sidewalk] = $comparison_value_sidewalk;
+                        // Update the inverse comparison value
+                        $comparison_results_sidewalk[$key_sidewalk][$alternatif_sidewalk] = 1 / $comparison_value_sidewalk;
+                        break; // Break the loop after updating the comparison value
                     }
                 }
 

@@ -180,12 +180,6 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 $comparison_results_mbg = $_SESSION['comparison_results_mbg'];
 
                 // Check if the comparison_mbg result_mbg for this combination of kriteria_mbg and kriteria_mbg2 already exists
-                // Jika kriteria_mbg dan kriteria_mbg2 sama, set nilai perbandingannya menjadi 1
-                if ($kriteria_mbg === $kriteria_mbg2) {
-                    $comparison_value_mbg = 1;
-                }
-
-                // Check if the comparison_mbg result_mbg for this combination of kriteria_mbg and kriteria_mbg2 already exists
                 $exists = false;
                 foreach ($comparison_results_mbg as $key_mbg => $result_mbg) {
                     if ($result_mbg['kriteria_mbg'] == $kriteria_mbg && $result_mbg['kriteria_mbg2'] == $kriteria_mbg2) {
@@ -193,6 +187,13 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         // Update the comparison_mbg value
                         $comparison_results_mbg[$key_mbg][$alternatif_mbg] = $comparison_value_mbg;
                         break; // Break the loop after updating the comparison_mbg value
+                    } elseif ($result_mbg['kriteria_mbg'] == $kriteria_mbg2 && $result_mbg['kriteria_mbg2'] == $kriteria_mbg) {
+                        $exists = true;
+                        // Update the comparison value and its inverse
+                        $comparison_results_mbg[$key_mbg][$alternatif_mbg] = $comparison_value_mbg;
+                        // Update the inverse comparison value
+                        $comparison_results_mbg[$key_mbg][$alternatif_mbg] = 1 / $comparison_value_mbg;
+                        break; // Break the loop after updating the comparison value
                     }
                 }
 

@@ -180,12 +180,6 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 $comparison_results_discovery = $_SESSION['comparison_results_discovery'];
 
                 // Check if the comparison_discovery result_discovery for this combination of kriteria_discovery and kriteria_discovery2 already exists
-                // Jika kriteria_discovery dan kriteria_discovery2 sama, set nilai perbandingannya menjadi 1
-                if ($kriteria_discovery === $kriteria_discovery2) {
-                    $comparison_value_discovery = 1;
-                }
-
-                // Check if the comparison_discovery result_discovery for this combination of kriteria_discovery and kriteria_discovery2 already exists
                 $exists = false;
                 foreach ($comparison_results_discovery as $key_discovery => $result_discovery) {
                     if ($result_discovery['kriteria_discovery'] == $kriteria_discovery && $result_discovery['kriteria_discovery2'] == $kriteria_discovery2) {
@@ -193,6 +187,13 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         // Update the comparison_discovery value
                         $comparison_results_discovery[$key_discovery][$alternatif_discovery] = $comparison_value_discovery;
                         break; // Break the loop after updating the comparison_discovery value
+                    } elseif ($result_discovery['kriteria_discovery'] == $kriteria_discovery2 && $result_discovery['kriteria_discovery2'] == $kriteria_discovery) {
+                        $exists = true;
+                        // Update the comparison value and its inverse
+                        $comparison_results_discovery[$key_discovery][$alternatif_discovery] = $comparison_value_discovery;
+                        // Update the inverse comparison value
+                        $comparison_results_discovery[$key_discovery][$alternatif_discovery] = 1 / $comparison_value_discovery;
+                        break; // Break the loop after updating the comparison value
                     }
                 }
 
