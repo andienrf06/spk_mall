@@ -180,12 +180,6 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 $comparison_results_plaza = $_SESSION['comparison_results_plaza'];
 
                 // Check if the comparison_plaza result_plaza for this combination of kriteria_plaza and kriteria_plaza2 already exists
-                // Jika kriteria_plaza dan kriteria_plaza2 sama, set nilai perbandingannya menjadi 1
-                if ($kriteria_plaza === $kriteria_plaza2) {
-                    $comparison_value_plaza = 1;
-                }
-
-                // Check if the comparison_plaza result_plaza for this combination of kriteria_plaza and kriteria_plaza2 already exists
                 $exists = false;
                 foreach ($comparison_results_plaza as $key_plaza => $result_plaza) {
                     if ($result_plaza['kriteria_plaza'] == $kriteria_plaza && $result_plaza['kriteria_plaza2'] == $kriteria_plaza2) {
@@ -193,6 +187,13 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         // Update the comparison_plaza value
                         $comparison_results_plaza[$key_plaza][$alternatif_plaza] = $comparison_value_plaza;
                         break; // Break the loop after updating the comparison_plaza value
+                    } elseif ($result_plaza['kriteria_plaza'] == $kriteria_plaza2 && $result_plaza['kriteria_plaza2'] == $kriteria_plaza) {
+                        $exists = true;
+                        // Update the comparison value and its inverse
+                        $comparison_results_plaza[$key_plaza][$alternatif_plaza] = $comparison_value_plaza;
+                        // Update the inverse comparison value
+                        $comparison_results_plaza[$key_plaza][$alternatif_plaza] = 1 / $comparison_value_plaza;
+                        break; // Break the loop after updating the comparison value
                     }
                 }
 

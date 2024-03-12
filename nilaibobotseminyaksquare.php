@@ -180,12 +180,6 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 $comparison_results_square = $_SESSION['comparison_results_square'];
 
                 // Check if the comparison_square result_square for this combination of kriteria_square and kriteria_square2 already exists
-                // Jika kriteria_square dan kriteria_square2 sama, set nilai perbandingannya menjadi 1
-                if ($kriteria_square === $kriteria_square2) {
-                    $comparison_value_square = 1;
-                }
-
-                // Check if the comparison_square result_square for this combination of kriteria_square and kriteria_square2 already exists
                 $exists = false;
                 foreach ($comparison_results_square as $key_square => $result_square) {
                     if ($result_square['kriteria_square'] == $kriteria_square && $result_square['kriteria_square2'] == $kriteria_square2) {
@@ -193,6 +187,13 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         // Update the comparison_square value
                         $comparison_results_square[$key_square][$alternatif_square] = $comparison_value_square;
                         break; // Break the loop after updating the comparison_square value
+                    } elseif ($result_square['kriteria_square'] == $kriteria_square2 && $result_square['kriteria_square2'] == $kriteria_square) {
+                        $exists = true;
+                        // Update the comparison value and its inverse
+                        $comparison_results_square[$key_square][$alternatif_square] = $comparison_value_square;
+                        // Update the inverse comparison value
+                        $comparison_results_square[$key_square][$alternatif_square] = 1 / $comparison_value_square;
+                        break; // Break the loop after updating the comparison value
                     }
                 }
 

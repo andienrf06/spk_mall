@@ -183,12 +183,6 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 $comparison_results_samasta = $_SESSION['comparison_results_samasta'];
 
                 // Check if the comparison_samasta result_samasta for this combination of kriteria_samasta and kriteria_samasta2 already exists
-                // Jika kriteria_samasta dan kriteria_samasta2 sama, set nilai perbandingannya menjadi 1
-                if ($kriteria_samasta === $kriteria_samasta2) {
-                    $comparison_value_samasta = 1;
-                }
-
-                // Check if the comparison_samasta result_samasta for this combination of kriteria_samasta and kriteria_samasta2 already exists
                 $exists = false;
                 foreach ($comparison_results_samasta as $key_samasta => $result_samasta) {
                     if ($result_samasta['kriteria_samasta'] == $kriteria_samasta && $result_samasta['kriteria_samasta2'] == $kriteria_samasta2) {
@@ -196,6 +190,13 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         // Update the comparison_samasta value
                         $comparison_results_samasta[$key_samasta][$alternatif_samasta] = $comparison_value_samasta;
                         break; // Break the loop after updating the comparison_samasta value
+                    } elseif ($result_samasta['kriteria_samasta'] == $kriteria_samasta2 && $result_samasta['kriteria_samasta2'] == $kriteria_samasta) {
+                        $exists = true;
+                        // Update the comparison value and its inverse
+                        $comparison_results_samasta[$key_samasta][$alternatif_samasta] = $comparison_value_samasta;
+                        // Update the inverse comparison value
+                        $comparison_results_samasta[$key_samasta][$alternatif_samasta] = 1 / $comparison_value_samasta;
+                        break; // Break the loop after updating the comparison value
                     }
                 }
 

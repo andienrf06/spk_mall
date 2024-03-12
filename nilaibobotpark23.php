@@ -180,12 +180,6 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 $comparison_results_park23 = $_SESSION['comparison_results_park23'];
 
                 // Check if the comparison_park23 result_park23 for this combination of kriteria_park23 and kriteria_park232 already exists
-                // Jika kriteria_park23 dan kriteria_park232 sama, set nilai perbandingannya menjadi 1
-                if ($kriteria_park23 === $kriteria_park232) {
-                    $comparison_value_park23 = 1;
-                }
-
-                // Check if the comparison_park23 result_park23 for this combination of kriteria_park23 and kriteria_park232 already exists
                 $exists = false;
                 foreach ($comparison_results_park23 as $key_park23 => $result_park23) {
                     if ($result_park23['kriteria_park23'] == $kriteria_park23 && $result_park23['kriteria_park232'] == $kriteria_park232) {
@@ -193,6 +187,13 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         // Update the comparison_park23 value
                         $comparison_results_park23[$key_park23][$alternatif_park23] = $comparison_value_park23;
                         break; // Break the loop after updating the comparison_park23 value
+                    } elseif ($result_park23['kriteria_park23'] == $kriteria_park232 && $result_park23['kriteria_park232'] == $kriteria_park23) {
+                        $exists = true;
+                        // Update the comparison value and its inverse
+                        $comparison_results_park23[$key_park23][$alternatif_park23] = $comparison_value_park23;
+                        // Update the inverse comparison value
+                        $comparison_results_park23[$key_park23][$alternatif_park23] = 1 / $comparison_value_park23;
+                        break; // Break the loop after updating the comparison value
                     }
                 }
 

@@ -180,12 +180,6 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 $comparison_results_village = $_SESSION['comparison_results_village'];
 
                 // Check if the comparison_village result_village for this combination of kriteria_village and kriteria_village2 already exists
-                // Jika kriteria_village dan kriteria_village2 sama, set nilai perbandingannya menjadi 1
-                if ($kriteria_village === $kriteria_village2) {
-                    $comparison_value_village = 1;
-                }
-
-                // Check if the comparison_village result_village for this combination of kriteria_village and kriteria_village2 already exists
                 $exists = false;
                 foreach ($comparison_results_village as $key_village => $result_village) {
                     if ($result_village['kriteria_village'] == $kriteria_village && $result_village['kriteria_village2'] == $kriteria_village2) {
@@ -193,6 +187,13 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         // Update the comparison_village value
                         $comparison_results_village[$key_village][$alternatif_village] = $comparison_value_village;
                         break; // Break the loop after updating the comparison_village value
+                    } elseif ($result_village['kriteria_village'] == $kriteria_village2 && $result_village['kriteria_village2'] == $kriteria_village) {
+                        $exists = true;
+                        // Update the comparison value and its inverse
+                        $comparison_results_village[$key_village][$alternatif_village] = $comparison_value_village;
+                        // Update the inverse comparison value
+                        $comparison_results_village[$key_village][$alternatif_village] = 1 / $comparison_value_village;
+                        break; // Break the loop after updating the comparison value
                     }
                 }
 

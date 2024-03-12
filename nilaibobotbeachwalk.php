@@ -180,12 +180,6 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 $comparison_results_bw = $_SESSION['comparison_results_bw'];
 
                 // Check if the comparison_bw result_bw for this combination of kriteria_bw and kriteria_bw2 already exists
-                // Jika kriteria_bw dan kriteria_bw2 sama, set nilai perbandingannya menjadi 1
-                if ($kriteria_bw === $kriteria_bw2) {
-                    $comparison_value_bw = 1;
-                }
-
-                // Check if the comparison_bw result_bw for this combination of kriteria_bw and kriteria_bw2 already exists
                 $exists = false;
                 foreach ($comparison_results_bw as $key_bw => $result_bw) {
                     if ($result_bw['kriteria_bw'] == $kriteria_bw && $result_bw['kriteria_bw2'] == $kriteria_bw2) {
@@ -193,6 +187,13 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         // Update the comparison_bw value
                         $comparison_results_bw[$key_bw][$alternatif_bw] = $comparison_value_bw;
                         break; // Break the loop after updating the comparison_bw value
+                    } elseif ($result_bw['kriteria_bw'] == $kriteria_bw2 && $result_bw['kriteria_bw2'] == $kriteria_bw) {
+                        $exists = true;
+                        // Update the comparison value and its inverse
+                        $comparison_results_bw[$key_bw][$alternatif_bw] = $comparison_value_bw;
+                        // Update the inverse comparison value
+                        $comparison_results_bw[$key_bw][$alternatif_bw] = 1 / $comparison_value_bw;
+                        break; // Break the loop after updating the comparison value
                     }
                 }
 

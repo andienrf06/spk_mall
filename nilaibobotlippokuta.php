@@ -180,12 +180,6 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 $comparison_results_lippokuta = $_SESSION['comparison_results_lippokuta'];
 
                 // Check if the comparison_lippokuta result_lippokuta for this combination of kriteria_lippokuta and kriteria_lippokuta2 already exists
-                // Jika kriteria_lippokuta dan kriteria_lippokuta2 sama, set nilai perbandingannya menjadi 1
-                if ($kriteria_lippokuta === $kriteria_lippokuta2) {
-                    $comparison_value_lippokuta = 1;
-                }
-
-                // Check if the comparison_lippokuta result_lippokuta for this combination of kriteria_lippokuta and kriteria_lippokuta2 already exists
                 $exists = false;
                 foreach ($comparison_results_lippokuta as $key_lippokuta => $result_lippokuta) {
                     if ($result_lippokuta['kriteria_lippokuta'] == $kriteria_lippokuta && $result_lippokuta['kriteria_lippokuta2'] == $kriteria_lippokuta2) {
@@ -193,6 +187,13 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         // Update the comparison_lippokuta value
                         $comparison_results_lippokuta[$key_lippokuta][$alternatif_lippokuta] = $comparison_value_lippokuta;
                         break; // Break the loop after updating the comparison_lippokuta value
+                    } elseif ($result_lippokuta['kriteria_lippokuta'] == $kriteria_lippokuta2 && $result_lippokuta['kriteria_lippokuta2'] == $kriteria_lippokuta) {
+                        $exists = true;
+                        // Update the comparison value and its inverse
+                        $comparison_results_lippokuta[$key_lippokuta][$alternatif_lippokuta] = $comparison_value_lippokuta;
+                        // Update the inverse comparison value
+                        $comparison_results_lippokuta[$key_lippokuta][$alternatif_lippokuta] = 1 / $comparison_value_lippokuta;
+                        break; // Break the loop after updating the comparison value
                     }
                 }
 

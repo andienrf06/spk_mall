@@ -180,12 +180,6 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 $comparison_results_living = $_SESSION['comparison_results_living'];
 
                 // Check if the comparison_living result_living for this combination of kriteria_living and kriteria_living2 already exists
-                // Jika kriteria_living dan kriteria_living2 sama, set nilai perbandingannya menjadi 1
-                if ($kriteria_living === $kriteria_living2) {
-                    $comparison_value_living = 1;
-                }
-
-                // Check if the comparison_living result_living for this combination of kriteria_living and kriteria_living2 already exists
                 $exists = false;
                 foreach ($comparison_results_living as $key_living => $result_living) {
                     if ($result_living['kriteria_living'] == $kriteria_living && $result_living['kriteria_living2'] == $kriteria_living2) {
@@ -193,6 +187,13 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         // Update the comparison_living value
                         $comparison_results_living[$key_living][$alternatif_living] = $comparison_value_living;
                         break; // Break the loop after updating the comparison_living value
+                    } elseif ($result_living['kriteria_living'] == $kriteria_living2 && $result_living['kriteria_living2'] == $kriteria_living) {
+                        $exists = true;
+                        // Update the comparison value and its inverse
+                        $comparison_results_living[$key_living][$alternatif_living] = $comparison_value_living;
+                        // Update the inverse comparison value
+                        $comparison_results_living[$key_living][$alternatif_living] = 1 / $comparison_value_living;
+                        break; // Break the loop after updating the comparison value
                     }
                 }
 

@@ -183,12 +183,6 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 $comparison_results_level = $_SESSION['comparison_results_level'];
 
                 // Check if the comparison_level result_level for this combination of kriteria_level and kriteria_level2 already exists
-                // Jika kriteria_level dan kriteria_level2 sama, set nilai perbandingannya menjadi 1
-                if ($kriteria_level === $kriteria_level2) {
-                    $comparison_value_level = 1;
-                }
-
-                // Check if the comparison_level result_level for this combination of kriteria_level and kriteria_level2 already exists
                 $exists = false;
                 foreach ($comparison_results_level as $key_level => $result_level) {
                     if ($result_level['kriteria_level'] == $kriteria_level && $result_level['kriteria_level2'] == $kriteria_level2) {
@@ -196,6 +190,13 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         // Update the comparison_level value
                         $comparison_results_level[$key_level][$alternatif_level] = $comparison_value_level;
                         break; // Break the loop after updating the comparison_level value
+                    } elseif ($result_level['kriteria_level'] == $kriteria_level2 && $result_level['kriteria_level2'] == $kriteria_level) {
+                        $exists = true;
+                        // Update the comparison value and its inverse
+                        $comparison_results_level[$key_level][$alternatif_level] = $comparison_value_level;
+                        // Update the inverse comparison value
+                        $comparison_results_level[$key_level][$alternatif_level] = 1 / $comparison_value_level;
+                        break; // Break the loop after updating the comparison value
                     }
                 }
 

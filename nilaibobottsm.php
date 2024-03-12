@@ -180,12 +180,6 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 $comparison_results_tsm = $_SESSION['comparison_results_tsm'];
 
                 // Check if the comparison_tsm result_tsm for this combination of kriteria_tsm and kriteria_tsm2 already exists
-                // Jika kriteria_tsm dan kriteria_tsm2 sama, set nilai perbandingannya menjadi 1
-                if ($kriteria_tsm === $kriteria_tsm2) {
-                    $comparison_value_tsm = 1;
-                }
-
-                // Check if the comparison_tsm result_tsm for this combination of kriteria_tsm and kriteria_tsm2 already exists
                 $exists = false;
                 foreach ($comparison_results_tsm as $key_tsm => $result_tsm) {
                     if ($result_tsm['kriteria_tsm'] == $kriteria_tsm && $result_tsm['kriteria_tsm2'] == $kriteria_tsm2) {
@@ -193,6 +187,13 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         // Update the comparison_tsm value
                         $comparison_results_tsm[$key_tsm][$alternatif_tsm] = $comparison_value_tsm;
                         break; // Break the loop after updating the comparison_tsm value
+                    } elseif ($result_tsm['kriteria_tsm'] == $kriteria_tsm2 && $result_tsm['kriteria_tsm2'] == $kriteria_tsm) {
+                        $exists = true;
+                        // Update the comparison value and its inverse
+                        $comparison_results_tsm[$key_tsm][$alternatif_tsm] = $comparison_value_tsm;
+                        // Update the inverse comparison value
+                        $comparison_results_tsm[$key_tsm][$alternatif_tsm] = 1 / $comparison_value_tsm;
+                        break; // Break the loop after updating the comparison value
                     }
                 }
 

@@ -183,12 +183,6 @@
                     $comparison_results_bc = $_SESSION['comparison_results_bc'];
 
                     // Check if the comparison_bc result_bc for this combination of kriteria and kriteria2 already exists
-                    // Jika kriteria dan kriteria2 sama, set nilai perbandingannya menjadi 1
-                    if ($kriteria === $kriteria2) {
-                        $comparison_value_bc = 1;
-                    }
-
-                    // Check if the comparison_bc result_bc for this combination of kriteria and kriteria2 already exists
                     $exists = false;
                     foreach ($comparison_results_bc as $key_bc => $result_bc) {
                         if ($result_bc['kriteria'] == $kriteria && $result_bc['kriteria2'] == $kriteria2) {
@@ -196,6 +190,13 @@
                             // Update the comparison_bc value
                             $comparison_results_bc[$key_bc][$alternatif_bc] = $comparison_value_bc;
                             break; // Break the loop after updating the comparison_bc value
+                        } elseif ($result_bc['kriteria'] == $kriteria2 && $result_bc['kriteria2'] == $kriteria) {
+                            $exists = true;
+                            // Update the comparison value and its inverse
+                            $comparison_results_bc[$key_bc][$alternatif_bc] = $comparison_value_bc;
+                            // Update the inverse comparison value
+                            $comparison_results_bc[$key_bc][$alternatif_bc] = 1 / $comparison_value_bc;
+                            break; // Break the loop after updating the comparison value
                         }
                     }
 

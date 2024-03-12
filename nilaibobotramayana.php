@@ -180,12 +180,6 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 $comparison_results_ramayana = $_SESSION['comparison_results_ramayana'];
 
                 // Check if the comparison_ramayana result_ramayana for this combination of kriteria_ramayana and kriteria_ramayana2 already exists
-                // Jika kriteria_ramayana dan kriteria_ramayana2 sama, set nilai perbandingannya menjadi 1
-                if ($kriteria_ramayana === $kriteria_ramayana2) {
-                    $comparison_value_ramayana = 1;
-                }
-
-                // Check if the comparison_ramayana result_ramayana for this combination of kriteria_ramayana and kriteria_ramayana2 already exists
                 $exists = false;
                 foreach ($comparison_results_ramayana as $key_ramayana => $result_ramayana) {
                     if ($result_ramayana['kriteria_ramayana'] == $kriteria_ramayana && $result_ramayana['kriteria_ramayana2'] == $kriteria_ramayana2) {
@@ -193,6 +187,13 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                         // Update the comparison_ramayana value
                         $comparison_results_ramayana[$key_ramayana][$alternatif_ramayana] = $comparison_value_ramayana;
                         break; // Break the loop after updating the comparison_ramayana value
+                    } elseif ($result_ramayana['kriteria_ramayana'] == $kriteria_ramayana2 && $result_ramayana['kriteria_ramayana2'] == $kriteria_ramayana) {
+                        $exists = true;
+                        // Update the comparison value and its inverse
+                        $comparison_results_ramayana[$key_ramayana][$alternatif_ramayana] = $comparison_value_ramayana;
+                        // Update the inverse comparison value
+                        $comparison_results_ramayana[$key_ramayana][$alternatif_ramayana] = 1 / $comparison_value_ramayana;
+                        break; // Break the loop after updating the comparison value
                     }
                 }
 
