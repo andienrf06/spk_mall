@@ -290,7 +290,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             foreach ($tenants_square as $tenant_square1) {
                 echo "<tr>";
                 echo "<th>$tenant_square1</th>";
-                $rowTotalSquare = 0; // Menyimpan total per baris
+                $rowTotalSquare = 0; // Stores totals per row
 
                 foreach ($tenants_square as $tenant_square2) {
                     $comparisonValueSquare = null;
@@ -348,7 +348,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // echo "</ul>";
 
 
-            // Simpan nilai normalized row totals dalam sesi
+            // Store the normalized row totals value in the session
             $_SESSION['normalized_row_totals_square'] = $normalizedRowTotalsSquare;
 
             // Calculate Lambda Max
@@ -359,7 +359,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
 
             // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxSquare, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+            // Calculate random consistency values based on the number of tenant elements
             $randomConsistencyIndexSquare  = 0;
             switch ($numMallsSquare) {
                 case 1:
@@ -419,7 +419,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Calculate Consistency Ratio (CR)
             $CRSquare = $CISquare / $randomConsistencyIndexSquare; // You need to define RI according to your matrix size
 
-            // Tampilkan hasil konsistensi
+            // Show consistency results
             // echo "<p>Nilai Consistency Index (CI): " . number_format($CISquare, 5, '.', '') . "</p>";
             // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsSquare elemen: " . $randomConsistencyIndexSquare . "</p>";
             // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRSquare, 5, '.', '') . "</p>";

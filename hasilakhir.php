@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Definisikan weighted supermatrix
 $weighted_supermatrix = array(
     array(
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -84,9 +83,9 @@ $weighted_supermatrix = array(
 
     array(
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        isset($_SESSION['normalized_row_totals_lokasi']['Lippo Plza Renon']) ? $_SESSION['normalized_row_totals_lokasi']['Lippo Plza Renon'] : 0,
-        isset($_SESSION['normalized_row_totals_harga']['Lippo Plza Renon']) ? $_SESSION['normalized_row_totals_harga']['Lippo Plza Renon'] : 0,
-        isset($_SESSION['normalized_row_totals_pesaing']['Lippo Plza Renon']) ? $_SESSION['normalized_row_totals_pesaing']['Lippo Plza Renon'] : 0,
+        isset($_SESSION['normalized_row_totals_lokasi']['Lippo Plaza Renon']) ? $_SESSION['normalized_row_totals_lokasi']['Lippo Plaza Renon'] : 0,
+        isset($_SESSION['normalized_row_totals_harga']['Lippo Plaza Renon']) ? $_SESSION['normalized_row_totals_harga']['Lippo Plaza Renon'] : 0,
+        isset($_SESSION['normalized_row_totals_pesaing']['Lippo Plaza Renon']) ? $_SESSION['normalized_row_totals_pesaing']['Lippo Plaza Renon'] : 0,
     ),
     array(
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -159,7 +158,7 @@ $weighted_supermatrix = array(
     ),
 );
 
-// Fungsi untuk mengalikan dua matriks
+// Function to multiply two matrices
 function multiplyMatrices($matrix1, $matrix2)
 {
     $result = array();
@@ -178,16 +177,16 @@ function multiplyMatrices($matrix1, $matrix2)
     return $result;
 }
 
-// Mulai iterasi
+// iteration start
 $previousMatrix = $weighted_supermatrix;
-$maxIterations = 1000; // Tentukan jumlah maksimal iterasi
-$threshold = 0.0001; // Ambil threshold sesuai kebutuhan Anda
+$maxIterations = 1000; //Determine the maximum number of iterations
+$threshold = 0.0001;
 
 for ($iteration = 0; $iteration < $maxIterations; $iteration++) {
-    // Kalikan matriks dengan dirinya sendiri
+    // Multiply the matrix by itself
     $nextMatrix = multiplyMatrices($previousMatrix, $weighted_supermatrix);
 
-    // Periksa apakah nilai dalam matriks sudah tidak berubah per baris
+    // Check that the values ​​in the matrix have not changed per row
     $isConverged = true;
     foreach ($previousMatrix as $i => $row) {
         $rowDiff = array_map(function ($prev, $next) {
@@ -200,12 +199,12 @@ for ($iteration = 0; $iteration < $maxIterations; $iteration++) {
         }
     }
 
-    // Jika sudah konvergen, berhenti
+    // If it converges, stop
     if ($isConverged) {
         break;
     }
 
-    // Gunakan hasil perkalian sebagai matriks sebelumnya untuk iterasi berikutnya
+    // Use the multiplication result as the previous matrix for the next iteration
     $previousMatrix = $nextMatrix;
 }
 
@@ -315,9 +314,9 @@ for ($iteration = 0; $iteration < $maxIterations; $iteration++) {
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th></th> <!-- Kolom kosong di pojok kiri atas -->
+                        <th></th>
                         <?php
-                        // Menampilkan label kolom
+                        // column
                         $rowLabels = array('A01', 'A02', 'A03', 'A04', 'A05', 'A06', 'A07', 'A08', 'A09', 'A10', 'A11', 'A12', 'A13', 'A14', 'A15', 'A16', 'K01', 'K02', 'K3');
                         foreach ($rowLabels as $label) {
                             echo "<th>$label</th>";
@@ -332,7 +331,7 @@ for ($iteration = 0; $iteration < $maxIterations; $iteration++) {
                         echo "<tr>";
                         echo "<th>" . $rowLabels[$rowIndex] . "</th>"; // Label baris
                         foreach ($row as $value) {
-                            printf("<td>%.6f</td>", $value);
+                            printf("<td>%.5f</td>", $value);
                         }
                         echo "</tr>";
                     }
@@ -343,16 +342,16 @@ for ($iteration = 0; $iteration < $maxIterations; $iteration++) {
     </div>
 
     <?php
-    // Menginisialisasi array untuk menyimpan nilai maksimum dan indeks baris yang dimulai dengan huruf 'A'
+    // Initialize an array to store the maximum value and index of rows starting with the letter 'A'
     $maxValues = array();
-    // Mengisi array nilai maksimum dan indeks baris
+    // Populates an array of maximum values ​​and row indices
     foreach ($nextMatrix as $rowIndex => $row) {
-        if (strpos($rowLabels[$rowIndex], 'A') === 0) { // Memeriksa apakah baris dimulai dengan huruf 'A'
+        if (strpos($rowLabels[$rowIndex], 'A') === 0) { // Checking if a row starts with the letter 'A'
             $maxValues[$rowLabels[$rowIndex]] = max($row);
         }
     }
 
-    // Mengurutkan nilai maksimum dari yang tertinggi ke yang terendah
+    // Sort the maximum values ​​from highest to lowest
     arsort($maxValues);
     ?>
 
@@ -433,7 +432,7 @@ for ($iteration = 0; $iteration < $maxIterations; $iteration++) {
                         }
                         echo "<tr><td>$rank</td><td>$rowLabel</td><td>$mallName</td></tr>";
                         $rank++;
-                        if ($rank > 3) break; // Menampilkan hanya 3 peringkat teratas
+                        if ($rank > 3) break;
                     }
                     ?>
                 </tbody>

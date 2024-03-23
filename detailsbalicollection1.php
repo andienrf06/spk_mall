@@ -25,8 +25,6 @@ $data = sparql_get(
     }"
 );
 
-
-// Check if data is retrieved successfully
 // Check if data is retrieved successfully
 if ($data) {
     $geraiBaliCollectionFound = false; // Inisialisasi flag untuk menandai apakah data Gerai Bali Collection (1) ditemukan

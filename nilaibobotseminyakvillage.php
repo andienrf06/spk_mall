@@ -290,7 +290,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             foreach ($tenants_village as $tenant_village1) {
                 echo "<tr>";
                 echo "<th>$tenant_village1</th>";
-                $rowTotalVillage = 0; // Menyimpan total per baris
+                $rowTotalVillage = 0; // Stores totals per row
 
                 foreach ($tenants_village as $tenant_village2) {
                     $comparisonValueVillage = null;
@@ -348,7 +348,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // echo "</ul>";
 
 
-            // Simpan nilai normalized row totals dalam sesi
+            // Store the normalized row totals value in the session
             $_SESSION['normalized_row_totals_village'] = $normalizedRowTotalsVillage;
 
             // Calculate Lambda Max
@@ -419,7 +419,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Calculate Consistency Ratio (CR)
             $CRVillage = $CIVillage / $randomConsistencyIndexVillage; // You need to define RI according to your matrix size
 
-            // Tampilkan hasil konsistensi
+            // Show consistency results
             // echo "<p>Nilai Consistency Index (CI): " . number_format($CIVillage, 5, '.', '') . "</p>";
             // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsVillage elemen: " . $randomConsistencyIndexVillage . "</p>";
             // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRVillage, 5, '.', '') . "</p>";

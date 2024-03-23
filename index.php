@@ -201,7 +201,7 @@
                                     serta menuju ke menu Rekomendasi
                                 </p>
                                 <div class="proses-text">
-                                    <p><a href="pilihmall.php" class="btn btn-primary">Temukan Rekomendasi Tenant Disini!</a></p>
+                                    <p><a href="pilihmall.php" class="btn btn-primary">Temukan Rekomendasi Gerai Disini!</a></p>
                                 </div>
                             </div>
                         </div>

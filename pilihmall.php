@@ -22,9 +22,9 @@ $malls = [
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mall_selection'])) {
-    // Validasi jumlah mall yang dipilih
-    if (count($_POST['mall_selection']) > 3) {
-        echo "Anda hanya dapat memilih maksimal 3 mall.";
+    // Validate the number of malls selected
+    if (count($_POST['mall_selection']) > 5) {
+        echo "Anda hanya dapat memilih maksimal 5 mall.";
         exit();
     }
 
@@ -182,7 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mall_selection'])) {
     </header>
 
     <script>
-        // Ambil elemen dropdown
+        // Take the dropdown element
         var dropdownToggle = document.querySelector('#dropdownRekomendasi');
         var dropdownMenu = document.querySelector('.dropdown-menu');
         var dropdownToggle2 = document.querySelector('#dropdownRekomendasi2');
@@ -190,7 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mall_selection'])) {
         var dropdownToggle3 = document.querySelector('#dropdownRekomendasi3');
         var dropdownMenu3 = document.querySelector('.dropdown-menu[aria-labelledby="dropdownRekomendasi3"]');
 
-        // Tambahkan event listener untuk mengatur tampilan dropdown
+        // Add an event listener to set the dropdown appearance
         dropdownToggle.addEventListener('click', function(event) {
             event.preventDefault();
             dropdownMenu.classList.toggle('show');
@@ -246,33 +246,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mall_selection'])) {
         </form>
         <div class="mb-4"></div>
 
-        <div id="popup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #fff; padding: 20px; border: 1px solid #000; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);">
+        <div id="popup">
             <p>Mall berhasil dipilih!</p>
             <p>Silahkan Menuju Menu Nilai Bobot Alternatif!</p>
         </div>
 
         <script>
-            // Panggil fungsi showPopup() saat pengguna mengklik tombol Submit
+            // Call the showPopup() function when the user clicks the Submit button
             document.addEventListener("DOMContentLoaded", function() {
                 var form = document.querySelector("form");
                 form.addEventListener("submit", function(event) {
-                    event.preventDefault(); // Menghentikan event default form submission
+                    event.preventDefault(); // Stops the default form submission event
 
-                    // Menghitung jumlah kotak centang yang dipilih
+                    // Counts the number of selected checkboxes
                     var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-                    if (checkboxes.length > 3) {
-                        alert("Anda hanya dapat memilih maksimal 3 mall.");
-                        return false; // Menghentikan pengiriman form jika melebihi 3
+                    if (checkboxes.length > 5) {
+                        alert("Anda hanya dapat memilih maksimal 5 mall.");
+                        return false; // Menghentikan pengiriman form jika melebihi 5
                     }
 
-                    // Mengirim data form menggunakan AJAX
+                    // Sending form data using AJAX
                     var formData = new FormData(form);
                     var xhr = new XMLHttpRequest();
-                    xhr.open("POST", ""); // Menggunakan URL yang sama
+                    xhr.open("POST", ""); // Using the same URL
                     xhr.onreadystatechange = function() {
                         if (xhr.readyState === XMLHttpRequest.DONE) {
                             if (xhr.status === 200) {
-                                showPopup(); // Tampilkan popup jika pengiriman berhasil
+                                showPopup(); // Show a popup if the sending is successful
                             } else {
                                 console.error('Terjadi kesalahan saat mengirim data');
                             }
@@ -287,7 +287,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mall_selection'])) {
                 popup.style.display = "block";
                 setTimeout(function() {
                     popup.style.display = "none";
-                }, 2000); // Popup akan hilang setelah 2 detik (2000 milidetik)
+                }, 2000); // The popup will disappear after 2 seconds (2000 milliseconds)
             }
         </script>
 

@@ -275,7 +275,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             foreach ($tenants_discovery as $tenant_discovery) {
                 echo "<th>$tenant_discovery</th>";
             }
-            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+            echo "<th>Eigen</th>";
 
             // Array to store column totals
             $columnTotalsDiscovery = array_fill_keys($tenants_discovery, 0);
@@ -290,7 +290,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             foreach ($tenants_discovery as $tenant_discovery1) {
                 echo "<tr>";
                 echo "<td>$tenant_discovery1</td>";
-                $rowTotalDiscovery = 0; // Menyimpan total per baris
+                $rowTotalDiscovery = 0; // Stores totals per row
 
                 foreach ($tenants_discovery as $tenant_discovery2) {
                     $comparisonValueDiscovery = null;
@@ -348,7 +348,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // echo "</ul>";
 
 
-            // Simpan nilai normalized row totals dalam sesi
+            // Store the normalized row totals value in the session
             $_SESSION['normalized_row_totals_discovery'] = $normalizedRowTotalsDiscovery;
 
             // Calculate Lambda Max
@@ -357,9 +357,9 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
                 $lambdaMaxDiscovery += $totalValuesDiscovery[$tenant_discovery] * $normalizedRowTotalsDiscovery[$tenant_discovery];
             }
 
-            // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxDiscovery, 5, '.', '') . "</p>";
+            echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxDiscovery, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+            // Calculate random consistency values based on the number of tenant elements
             $randomConsistencyIndexDiscovery  = 0;
             switch ($numMallsDiscovery) {
                 case 1:
@@ -415,11 +415,10 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Calculate Consistency Index (CI)
             $CIDiscovery = ($lambdaMaxDiscovery - $numMallsDiscovery) / ($numMallsDiscovery - 1);
 
-
             // Calculate Consistency Ratio (CR)
             $CRDiscovery = $CIDiscovery / $randomConsistencyIndexDiscovery; // You need to define RI according to your matrix size
 
-            // Tampilkan hasil konsistensi
+            // Show consistency results
             // echo "<p>Nilai Consistency Index (CI): " . number_format($CIDiscovery, 5, '.', '') . "</p>";
             // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsDiscovery elemen: " . $randomConsistencyIndexDiscovery . "</p>";
             // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRDiscovery, 5, '.', '') . "</p>";

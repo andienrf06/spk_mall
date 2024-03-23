@@ -275,7 +275,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             foreach ($tenants_plaza as $tenant_plaza) {
                 echo "<th>$tenant_plaza</th>";
             }
-            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+            echo "<th>Eigen</th>";
 
             // Array to store column totals
             $columnTotalsPlaza = array_fill_keys($tenants_plaza, 0);
@@ -290,7 +290,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             foreach ($tenants_plaza as $tenant_plaza1) {
                 echo "<tr>";
                 echo "<th>$tenant_plaza1</th>";
-                $rowTotalPlaza = 0; // Menyimpan total per baris
+                $rowTotalPlaza = 0; // Stores totals per row
 
                 foreach ($tenants_plaza as $tenant_plaza2) {
                     $comparisonValuePlaza = null;
@@ -348,7 +348,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // echo "</ul>";
 
 
-            // Simpan nilai normalized row totals dalam sesi
+            // Store the normalized row totals value in the session
             $_SESSION['normalized_row_totals_plaza'] = $normalizedRowTotalsPlaza;
 
             // Calculate Lambda Max
@@ -359,7 +359,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
 
             // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxPlaza, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+            // Calculate random consistency values based on the number of tenant elements
             $randomConsistencyIndexPlaza  = 0;
             switch ($numMallsPlaza) {
                 case 1:
@@ -419,7 +419,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Calculate Consistency Ratio (CR)
             $CRPlaza = $CIPlaza / $randomConsistencyIndexPlaza; // You need to define RI according to your matrix size
 
-            // Tampilkan hasil konsistensi
+            // Show consistency results
             // echo "<p>Nilai Consistency Index (CI): " . number_format($CIPlaza, 5, '.', '') . "</p>";
             // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsPlaza elemen: " . $randomConsistencyIndexPlaza . "</p>";
             // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRPlaza, 5, '.', '') . "</p>";
