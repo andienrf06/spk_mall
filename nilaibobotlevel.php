@@ -277,7 +277,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             foreach ($tenants_level as $tenant_level) {
                 echo "<th>$tenant_level</th>";
             }
-            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+            echo "<th>Eigen</th>";
 
             // Array to store column totals
             $columnTotalsLevel = array_fill_keys($tenants_level, 0);
@@ -292,7 +292,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             foreach ($tenants_level as $tenant_level1) {
                 echo "<tr>";
                 echo "<th>$tenant_level1</th>";
-                $rowTotalLevel = 0; // Menyimpan total per baris
+                $rowTotalLevel = 0; // Stores totals per row
 
                 foreach ($tenants_level as $tenant_level2) {
                     $comparisonValueLevel = null;
@@ -350,7 +350,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // echo "</ul>";
 
 
-            // Simpan nilai normalized row totals dalam sesi
+            // Store the normalized row totals value in the session
             $_SESSION['normalized_row_totals_level'] = $normalizedRowTotalsLevel;
 
 
@@ -364,7 +364,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
 
             // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxLevel, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant_level
+            // Calculate random consistency values based on the number of tenant elements
             $randomConsistencyIndexLevel  = 0;
             switch ($numMallsLevel) {
                 case 1:
@@ -420,11 +420,10 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Calculate Consistency Index (CI)
             $CILevel = ($lambdaMaxLevel - $numMallsLevel) / ($numMallsLevel - 1);
 
-
             // Calculate Consistency Ratio (CR)
             $CRLevel = $CILevel / $randomConsistencyIndexLevel; // You need to define RI according to your matrix size
 
-            // Tampilkan hasil konsistensi
+            // Show consistency results
             // echo "<p>Nilai Consistency Index (CI): " . number_format($CILevel, 5, '.', '') . "</p>";
             // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsLevel elemen: " . $randomConsistencyIndexLevel . "</p>";
             // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRLevel, 5, '.', '') . "</p>";

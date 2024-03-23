@@ -275,7 +275,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             foreach ($tenants_park23 as $tenant_park23) {
                 echo "<th>$tenant_park23</th>";
             }
-            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+            echo "<th>Eigen</th>";
 
             // Array to store column totals
             $columnTotalsPark23 = array_fill_keys($tenants_park23, 0);
@@ -290,7 +290,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             foreach ($tenants_park23 as $tenant_park231) {
                 echo "<tr>";
                 echo "<th>$tenant_park231</th>";
-                $rowTotalPark23 = 0; // Menyimpan total per baris
+                $rowTotalPark23 = 0; // Stores totals per row
 
                 foreach ($tenants_park23 as $tenant_park232) {
                     $comparisonValuePark23 = null;
@@ -348,7 +348,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // echo "</ul>";
 
 
-            // Simpan nilai normalized row totals dalam sesi
+            // Store the normalized row totals value in the session
             $_SESSION['normalized_row_totals_park23'] = $normalizedRowTotalsPark23;
 
             // Calculate Lambda Max
@@ -358,7 +358,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             }
             // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxPark23, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+            // Calculate random consistency values based on the number of tenant elements
             $randomConsistencyIndexPark23  = 0;
             switch ($numMallsPark23) {
                 case 1:
@@ -418,7 +418,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Calculate Consistency Ratio (CR)
             $CRPark23 = $CIPark23 / $randomConsistencyIndexPark23; // You need to define RI according to your matrix size
 
-            // Tampilkan hasil konsistensi
+            // Show consistency results
             // echo "<p>Nilai Consistency Index (CI): " . number_format($CIPark23, 5, '.', '') . "</p>";
             // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsPark23 elemen: " . $randomConsistencyIndexPark23 . "</p>";
             // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRPark23, 5, '.', '') . "</p>";

@@ -274,7 +274,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             foreach ($mallsToShow as $mall) {
                 echo "<th>$mall</th>";
             }
-            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+            echo "<th>Eigen</th>";
 
             // Array to store column totals
             $columnTotals = array_fill_keys($mallsToShow, 0);
@@ -289,7 +289,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             foreach ($mallsToShow as $mall1) {
                 echo "<tr>";
                 echo "<th>$mall1</th>";
-                $rowTotal = 0; // Menyimpan total per baris
+                $rowTotal = 0; // Stores totals per row
 
                 foreach ($mallsToShow as $mall2) {
                     $comparisonValue = null;
@@ -338,16 +338,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             echo "</tr>";
             echo "</table>";
 
-            // Display normalized row totals
-            // echo "<h3>Normalized Row Totals</h3>";
-            // echo "<ul>";
-            // foreach ($normalizedRowTotals as $mall => $rowTotal) {
-            //     echo "<li><strong>$mall:</strong> " . number_format($rowTotal, 5, '.', '') . "</li>";
-            // }
-            // echo "</ul>";
-
-
-            // Simpan nilai normalized row totals dalam sesi
+            // Store the normalized row totals value in the session
             $_SESSION['normalized_row_totals_lokasi'] = $normalizedRowTotals;
 
             // Calculate Lambda Max
@@ -358,7 +349,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
             // echo "<p>Nilai Lambda Max: " . number_format($lambdaMax, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall
+            // Calculate a random consistency value based on the number of mall elements
             $randomConsistencyIndex  = 0;
             switch ($numMalls) {
                 case 1:
@@ -370,42 +361,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                 case 3:
                     $randomConsistencyIndex  = 0.58;
                     break;
-                case 4:
-                    $randomConsistencyIndex  = 0.90;
-                    break;
-                case 5:
-                    $randomConsistencyIndex  = 1.12;
-                    break;
-                case 6:
-                    $randomConsistencyIndex  = 1.24;
-                    break;
-                case 7:
-                    $randomConsistencyIndex  = 1.32;
-                    break;
-                case 8:
-                    $randomConsistencyIndex  = 1.41;
-                    break;
-                case 9:
-                    $randomConsistencyIndex  = 1.45;
-                    break;
-                case 10:
-                    $randomConsistencyIndex  = 1.49;
-                    break;
-                case 11:
-                    $randomConsistencyIndex  = 1.51;
-                    break;
-                case 12:
-                    $randomConsistencyIndex  = 1.48;
-                    break;
-                case 13:
-                    $randomConsistencyIndex  = 1.56;
-                    break;
-                case 14:
-                    $randomConsistencyIndex  = 1.57;
-                    break;
-                case 15:
-                    $randomConsistencyIndex  = 1.59;
-                    break;
                 default:
                     // Handle for more than 10 elements if needed
                     break;
@@ -413,7 +368,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
             // Calculate Consistency Index (CI)
             $CI = ($lambdaMax - $numMalls) / ($numMalls - 1);
-
 
             // Calculate Consistency Ratio (CR)
             $CR = $CI / $randomConsistencyIndex; // You need to define RI according to your matrix size

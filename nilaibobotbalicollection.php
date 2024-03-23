@@ -277,7 +277,7 @@
                 foreach ($tenants as $tenant) {
                     echo "<th>$tenant</th>";
                 }
-                echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+                echo "<th>Eigen</th>";
 
                 // Array to store column totals
                 $columnTotalsBc = array_fill_keys($tenants, 0);
@@ -341,16 +341,7 @@
                 echo "</tr>";
                 echo "</table>";
 
-                // Display normalized row totals
-                // echo "<h3>Normalized Row Totals</h3>";
-                // echo "<ul>";
-                // foreach ($normalizedRowTotalsBc as $tenant => $rowTotalBc) {
-                //     echo "<li><strong>$tenant:</strong> " . number_format($rowTotalBc, 5, '.', '') . "</li>";
-                // }
-                // echo "</ul>";
-
-
-                // Simpan nilai normalized row totals dalam sesi
+                // Store the normalized row totals value in the session
                 $_SESSION['normalized_row_totals_bc'] = $normalizedRowTotalsBc;
 
 
@@ -364,7 +355,7 @@
 
                 // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxBC, 5, '.', '') . "</p>";
 
-                // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+                // Calculate a random consistency value based on the number of tenant elements
                 $randomConsistencyIndexBC  = 0;
                 switch ($numMallsBc) {
                     case 1:
@@ -375,42 +366,6 @@
                         break;
                     case 3:
                         $randomConsistencyIndexBC  = 0.58;
-                        break;
-                    case 4:
-                        $randomConsistencyIndexBC  = 0.90;
-                        break;
-                    case 5:
-                        $randomConsistencyIndexBC  = 1.12;
-                        break;
-                    case 6:
-                        $randomConsistencyIndexBC  = 1.24;
-                        break;
-                    case 7:
-                        $randomConsistencyIndexBC  = 1.32;
-                        break;
-                    case 8:
-                        $randomConsistencyIndexBC  = 1.41;
-                        break;
-                    case 9:
-                        $randomConsistencyIndexBC  = 1.45;
-                        break;
-                    case 10:
-                        $randomConsistencyIndexBC  = 1.49;
-                        break;
-                    case 11:
-                        $randomConsistencyIndexBC  = 1.51;
-                        break;
-                    case 12:
-                        $randomConsistencyIndexBC  = 1.48;
-                        break;
-                    case 13:
-                        $randomConsistencyIndexBC  = 1.56;
-                        break;
-                    case 14:
-                        $randomConsistencyIndexBC  = 1.57;
-                        break;
-                    case 15:
-                        $randomConsistencyIndexBC  = 1.59;
                         break;
                     default:
                         // Handle for more than 10 elements if needed
@@ -424,7 +379,7 @@
                 // Calculate Consistency Ratio (CR)
                 $CRBC = $CIBC / $randomConsistencyIndexBC; // You need to define RI according to your matrix size
 
-                // Tampilkan hasil konsistensi
+                // Show consistency results
                 // echo "<p>Nilai Consistency Index (CI): " . number_format($CIBC, 5, '.', '') . "</p>";
                 // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsBc elemen: " . $randomConsistencyIndexBC . "</p>";
                 // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRBC, 5, '.', '') . "</p>";

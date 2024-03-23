@@ -279,7 +279,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             foreach ($mallsToShowCompetitor as $mall_competitor) {
                 echo "<th>$mall_competitor</th>";
             }
-            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+            echo "<th>Eigen</th>";
 
             // Array to store column totals
             $columnTotalsCompetitor = array_fill_keys($mallsToShowCompetitor, 0);
@@ -294,7 +294,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             foreach ($mallsToShowCompetitor as $mall_competitor1) {
                 echo "<tr>";
                 echo "<th>$mall_competitor1</th>";
-                $rowTotalCompetitor = 0; // Menyimpan total per baris
+                $rowTotalCompetitor = 0; // Stores totals per row
 
                 foreach ($mallsToShowCompetitor as $mall_competitor2) {
                     $comparisonValueCompetitor = null;
@@ -352,7 +352,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             // echo "</ul>";
 
 
-            // Simpan nilai normalized row totals dalam sesi
+            // Store the normalized row totals value in the session
             $_SESSION['normalized_row_totals_pesaing'] = $normalizedRowTotalsCompetitor;
 
             // Calculate Lambda Max
@@ -363,7 +363,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
             // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxCompetitor, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall_competitor
+            // Calculate random consistency values based on the number of sidewalk mall elements
             $randomConsistencyIndexCompetitor  = 0;
             switch ($numMallsCompetitor) {
                 case 1:

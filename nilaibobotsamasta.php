@@ -277,7 +277,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             foreach ($tenants_samasta as $tenant_samasta) {
                 echo "<th>$tenant_samasta</th>";
             }
-            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+            echo "<th>Eigen</th>";
 
             // Array to store column totals
             $columnTotalsSamasta = array_fill_keys($tenants_samasta, 0);
@@ -292,7 +292,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             foreach ($tenants_samasta as $tenant_samasta1) {
                 echo "<tr>";
                 echo "<th>$tenant_samasta1</th>";
-                $rowTotalSamasta = 0; // Menyimpan total per baris
+                $rowTotalSamasta = 0;
 
                 foreach ($tenants_samasta as $tenant_samasta2) {
                     $comparisonValueSamasta = null;
@@ -350,7 +350,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // echo "</ul>";
 
 
-            // Simpan nilai normalized row totals dalam sesi
+            // Store the normalized row totals value in the session
             $_SESSION['normalized_row_totals_samasta'] = $normalizedRowTotalsSamasta;
 
 
@@ -365,7 +365,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
 
             // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxSamasta, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant_samasta
+            // Calculate random consistency values based on the number of tenant elements
             $randomConsistencyIndexSamasta  = 0;
             switch ($numMallsSamasta) {
                 case 1:
@@ -425,7 +425,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Calculate Consistency Ratio (CR)
             $CRSamasta = $CISamasta / $randomConsistencyIndexSamasta; // You need to define RI according to your matrix size
 
-            // Tampilkan hasil konsistensi
+            // Show consistency results
             // echo "<p>Nilai Consistency Index (CI): " . number_format($CISamasta, 5, '.', '') . "</p>";
             // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsSamasta elemen: " . $randomConsistencyIndexSamasta . "</p>";
             // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRSamasta, 5, '.', '') . "</p>";

@@ -505,9 +505,9 @@ session_start();
                             <td>0</td>
                             <td>0</td>
                             <td>0</td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_lokasi']['Lippo Plza Renon']) ? number_format($_SESSION['normalized_row_totals_lokasi']['Lippo Plza Renon'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_harga']['Lippo Plza Renon']) ? number_format($_SESSION['normalized_row_totals_harga']['Lippo Plza Renon'], 5, '.', '') : '0'; ?></td>
-                            <td><?php echo isset($_SESSION['normalized_row_totals_pesaing']['Lippo Plza Renon']) ? number_format($_SESSION['normalized_row_totals_pesaing']['Lippo Plza Renon'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_lokasi']['Lippo Plaza Renon']) ? number_format($_SESSION['normalized_row_totals_lokasi']['Lippo Plaza Renon'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_harga']['Lippo Plaza Renon']) ? number_format($_SESSION['normalized_row_totals_harga']['Lippo Plaza Renon'], 5, '.', '') : '0'; ?></td>
+                            <td><?php echo isset($_SESSION['normalized_row_totals_pesaing']['Lippo Plaza Renon']) ? number_format($_SESSION['normalized_row_totals_pesaing']['Lippo Plaza Renon'], 5, '.', '') : '0'; ?></td>
                         </tr>
                         <tr>
                             <th>A15</th>

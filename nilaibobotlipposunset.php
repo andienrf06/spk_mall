@@ -274,7 +274,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             foreach ($tenants_lipposunset as $tenant_lipposunset) {
                 echo "<th>$tenant_lipposunset</th>";
             }
-            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+            echo "<th>Eigen</th>";
 
             // Array to store column totals
             $columnTotalsLippoSunset = array_fill_keys($tenants_lipposunset, 0);
@@ -289,7 +289,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             foreach ($tenants_lipposunset as $tenant_lipposunset1) {
                 echo "<tr>";
                 echo "<th>$tenant_lipposunset1</th>";
-                $rowTotalLippoSunset = 0; // Menyimpan total per baris
+                $rowTotalLippoSunset = 0; // Stores totals per row
 
                 foreach ($tenants_lipposunset as $tenant_lipposunset2) {
                     $comparisonValueLippoSunset = null;
@@ -347,7 +347,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // echo "</ul>";
 
 
-            // Simpan nilai normalized row totals dalam sesi
+            // Store the normalized row totals value in the session
             $_SESSION['normalized_row_totals_lipposunset'] = $normalizedRowTotalsLippoSunset;
 
             // Calculate Lambda Max
@@ -358,7 +358,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
 
             // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxLippoSunset, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+            // Calculate random consistency values based on the number of tenant elements
             $randomConsistencyIndexLippoSunset  = 0;
             switch ($numMallsLippoSunset) {
                 case 1:
@@ -414,11 +414,10 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Calculate Consistency Index (CI)
             $CILippoSunset = ($lambdaMaxLippoSunset - $numMallsLippoSunset) / ($numMallsLippoSunset - 1);
 
-
             // Calculate Consistency Ratio (CR)
             $CRLippoSunset = $CILippoSunset / $randomConsistencyIndexLippoSunset; // You need to define RI according to your matrix size
 
-            // Tampilkan hasil konsistensi
+            // Show consistency results
             // echo "<p>Nilai Consistency Index (CI): " . number_format($CILippoSunset, 5, '.', '') . "</p>";
             // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsLippoSunset elemen: " . $randomConsistencyIndexLippoSunset . "</p>";
             // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRLippoSunset, 5, '.', '') . "</p>";

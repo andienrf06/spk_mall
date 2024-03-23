@@ -275,7 +275,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             foreach ($tenants_ramayana as $tenant_ramayana) {
                 echo "<th>$tenant_ramayana</th>";
             }
-            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+            echo "<th>Eigen</th>";
 
             // Array to store column totals 
             $columnTotalsRamayana = array_fill_keys($tenants_ramayana, 0);
@@ -290,7 +290,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             foreach ($tenants_ramayana as $tenant_ramayana1) {
                 echo "<tr>";
                 echo "<th>$tenant_ramayana1</th>";
-                $rowTotalRamayana = 0; // Menyimpan total per baris
+                $rowTotalRamayana = 0; // Stores totals per row
 
                 foreach ($tenants_ramayana as $tenant_ramayana2) {
                     $comparisonValueRamayana = null;
@@ -348,7 +348,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // echo "</ul>";
 
 
-            // Simpan nilai normalized row totals dalam sesi
+            // Store the normalized row totals value in the session
             $_SESSION['normalized_row_totals_ramayana'] = $normalizedRowTotalsRamayana;
 
             // Calculate Lambda Max
@@ -359,7 +359,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
 
             // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxRamayana, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant
+            // Calculate random consistency values based on the number of tenant elements
             $randomConsistencyIndexRamayana  = 0;
             switch ($numMallsRamayana) {
                 case 1:
@@ -419,7 +419,7 @@ $mallsToShow = $_SESSION['selected_malls'] ?? [];
             // Calculate Consistency Ratio (CR)
             $CRRamayana = $CIRamayana / $randomConsistencyIndexRamayana; // You need to define RI according to your matrix size
 
-            // Tampilkan hasil konsistensi
+            // Show consistency results
             // echo "<p>Nilai Consistency Index (CI): " . number_format($CIRamayana, 5, '.', '') . "</p>";
             // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsRamayana elemen: " . $randomConsistencyIndexRamayana . "</p>";
             // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRRamayana, 5, '.', '') . "</p>";

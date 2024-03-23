@@ -66,18 +66,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                         <a class="dropdown-item" href="nilaibobotsamasta.php">Berdasarkan Samasta Lifestyle Village</a>
                         <a class="dropdown-item" href="nilaibobotsidewalk.php">Berdasarkan Sidewalk Jimbaran</a>
                         <a class="dropdown-item" href="nilaibobotpark23.php">Berdasarkan Park 23</a>
-                        <a class="dropdown-item" href="nilaibobotlippokuta.php">Berdasarkan Lippo Mall Kuta</a>
-                        <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall</a>
+                        <a class="dropdown-item" href="nilaibobotlippokuta.php">Berdasarkan Lippo Mall_price Kuta</a>
+                        <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall_price</a>
                         <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
-                        <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall Bali Galeria</a>
+                        <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall_price Bali Galeria</a>
                         <a class="dropdown-item" href="nilaibobotlipposunset.php">Berdasarkan Lippo Plaza Sunset</a>
                         <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
                         <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
-                        <a class="dropdown-item" href="nilaibobottsm.php">Berdasarkan Trans Studio Mall Bali</a>
-                        <a class="dropdown-item" href="nilaibobotlevel.php">Berdasarkan Level21 Mall</a>
+                        <a class="dropdown-item" href="nilaibobottsm.php">Berdasarkan Trans Studio Mall_price Bali</a>
+                        <a class="dropdown-item" href="nilaibobotlevel.php">Berdasarkan Level21 Mall_price</a>
                         <a class="dropdown-item" href="nilaibobotplazarenon.php">Berdasarkan Lippo Plaza Renon</a>
                         <a class="dropdown-item" href="nilaibobotliving.php">Berdasarkan Living World Denpasar</a>
-                        <a class="dropdown-item" href="nilaibobotramayana.php">Berdasarkan Ramayana Bali Mall</a>
+                        <a class="dropdown-item" href="nilaibobotramayana.php">Berdasarkan Ramayana Bali Mall_price</a>
                     </div>
                 </div>
 
@@ -111,14 +111,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Alternatif Terhadap Kriteria Harga Gerai</h2>
+                <h2 class="mb-4 mt-4">Nilai Perbandingan Tingkat Kepentingan Alternatif Terhadap Kriteria Ukuran Gerai</h2>
             </div>
         </div>
 
-        <form method="post">
+        <form method="post" id="comparisonForm">
             <div class="row mb-3">
                 <div class="col">
-                    <label for="criteria">Kriteria:</label>
+                    <label for="criteria_price">Kriteria:</label>
                     <input type="text" name="criteria_price" class="form-control" value="K02 - Harga Gerai" readonly>
                 </div>
             </div>
@@ -188,11 +188,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                         break; // Break the loop after updating the comparison_price value
                     } elseif ($result_price['alternative_price1'] == $alternative_price2 && $result_price['alternative_price2'] == $alternative_price1) {
                         $exists = true;
-                        // Update the comparison value and its inverse
+                        // Update the comparison_price value and its inverse
                         $comparison_results_price[$key_price][$criteria_price] = $comparison_value_price;
-                        // Update the inverse comparison value
+                        // Update the inverse comparison_price value
                         $comparison_results_price[$key_price][$criteria_price] = 1 / $comparison_value_price;
-                        break; // Break the loop after updating the comparison value
+                        break; // Break the loop after updating the comparison_price value
                     }
                 }
 
@@ -274,7 +274,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             foreach ($mallsToShowPrice as $mall_price) {
                 echo "<th>$mall_price</th>";
             }
-            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+            echo "<th>Eigen</th>";
 
             // Array to store column totals
             $columnTotalsPrice = array_fill_keys($mallsToShowPrice, 0);
@@ -289,7 +289,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             foreach ($mallsToShowPrice as $mall_price1) {
                 echo "<tr>";
                 echo "<th>$mall_price1</th>";
-                $rowTotalPrice = 0; // Menyimpan total per baris
+                $rowTotalPrice = 0; // Stores totals per row
 
                 foreach ($mallsToShowPrice as $mall_price2) {
                     $comparisonValuePrice = null;
@@ -347,7 +347,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             // echo "</ul>";
 
 
-            // Simpan nilai normalized row totals dalam sesi
+            // Store the normalized row totals value in the session
             $_SESSION['normalized_row_totals_harga'] = $normalizedRowTotalsPrice;
 
             // Calculate Lambda Max
@@ -356,7 +356,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                 $lambdaMaxPrice += $totalValuesPrice[$mall_price] * $normalizedRowTotalsPrice[$mall_price];
             }
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen mall_price
+            // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxPrice, 5, '.', '') . "</p>";
+
+            // Calculate random consistency values based on the number of mall elements
             $randomConsistencyIndexPrice  = 0;
             switch ($numMallsPrice) {
                 case 1:
@@ -409,12 +411,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                     break;
             }
 
-            // Calculate Consistency Index (CI)
+            // Calculate Consistency Index (CIPrice)
             $CIPrice = ($lambdaMaxPrice - $numMallsPrice) / ($numMallsPrice - 1);
 
-
-            // Calculate Consistency Ratio (CR)
+            // Calculate Consistency Ratio (CRPrice)
             $CRPrice = $CIPrice / $randomConsistencyIndexPrice; // You need to define RI according to your matrix size
+
 
             // Check if consistency is acceptable
             if ($CRPrice < 0.1) {
@@ -424,6 +426,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             }
         }
         ?>
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

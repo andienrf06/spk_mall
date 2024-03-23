@@ -273,7 +273,7 @@ if (!isset($_SESSION['comparison_results_sidewalk'])) {
             foreach ($tenants_sidewalk as $tenant_sidewalk) {
                 echo "<th>$tenant_sidewalk</th>";
             }
-            echo "<th>Eigen</th>"; // Menambahkan judul kolom untuk normalized total per baris
+            echo "<th>Eigen</th>";
 
             // Array to store column totals
             $columnTotalsSidewalk = array_fill_keys($tenants_sidewalk, 0);
@@ -288,7 +288,7 @@ if (!isset($_SESSION['comparison_results_sidewalk'])) {
             foreach ($tenants_sidewalk as $tenant_sidewalk1) {
                 echo "<tr>";
                 echo "<th>$tenant_sidewalk1</th>";
-                $rowTotalSidewalk = 0; // Menyimpan total per baris
+                $rowTotalSidewalk = 0; // Stores totals per row
 
                 foreach ($tenants_sidewalk as $tenant_sidewalk2) {
                     $comparisonValueSidewalk = null;
@@ -346,7 +346,7 @@ if (!isset($_SESSION['comparison_results_sidewalk'])) {
             // echo "</ul>";
 
 
-            // Simpan nilai normalized row totals dalam sesi
+            // Store the normalized row totals value in the session
             $_SESSION['normalized_row_totals_sidewalk'] = $normalizedRowTotalsSidewalk;
 
 
@@ -361,7 +361,7 @@ if (!isset($_SESSION['comparison_results_sidewalk'])) {
 
             // echo "<p>Nilai Lambda Max: " . number_format($lambdaMaxSidewalk, 5, '.', '') . "</p>";
 
-            // Hitung nilai konsistensi acak berdasarkan jumlah elemen tenant_sidewalk
+            // Calculate random consistency values based on the number of sidewalk tenant elements
             $randomConsistencyIndexSidewalk  = 0;
             switch ($numMallsSidewalk) {
                 case 1:
@@ -421,7 +421,7 @@ if (!isset($_SESSION['comparison_results_sidewalk'])) {
             // Calculate Consistency Ratio (CR)
             $CRSidewal = $CISidewalk / $randomConsistencyIndexSidewalk; // You need to define RI according to your matrix size
 
-            // Tampilkan hasil konsistensi
+            // Show consistency results
             // echo "<p>Nilai Consistency Index (CI): " . number_format($CISidewalk, 5, '.', '') . "</p>";
             // echo "<p>Nilai Random Consistency Index (RI) untuk $numMallsSidewalk elemen: " . $randomConsistencyIndexSidewalk . "</p>";
             // echo "<p>Nilai Consistency Ratio (CR): " . number_format($CRSidewal, 5, '.', '') . "</p>";
