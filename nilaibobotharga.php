@@ -63,21 +63,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownRekomendasi">
                         <a class="dropdown-item" href="nilaibobotbalicollection.php">Berdasarkan Bali Collection</a>
-                        <a class="dropdown-item" href="nilaibobotsamasta.php">Berdasarkan Samasta Lifestyle Village</a>
-                        <a class="dropdown-item" href="nilaibobotsidewalk.php">Berdasarkan Sidewalk Jimbaran</a>
-                        <a class="dropdown-item" href="nilaibobotpark23.php">Berdasarkan Park 23</a>
-                        <a class="dropdown-item" href="nilaibobotlippokuta.php">Berdasarkan Lippo Mall_price Kuta</a>
-                        <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall_price</a>
                         <a class="dropdown-item" href="nilaibobotbeachwalk.php">Berdasarkan Beachwalk Shopping Centre</a>
-                        <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall_price Bali Galeria</a>
-                        <a class="dropdown-item" href="nilaibobotlipposunset.php">Berdasarkan Lippo Plaza Sunset</a>
-                        <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
-                        <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
-                        <a class="dropdown-item" href="nilaibobottsm.php">Berdasarkan Trans Studio Mall_price Bali</a>
-                        <a class="dropdown-item" href="nilaibobotlevel.php">Berdasarkan Level21 Mall_price</a>
+                        <a class="dropdown-item" href="nilaibobotdiscovery.php">Berdasarkan Discovery Shopping Mall</a>
+                        <a class="dropdown-item" href="nilaibobotlevel.php">Berdasarkan Level21 Mall</a>
+                        <a class="dropdown-item" href="nilaibobotlippokuta.php">Berdasarkan Lippo Mall Kuta</a>
                         <a class="dropdown-item" href="nilaibobotplazarenon.php">Berdasarkan Lippo Plaza Renon</a>
+                        <a class="dropdown-item" href="nilaibobotlipposunset.php">Berdasarkan Lippo Plaza Sunset</a>
                         <a class="dropdown-item" href="nilaibobotliving.php">Berdasarkan Living World Denpasar</a>
-                        <a class="dropdown-item" href="nilaibobotramayana.php">Berdasarkan Ramayana Bali Mall_price</a>
+                        <a class="dropdown-item" href="nilaibobotmbg.php">Berdasarkan Mall Bali Galeria</a>
+                        <a class="dropdown-item" href="nilaibobotpark23.php">Berdasarkan Park 23</a>
+                        <a class="dropdown-item" href="nilaibobotramayana.php">Berdasarkan Ramayana Bali Mall</a>
+                        <a class="dropdown-item" href="nilaibobotsamasta.php">Berdasarkan Samasta Lifestyle Village</a>
+                        <a class="dropdown-item" href="nilaibobotseminyaksquare.php">Berdasarkan Seminyak Square</a>
+                        <a class="dropdown-item" href="nilaibobotseminyakvillage.php">Berdasarkan Seminyak Village</a>
+                        <a class="dropdown-item" href="nilaibobotsidewalk.php">Berdasarkan Sidewalk Jimbaran</a>
+                        <a class="dropdown-item" href="nilaibobottsm.php">Berdasarkan Trans Studio Mall Bali</a>
                     </div>
                 </div>
 
@@ -124,6 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             </div>
             <div class="row mb-3">
                 <div class="col">
+                    <label for="mall_harga1">Nama Mall 1:</label>
                     <select name="alternative_price1" class="form-select">
                         <?php
                         foreach ($mallsToShowPrice as $mall_price) {
@@ -135,20 +136,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                 </div>
 
                 <div class="col">
+                    <label for="comparison_harga1">Nilai Perbandingan:</label>
                     <select name="comparison_price" class="form-select">
-                        <option value="1">1 - Kedua elemen sama pentingnya</option>
-                        <option value="3">3 - Elemen yang satu sedikit lebih penting daripada elemen yang lainnya</option>
-                        <option value="5">5 - Elemen yang satu lebih penting daripada elemen lainnya</option>
-                        <option value="7">7 - Satu elemen jelas lebih mutlak penting daripada elemen yang lainnya</option>
-                        <option value="9">9 - Satu elemen mutlak daripada elemen yang lainnya</option>
-                        <option value="2">2 - Nilai-nilai antara dua nilai pertimbangan yang berdekatan</option>
-                        <option value="4">4 - Nilai-nilai antara dua nilai pertimbangan yang berdekatan</option>
-                        <option value="6">6 - Nilai-nilai antara dua nilai pertimbangan yang berdekatan</option>
-                        <option value="8">8 - Nilai-nilai antara dua nilai pertimbangan yang berdekatan</option>
+                        <option value="1">1 - Kedua mall sama pentingnya</option>
+                        <option value="2">2 - Nilai antara dua nilai (1 dan 3) yang berdekatan</option>
+                        <option value="3">3 - Mall yang satu sedikit lebih penting</option>
+                        <option value="4">4 - Nilai dua nilai (3 dan 5) yang berdekatan</option>
+                        <option value="5">5 - Mall yang satu lebih penting</option>
+                        <option value="6">6 - Nilai antara dua nilai (5 dan 7) yang berdekatan</option>
+                        <option value="7">7 - Mall yang satu lebih mutlak penting</option>
+                        <option value="8">8 - Nilai antara dua nilai (7 dan 9) yang berdekatan</option>
+                        <option value="9">9 - Mall yang satu jelas lebih mutlak penting</option>
                     </select>
                 </div>
 
                 <div class="col">
+                    <label for="mall_harga2">Nama Mall 2:</label>
                     <select name="alternative_price2" class="form-select">
                         <?php
                         foreach ($mallsToShowPrice as $mall_price) {
